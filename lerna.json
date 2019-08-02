@@ -1,0 +1,6 @@
+{
+  "packages": [
+    "libraries/typescript/*"
+  ],
+  "version": "0.0.0"
+}

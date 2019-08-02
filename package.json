@@ -1,0 +1,26 @@
+{
+  "name": "hcs",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.14.1"
+  },
+  "workspaces": [
+    "libraries/typescript/*"
+  ],
+  "scripts": {
+    "link:packages": "lerna exec -- yarn link",
+    "unlink:packages": "lerna exec -- yarn unlink",
+    "tsc:link": "lerna run tsc && lerna link",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avenuer/hcs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avenuer/hcs/issues"
+  },
+  "homepage": "https://github.com/avenuer/hcs#readme",
+}
