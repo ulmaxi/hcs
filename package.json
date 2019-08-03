@@ -2,7 +2,15 @@
   "name": "hcs",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.14.1"
+    "@types/shelljs": "^0.8.5",
+    "ansi-colors": "^4.1.1",
+    "enquirer": "^2.3.1",
+    "lerna": "^3.16.4",
+    "protobufjs": "^6.8.8",
+    "shelljs": "^0.8.3",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-microsoft-contrib": "^6.2.0"
   },
   "workspaces": [
     "libraries/typescript/*"
@@ -22,5 +30,5 @@
   "bugs": {
     "url": "https://github.com/avenuer/hcs/issues"
   },
-  "homepage": "https://github.com/avenuer/hcs#readme",
+  "homepage": "https://github.com/avenuer/hcs#readme"
 }
