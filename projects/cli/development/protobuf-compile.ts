@@ -124,7 +124,7 @@ function pbjsCommandCompiler(paths: string[], outputPath: string) {
     'npx',
     'pbjs',
     '-t static-module',
-    '--es6',
+    // '--es6',
     '--no-create',
     '--no-encode',
     '--no-decode',
