@@ -4,6 +4,7 @@
   "devDependencies": {
     "@types/shelljs": "^0.8.5",
     "ansi-colors": "^4.1.1",
+    "commitizen": "^4.0.3",
     "enquirer": "^2.3.1",
     "lerna": "^3.16.4",
     "protobufjs": "^6.8.8",
@@ -18,8 +19,10 @@
   "scripts": {
     "link:packages": "lerna exec -- yarn link",
     "unlink:packages": "lerna exec -- yarn unlink",
+    "cli": "npx ts-node ./projects/cli",
     "tsc:link": "lerna run tsc && lerna link",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "npx git-cz"
   },
   "repository": {
     "type": "git",
@@ -30,5 +33,10 @@
   "bugs": {
     "url": "https://github.com/avenuer/hcs/issues"
   },
-  "homepage": "https://github.com/avenuer/hcs#readme"
+  "homepage": "https://github.com/avenuer/hcs#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

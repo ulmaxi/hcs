@@ -1,5 +1,15 @@
 {
   "language": "ts",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "server-shared": {
+      "root": "libs/server-shared",
+      "sourceRoot": "libs/server-shared/src"
+    },
+    "authentication": {
+      "root": "libs/authentication",
+      "sourceRoot": "libs/authentication/src"
+    }
+  }
 }

@@ -1,0 +1,33 @@
+{
+  "name": "@eagle/authentication",
+  "version": "0.0.1",
+  "description": "Authentication library for client",
+  "keywords": [
+    "hcs", "eagle", "authentication", "login", "signup"
+  ],
+  "author": {
+   "email": "hcsfounders@gmail.com",
+   "name": "HCS Nigeria" 
+  },
+  "license": "ISC",
+  "main": "src/index.js",
+  "typings": "src/index.d.ts",
+  "directories": {
+    "src": "src",
+    "test": "tests"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avenuer/hcs.git"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0"
+  }
+}

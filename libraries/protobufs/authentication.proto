@@ -68,16 +68,34 @@ message Login {
  * successfully
  */
 message AuthorizedEntity {
-   /** jwt for the authorized authentication which encrypts the Authorization */
-   string jwt = 1;
-   /** optional and only available for institutions for api requests*/
-   string apiKey = 2;
-   /** the level of authorization*/
-   AccessLevel accessLevel = 3;
-   /** the trackingId for the authorization */
-   string trackingId = 4;
-   /** the authorization itself */
-   Authorization data = 5;
+   /** the keys for other services authorization */
+   SecurityKeys keys = 1;
+   /** the authorizationed entity data itself */
+   Authorization data = 2;
+}
+
+/**
+ * The keys for security means 
+ */
+message SecurityKeys {
+/** jwt for the authorized authentication which encrypts the Authorization */
+string jwt = 1;
+/** optional and only available for institutions for api requests*/
+string apiKey = 2;
+}
+
+/** 
+ * ValidateAuthorizationReq
+ *
+ * data representation of the data to be sent to validate the
+ * login successfully
+ */
+message ValidateAuthorizationReq {
+   /** the otp code sent */
+   int64 otp = 1;
+   /** the uniqueId for login */
+   string id = 2;
+   /** the tracking id for personnel that requested login */
 }
 
 /** */
