@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+/**
+ * The logs documented when an instution access a record
+ */
+message AccessLogs {
+  string id = 1;
+  string staff = 2;
+  string clientId = 3;
+  float time = 4;
+  string institution = 5;
+}
+
+/**
+ * Permission record which tracks instituions access to
+ * patients record
+ */
+message PermissionRecord {
+  string id = 1;
+  string institution = 2;
+  string expires = 3;
+  int32 code = 4;
+  bool authorized = 5;
+  string clientId = 6;
+}
