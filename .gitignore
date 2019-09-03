@@ -75,3 +75,6 @@ test.ts
 
 # enironmental variables
 electron-builder.env
+
+#anything in the generated folder
+**/generated/src/**

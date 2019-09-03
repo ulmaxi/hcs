@@ -2,7 +2,16 @@
   "name": "hcs",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.14.1"
+    "@types/shelljs": "^0.8.5",
+    "ansi-colors": "^4.1.1",
+    "commitizen": "^4.0.3",
+    "enquirer": "^2.3.1",
+    "lerna": "^3.16.4",
+    "protobufjs": "^6.8.8",
+    "shelljs": "^0.8.3",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-microsoft-contrib": "^6.2.0"
   },
   "workspaces": [
     "libraries/typescript/*"
@@ -10,8 +19,10 @@
   "scripts": {
     "link:packages": "lerna exec -- yarn link",
     "unlink:packages": "lerna exec -- yarn unlink",
+    "cli": "npx ts-node ./projects/cli",
     "tsc:link": "lerna run tsc && lerna link",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "npx git-cz"
   },
   "repository": {
     "type": "git",
@@ -23,4 +34,9 @@
     "url": "https://github.com/avenuer/hcs/issues"
   },
   "homepage": "https://github.com/avenuer/hcs#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

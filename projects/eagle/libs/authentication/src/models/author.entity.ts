@@ -1,0 +1,36 @@
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IAuthorization, AccessLevel } from '@eagle/generated';
+import { BaseModel } from '@eagle/server-shared';
+import { IsDefined, IsOptional } from 'class-validator';
+import { hcsIdentifer } from './indentier.decorator';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+
+/**
+ * Entity for the storage of Authorization Logins
+ */
+@Entity()
+export class Authorization extends BaseModel implements IAuthorization {
+  @IsDefined()
+  @Column({ type: 'integer', enum: AccessLevel })
+  @ApiModelProperty()
+  accessLevel: AccessLevel;
+  
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  @Column({ type: 'varchar', unique: true, length: 244, nullable: true })
+  apiKey: string;
+
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  @Column({ type: 'varchar', unique: true, length: 244, nullable: true })
+  institutionId: string;
+  
+  @hcsIdentifer()
+  @ApiModelProperty()
+  @Column({ type: 'varchar', unique: true, update: false, length: 244, nullable: false })
+  identification: string;
+  
+  @ApiModelProperty()
+  @PrimaryGeneratedColumn('uuid')
+  trackId: string;
+}
