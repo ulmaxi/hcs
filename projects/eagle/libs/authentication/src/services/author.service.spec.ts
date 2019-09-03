@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorService } from './author.service';
 import { Authorization } from '../models/author.entity';
 
-
-xdescribe('AuthorService', () => {
+describe('AuthorService', () => {
   let authorSvc: AuthorService;
-  const mockRepo =  {
-    // c
+  const mockRepo = {
+    metadata: {
+      columns: [{ propertyName: 'id', isPrimary: true }],
+      relations: [],
+    },
   };
 
   beforeEach(async () => {

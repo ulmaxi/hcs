@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ValidateAuthorizationReq, SecurityKeys } from '@eagle/generated';
 import { classToPlain } from 'class-transformer';
+import { OTPValidationError } from '@eagle/server-shared';
 
 /**
  * validates the authorized otp and the Authorization details
@@ -43,11 +44,17 @@ export class ValidateAuthorizedService {
     });
     return keys;
   }
+
+
+  /** 
+   * verifies the type of key if it's valid
+   */
+  async verifyKeys(keyFormat: string, key: string) {
+    if (keyFormat.toLowerCase() === 'apikey') {
+      return await this.author.findOne({ apiKey: key });
+    }
+    return await this.jwt.decode(key);
+  }
+
 }
 
-/**
- * error throw due to otp mismatch
- */
-export const OTPValidationError = new Error(
-  `otp validation error, recheck or resend the otp`,
-);

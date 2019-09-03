@@ -10,6 +10,22 @@
     "authentication": {
       "root": "libs/authentication",
       "sourceRoot": "libs/authentication/src"
+    },
+    "users-admininistration": {
+      "root": "libs/users-admininistration",
+      "sourceRoot": "libs/users-admininistration/src"
+    },
+    "data-access-records": {
+      "root": "libs/data-access-records",
+      "sourceRoot": "libs/data-access-records/src"
+    },
+    "messaging": {
+      "root": "libs/messaging",
+      "sourceRoot": "libs/messaging/src"
+    },
+    "sip": {
+      "root": "libs/sip",
+      "sourceRoot": "libs/sip/src"
     }
   }
 }

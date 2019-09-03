@@ -1,16 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { LoginService } from './login.service';
 import { Authorization } from '../models/author.entity';
 import { Login } from '../models/login.entity';
 
-xdescribe('LoginService', () => {
+describe('LoginService', () => {
   let LoginSvc: LoginService;
+  const mockRepo = {
+    metadata: {
+      columns: [{ propertyName: 'id', isPrimary: true }],
+      relations: [],
+    },
+  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      providers: [LoginService],
-      imports: [TypeOrmModule.forRoot({ entities: [Authorization, Login] })],
+      providers: [
+        LoginService,
+        { provide: getRepositoryToken(Login), useValue: mockRepo },
+      ],
     }).compile();
     LoginSvc = app.get<LoginService>(LoginService);
   });

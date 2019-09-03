@@ -1,6 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { Authorization, Login, AccessLevel } from '@eagle/generated';
 import { differenceInMinutes } from 'date-fns';
+import {
+  microServiceToken,
+  MessageEvents,
+  SendSMSEvent,
+  SendEmailEvent,
+} from '@eagle/server-shared';
 
 /**
  * Authorize alert sends the otp code to the
@@ -8,7 +15,9 @@ import { differenceInMinutes } from 'date-fns';
  */
 @Injectable()
 export class AuthorizeAlertService {
-  constructor() {}
+  constructor(
+    @Inject(microServiceToken) private readonly client: ClientProxy,
+  ) {}
 
   /**
    * compose the message and forward it to the right handler
@@ -19,9 +28,8 @@ export class AuthorizeAlertService {
   ) {
     const message = ` your OTP password is ${otp} and expires in ${differenceInMinutes(
       expires,
-      Date.now()
+      Date.now(),
     )} minutes`;
-    console.log(message);
     if (accessLevel < AccessLevel.Institution) {
       return this.sms(identification, message);
     }
@@ -31,10 +39,18 @@ export class AuthorizeAlertService {
   /**
    * handles sending the message through sms
    */
-  sms(phoneNo: string, message: string) {}
+  sms(phoneNo: string, message: string) {
+    this.client
+      .emit(MessageEvents.SMS, new SendSMSEvent(phoneNo, message))
+      .toPromise();
+  }
 
   /**
    * handles sending the message through sms
    */
-  email(email: string, message: string) {}
+  email(email: string, message: string) {
+    this.client
+      .emit(MessageEvents.Email, new SendEmailEvent(email, message))
+      .toPromise();
+  }
 }

@@ -109,12 +109,10 @@ describe('AuthorizeReqController', () => {
 
   describe('registerlogin', () => {
     it('should save a generated login into the database', async () => {
-      const otpSpy = jest.spyOn(authorReqSvc, 'generateOtp');
       const saveSpy = jest
         .spyOn(loginSvc.repository, 'save')
         .mockImplementation(async login => (await login) as Login);
       const login = await authorReqSvc.registerlogin(baseAuthor);
-      expect(otpSpy).toHaveBeenCalled();
       expect(saveSpy).toHaveBeenCalled();
       expect(login.trackingId).toEqual(baseAuthor.trackId);
       expect(typeof login.expires).toEqual('number');
@@ -129,13 +127,6 @@ describe('AuthorizeReqController', () => {
     it('should return 10 for instutions and super users', () => {
       expect(authorReqSvc.otpExpires(AccessLevel.Institution)).toEqual(10);
       expect(authorReqSvc.otpExpires(AccessLevel.SuperAdmin)).toEqual(10);
-    });
-  });
-
-  describe('generateOtp', () => {
-    it('should generate a 6 digit number', () => {
-      const otp = authorReqSvc.generateOtp();
-      expect(otp.toString()).toHaveLength(6);
     });
   });
 });

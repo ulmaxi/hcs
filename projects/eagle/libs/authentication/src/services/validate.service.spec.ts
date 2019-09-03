@@ -2,13 +2,13 @@ import { Test } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import {
   ValidateAuthorizedService,
-  OTPValidationError,
 } from './validate-author.service';
 import { AuthorService } from './author.service';
 import { LoginService } from './login.service';
 import { Login } from '../models/login.entity';
 import { Authorization } from '../models/author.entity';
 import { SecurityKeys } from '@eagle/generated';
+import { OTPValidationError } from '@eagle/server-shared';
 
 describe('ValidateAuthorizedService', () => {
   let validateSvc: ValidateAuthorizedService;
@@ -22,7 +22,7 @@ describe('ValidateAuthorizedService', () => {
         ValidateAuthorizedService,
         { provide: LoginService, useValue: { findOne: jest.fn } },
         { provide: AuthorService, useValue: { findOne: jest.fn } },
-        { provide: JwtService, useValue: { signAsync: jest.fn } },
+        { provide: JwtService, useValue: { signAsync: jest.fn, decode: jest.fn } },
       ],
     }).compile();
 
@@ -64,6 +64,22 @@ describe('ValidateAuthorizedService', () => {
       const keys = new SecurityKeys({ apiKey: author.apiKey, jwt });
       jest.spyOn(jwtSvc, 'signAsync').mockResolvedValue(jwt);
       expect(await validateSvc.securedKeys(author)).toEqual(keys);
+    });
+  });
+
+  describe('verifyKeys', () => {
+    it('should retrieve the author with the apikey directly', () => {
+      const authorSpy = jest.spyOn(authorSvc, 'findOne');
+      const apiKey = 'random-apikey';
+      validateSvc.verifyKeys('apikey', apiKey);
+      expect(authorSpy).toBeCalledWith({ apiKey });
+    });
+    
+    it('should decode the token if the format is missing', () => {
+      const jwtSpy = jest.spyOn(jwtSvc, 'decode');
+      const jwtToken = 'random-apikey';
+      validateSvc.verifyKeys('jwt', jwtToken);
+      expect(jwtSpy).toBeCalledWith(jwtToken);
     });
   });
 });

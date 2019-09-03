@@ -21,6 +21,8 @@ message Authorization {
   string apiKey = 3;
   /** the tracking id constitent to locate records atribute to the entity */
   string trackId = 4;
+  /** */
+  string institutionId = 5;
 }
 
 /** 
@@ -96,6 +98,16 @@ message ValidateAuthorizationReq {
    /** the uniqueId for login */
    string id = 2;
    /** the tracking id for personnel that requested login */
+}
+
+/**
+ * format structure of key to send for keys verification
+ */
+message KeyVerification {
+   /** the format can either be JWT or APIKEY */
+   string format = 1;
+   /** the actual key to be verified */
+   string key = 2;
 }
 
 /** */

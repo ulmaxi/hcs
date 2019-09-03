@@ -11,7 +11,7 @@ import { LoginService } from './login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
 import { v4 } from 'uuid';
 import { Login } from '../models/login.entity';
-import * as chance from 'chance';
+import { generateOtp } from '@eagle/server-shared';
 
 const { Institution, SuperAdmin, Users } = AccessLevel;
 
@@ -87,7 +87,7 @@ export class AuthorizeRequestService {
   registerlogin({ trackId, accessLevel }: Authorization) {
     const login = new Login();
     login.id = v4();
-    login.otp = this.generateOtp();
+    login.otp = generateOtp();
     login.trackingId = trackId;
     login.expires = Number(
       format(addMinutes(Date.now(), this.otpExpires(accessLevel)), 'x'),
@@ -102,10 +102,5 @@ export class AuthorizeRequestService {
     return access < Institution ? 3 : 10;
   }
 
-  /**
-   * generates a six digit otp for the users
-   */
-  generateOtp() {
-    return new chance().integer({ max: 999999, min: 100000 });
-  }
+  
 }

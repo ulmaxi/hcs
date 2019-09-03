@@ -28,6 +28,30 @@
       ],
       "@eagle/authentication/*": [
         "libs/authentication/src/*"
+      ],
+      "@eagle/users-admininistration": [
+        "libs/users-admininistration/src"
+      ],
+      "@eagle/users-admininistration/*": [
+        "libs/users-admininistration/src/*"
+      ],
+      "@eagle/data-access-records": [
+        "libs/data-access-records/src"
+      ],
+      "@eagle/data-access-records/*": [
+        "libs/data-access-records/src/*"
+      ],
+      "@eagle/messaging": [
+        "libs/messaging/src"
+      ],
+      "@eagle/messaging/*": [
+        "libs/messaging/src/*"
+      ],
+      "@eagle/sip": [
+        "libs/sip/src"
+      ],
+      "@eagle/sip/*": [
+        "libs/sip/src/*"
       ]
     }
   },
