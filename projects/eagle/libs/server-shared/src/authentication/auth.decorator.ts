@@ -3,8 +3,8 @@ import { Request } from 'express';
 import { createParamDecorator, UnauthorizedException } from '@nestjs/common';
 
 export enum AuthHeaderKeys {
-  JWT = 'BWIN_MPI_JWT_KEY'.toLowerCase() as any,
-  APIKEY = 'BWIN_MPI_APIKEY_KEY'.toLowerCase() as any,
+  JWT = 'ULMAX_MPI_JWT_KEY'.toLowerCase() as any,
+  APIKEY = 'ULMAX_MPI_APIKEY_KEY'.toLowerCase() as any,
 }
 
 /**

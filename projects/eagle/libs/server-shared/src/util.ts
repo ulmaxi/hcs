@@ -2,6 +2,16 @@ import * as chance from 'chance';
 import { validate } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
 
+/**
+ * the property is nullable
+ */
+export type Nullable<T> = null | T;
+
+/**
+ * an array of the item type T
+ */
+export type List<T> = T[];
+
 export const microServiceToken = 'Micro_Service_Token';
 
 /**
@@ -18,8 +28,11 @@ export function generateOtp() {
   return new chance().integer({ max: 999999, min: 100000 });
 }
 
+/**
+ * collates all the error and format them to an error message
+ */
 export async function classValidationError<T>(value: T) {
-  let message = null;
+  let message: string = null;
   const errors = await validate(value);
   if (errors.length > 0) {
     message = ' ';
@@ -34,6 +47,9 @@ export async function classValidationError<T>(value: T) {
   return message;
 }
 
+/**
+ * vaildates the object and simulteounsly throw the error
+ */
 export async function requestError<T>(obj: T) {
   const errorMessage = await classValidationError(obj);
   /** istanbul ignore else */
