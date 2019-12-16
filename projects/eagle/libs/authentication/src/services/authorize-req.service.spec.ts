@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { AccessLevel, AuthorizeResponse } from '@eagle/generated';
 import { HttpException } from '@nestjs/common';
-import { AuthorizeRequestService } from './authorize-req.service';
+import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
 import { AuthorService } from './author.service';
 import { LoginService } from './login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
@@ -30,7 +30,7 @@ describe('AuthorizeReqController', () => {
         AuthorizeRequestService,
         {
           provide: AuthorService,
-          useValue: { findOne: () => {}, repository: { save: jest.fn } },
+          useValue: { findOne: () => { }, repository: { save: jest.fn } },
         },
         { provide: LoginService, useValue: { repository: { save: jest.fn } } },
         { provide: AuthorizeAlertService, useValue: { send: jest.fn } },
@@ -48,12 +48,22 @@ describe('AuthorizeReqController', () => {
       jest
         .spyOn(authorReqSvc, 'createOrRetrieve')
         .mockResolvedValue(baseAuthor);
-      jest.spyOn(authorReqSvc, 'registerlogin').mockResolvedValue(baseLogin);
-      const alertSpy = jest.spyOn(alertSvc, 'send');
-      const rep = await authorReqSvc.authorize(baseAuthor);
-      expect(alertSpy).toHaveBeenCalledWith(baseAuthor, baseLogin);
       const { expires, id } = baseLogin;
+      const formatSpy = jest.spyOn(authorReqSvc, 'authorizeResponse').mockResolvedValue({ expires, loginId: id });
+      const rep = await authorReqSvc.authorize(baseAuthor);
+      expect(formatSpy).toHaveBeenCalled();
       expect(rep).toEqual({ expires, loginId: id } as AuthorizeResponse);
+    });
+
+    it('should throw unauthorized execption for invalid authorization', async () => {
+      try {
+        jest
+          .spyOn(authorReqSvc, 'createOrRetrieve')
+          .mockResolvedValue(null);
+        const rep = await authorReqSvc.authorize(baseAuthor);
+      } catch (error) {
+        expect(error).toEqual(InvalidAuthCredentialsError);
+      }
     });
 
     it('should thrown an http execption for any error occuring', async () => {
@@ -69,22 +79,41 @@ describe('AuthorizeReqController', () => {
     });
   });
 
+  describe('authorizeResponse', () => {
+    it('should alert and authorize the request', async () => {
+      const { expires, id } = baseLogin;
+      jest.spyOn(authorReqSvc, 'registerlogin').mockResolvedValue(baseLogin);
+      const alertSpy = jest.spyOn(alertSvc, 'send');
+      const res = await authorReqSvc.authorizeResponse(baseAuthor);
+      expect(res).toEqual({ expires, loginId: id });
+      expect(alertSpy).toHaveBeenCalledWith(baseAuthor, baseLogin);
+    });
+  });
+
   describe('createOrRetrieve', () => {
     it('should return already saved one without remapping to save', async () => {
       jest.spyOn(authSvc, 'findOne').mockResolvedValue(baseAuthor);
       const { identification, accessLevel } = baseAuthor;
       expect(
-        await authorReqSvc.createOrRetrieve({ identification, accessLevel }),
+        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, true),
       ).toEqual(baseAuthor);
     });
 
-    it('should create by remapping to save', async () => {
+    it('should create by remapping to save if regiserIfNotFound is true', async () => {
       jest.spyOn(authSvc, 'findOne').mockResolvedValue(null);
       jest.spyOn(authSvc.repository, 'save').mockResolvedValue(baseAuthor);
       const { identification, accessLevel } = baseAuthor;
       expect(
-        await authorReqSvc.createOrRetrieve({ identification, accessLevel }),
+        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, true),
       ).toEqual(baseAuthor);
+    });
+
+    it('should return null if regiserIfNotFound is false', async () => {
+      jest.spyOn(authSvc, 'findOne').mockResolvedValue(null);
+      const { identification, accessLevel } = baseAuthor;
+      expect(
+        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, false),
+      ).toEqual(null);
     });
   });
 

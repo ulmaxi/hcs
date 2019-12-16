@@ -44,6 +44,21 @@ describe('AuthenticationController', () => {
     authCtrl = module.get<AuthenticationController>(AuthenticationController);
   });
 
+  describe('createInsitution', () => {
+    it('should create a new institution with the accesslevel', async () => {
+      const spy = jest
+        .spyOn(authorReqSvc, 'authorize')
+        .mockResolvedValueOnce(null);
+      const req = new AuthorizeRequest();
+      req.accessLevel = AccessLevel.Users;
+      req.identification = 'example@test.com';
+      await authCtrl.createInsitution(req);
+      const authorizedParam = req;
+      authorizedParam.accessLevel = AccessLevel.Institution;
+      expect(spy).toBeCalledWith(authorizedParam, true);
+    });
+  });
+
   describe('authorizeInsitution', () => {
     it('should authorize with institution accesslevel', async () => {
       const spy = jest
@@ -55,7 +70,7 @@ describe('AuthenticationController', () => {
       await authCtrl.authorizeInsitution(req);
       const authorizedParam = req;
       authorizedParam.accessLevel = AccessLevel.Institution;
-      expect(spy).toBeCalledWith(authorizedParam);
+      expect(spy).toBeCalledWith(authorizedParam, false);
     });
   });
 
@@ -70,7 +85,7 @@ describe('AuthenticationController', () => {
       await authCtrl.authorize(req);
       const authorizedParam = req;
       authorizedParam.accessLevel = AccessLevel.Users;
-      expect(spy).toBeCalledWith(authorizedParam);
+      expect(spy).toBeCalledWith(authorizedParam, true);
     });
   });
 

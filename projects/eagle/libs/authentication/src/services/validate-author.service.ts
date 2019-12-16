@@ -16,7 +16,7 @@ export class ValidateAuthorizedService {
     private login: LoginService,
     private author: AuthorService,
     private jwt: JwtService,
-  ) {}
+  ) { }
 
   /**
    * validates the otp and sends the entity details
@@ -45,16 +45,14 @@ export class ValidateAuthorizedService {
     return keys;
   }
 
-
-  /** 
+  /**
    * verifies the type of key if it's valid
    */
   async verifyKeys(keyFormat: string, key: string) {
     if (keyFormat.toLowerCase() === 'apikey') {
       return await this.author.findOne({ apiKey: key });
     }
-    return await this.jwt.decode(key);
+    return await this.jwt.decode(key) as Authorization;
   }
 
 }
-

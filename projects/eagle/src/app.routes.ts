@@ -20,15 +20,15 @@ export const internalRoutes: Routes = [
   },
   { path: 'messaging', module: MessagingModule },
   { path: 'sip', module: SipAdminModule },
-];
-
-export const externalRoutes: Routes = [
+  { path: 'accessrecord', module: DataAccessRecordsModule },
+  { path: 'users', module: SuperUsersAdmininistrationModule },
   {
     path: 'security',
     module: AuthenticationModule,
   },
-  { path: 'accessrecord', module: DataAccessRecordsModule },
-  { path: 'users', module: SuperUsersAdmininistrationModule },
+];
+
+export const externalRoutes: Routes = [
   { path: 'sip', module: SipModule },
 ];
 

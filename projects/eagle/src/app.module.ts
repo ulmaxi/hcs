@@ -22,7 +22,7 @@ import {
 } from '@eagle/server-shared';
 import { RouterModule } from 'nest-router';
 import { routes } from './app.routes';
-import { SipAdminModule, SipModule } from '@eagle/sip';
+// import { SipAdminModule, SipModule } from '@eagle/sip';
 import { join } from 'path';
 
 @Module({
@@ -36,8 +36,8 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    SipModule,
-    SipAdminModule,
+    // SipModule,
+    // SipAdminModule,
     AuthenticationModule,
     SuperAdminAuthenticationModule,
     DataAccessRecordsModule,

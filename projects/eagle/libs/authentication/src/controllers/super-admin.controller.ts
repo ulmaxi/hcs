@@ -8,6 +8,7 @@ import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 /**
  * Responsible for authenticating and creating super admins
  */
+@ApiUseTags('auth')
 @Controller('superadmin')
 export class SuperAdminAuthorizationController {
   constructor(private adminAuth: SuperAdminAuthorizeService) {}
@@ -16,7 +17,6 @@ export class SuperAdminAuthorizationController {
    * signup and create a new user with superadmin right
    */
   @ApiOkResponse({ description: `Successfull creates other super admin` })
-  @ApiUseTags('superadmin', 'createAdmin' , 'authorization')
   @Post('create')
   @HttpCode(201)
   @UsePipes(AuthorizedPipe)

@@ -52,6 +52,30 @@
       ],
       "@eagle/sip/*": [
         "libs/sip/src/*"
+      ],
+      "@eagle/ehr": [
+        "libs/ehr/src"
+      ],
+      "@eagle/ehr/*": [
+        "libs/ehr/src/*"
+      ],
+      "@eagle/general-public": [
+        "libs/general-public/src"
+      ],
+      "@eagle/general-public/*": [
+        "libs/general-public/src/*"
+      ],
+      "@eagle/medical-claims": [
+        "libs/medical-claims/src"
+      ],
+      "@eagle/medical-claims/*": [
+        "libs/medical-claims/src/*"
+      ],
+      "@eagle/ehr-intercom": [
+        "libs/ehr-intercom/src"
+      ],
+      "@eagle/ehr-intercom/*": [
+        "libs/ehr-intercom/src/*"
       ]
     }
   },

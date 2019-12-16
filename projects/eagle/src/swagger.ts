@@ -1,4 +1,4 @@
-import { SwaggerModule, DocumentBuilder, SwaggerDocument } from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
 
 /**
@@ -6,18 +6,40 @@ import { INestApplication } from '@nestjs/common';
  * express instance
  */
 export function setupSwagger(app: INestApplication) {
-    const options = new DocumentBuilder()
-        .setTitle('ULMAX documentation')
-        .setDescription('api documentation for various services gateways')
-        .addBearerAuth()
+    let options = new DocumentBuilder()
+    .setTitle('ULMAX documentation')
+    .setDescription('api documentation for various services gateways')
+    .addBearerAuth('ULMAX_MPI_APIKEY_KEY'.toLowerCase(), 'header')
+    .setVersion('1.0');
+    if (process.env.NODE_ENV === 'production') {
+        options = options.setHost('api.ulmax.tech');
+    }
+    const internalApiDoc = _internalDocs(app, options);
+    SwaggerModule.setup('docs/swagger-internal-api', app, internalApiDoc);
+    const externalApiDoc = _externalDocs(app, options);
+    SwaggerModule.setup('docs/swagger-api', app, externalApiDoc);
+}
+
+/**
+ * creates internal swagger documentation
+ */
+export function _internalDocs(app: INestApplication, baseOptions: DocumentBuilder) {
+    const options = baseOptions
+        .setBasePath('/')
+        .build();
+    return SwaggerModule.createDocument(app, options);
+}
+
+/**
+ * creates cleaned external swagger documentation
+ */
+export function _externalDocs(app: INestApplication, baseOptions: DocumentBuilder) {
+    const options = baseOptions
         .setBasePath('api/external')
-        .setVersion('1.0')
         .build();
     const document = SwaggerModule.createDocument(app, options);
-    if (process.env.NODE_ENV === 'production') {
-        document.paths = removeInternalApiDefinitions(document.paths);
-    }
-    SwaggerModule.setup('api/docs', app, document);
+    document.paths = removeInternalApiDefinitions(document.paths);
+    return document;
 }
 
 /**
