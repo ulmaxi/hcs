@@ -35,13 +35,17 @@
       "root": "libs/general-public",
       "sourceRoot": "libs/general-public/src"
     },
-    "medical-claims": {
-      "root": "libs/medical-claims",
-      "sourceRoot": "libs/medical-claims/src"
+    "medical": {
+      "root": "libs/medical",
+      "sourceRoot": "libs/medical/src"
     },
     "ehr-intercom": {
       "root": "libs/ehr-intercom",
       "sourceRoot": "libs/ehr-intercom/src"
+    },
+    "testing": {
+      "root": "libs/testing",
+      "sourceRoot": "libs/testing/src"
     }
   },
   "compilerOptions": {

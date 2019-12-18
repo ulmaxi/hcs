@@ -44,7 +44,7 @@ describe('Controller', () => {
     );
   });
 
-  describe('createAdmin', () => {
+  xdescribe('createAdmin', () => {
     it('should signup the new admin with params required', async () => {
       const spy = jest.spyOn(superAdminSvc, 'signupAdmin');
       const auth = new Authorization();

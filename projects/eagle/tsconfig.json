@@ -65,17 +65,23 @@
       "@eagle/general-public/*": [
         "libs/general-public/src/*"
       ],
-      "@eagle/medical-claims": [
-        "libs/medical-claims/src"
+      "@eagle/medical": [
+        "libs/medical/src"
       ],
-      "@eagle/medical-claims/*": [
-        "libs/medical-claims/src/*"
+      "@eagle/medical/*": [
+        "libs/medical/src/*"
       ],
       "@eagle/ehr-intercom": [
         "libs/ehr-intercom/src"
       ],
       "@eagle/ehr-intercom/*": [
         "libs/ehr-intercom/src/*"
+      ],
+      "@eagle/testing": [
+        "libs/testing/src"
+      ],
+      "@eagle/testing/*": [
+        "libs/testing/src/*"
       ]
     }
   },
