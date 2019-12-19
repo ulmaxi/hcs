@@ -35,10 +35,6 @@
       "root": "libs/general-public",
       "sourceRoot": "libs/general-public/src"
     },
-    "medical": {
-      "root": "libs/medical",
-      "sourceRoot": "libs/medical/src"
-    },
     "ehr-intercom": {
       "root": "libs/ehr-intercom",
       "sourceRoot": "libs/ehr-intercom/src"

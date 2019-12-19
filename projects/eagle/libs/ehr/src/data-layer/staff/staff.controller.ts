@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { StaffService } from '../services/staff.service';
+import { StaffService } from './staff.service';
 import { Crud } from '@nestjsx/crud';
-import { Staff } from '../models/staff.entity';
+import { Staff } from './staff.entity';
 
 @Crud({
   model: {

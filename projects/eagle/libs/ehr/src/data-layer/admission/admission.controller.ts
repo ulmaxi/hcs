@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { AdmissionService } from '../services/admission.service';
+import { AdmissionService } from './admission.service';
 import { Crud } from '@nestjsx/crud';
-import { Admission } from '../models/admission.entity';
+import { Admission } from './admission.entity';
 
 @Crud({
   model: {

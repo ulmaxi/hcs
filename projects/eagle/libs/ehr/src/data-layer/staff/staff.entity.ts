@@ -32,5 +32,5 @@ export class Staff extends BaseModel {
     @IsDefined()
     @ApiModelProperty({ description: `The unique id for the institution` })
     @Column({ type: 'varchar', nullable: false })
-    Institution: string;
+    institution: string;
 }

@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { PrescriptionService } from '../services/prescription.service';
+import { PrescriptionService } from './prescription.service';
 import { Crud } from '@nestjsx/crud';
-import { Prescription } from '../models/prescription.entity';
+import { Prescription } from './prescription.entity';
 
 @Crud({
   model: {

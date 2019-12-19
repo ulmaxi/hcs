@@ -1,6 +1,7 @@
 import * as chance from 'chance';
 import { validate } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 /**
  * the property is nullable
@@ -58,3 +59,15 @@ export async function requestError<T>(obj: T) {
   }
   throw new BadRequestException(errorMessage);
 }
+
+
+/**
+ * returns a tuple of the value and error of the promise
+ */
+export const awaitTo = async <T>(future: Promise<T>): Promise<[T, Error]> => {
+  try {
+      return [await future, undefined];
+  } catch (error) {
+      return [undefined, error];
+  }
+};

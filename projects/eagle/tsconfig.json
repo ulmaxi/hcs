@@ -65,12 +65,6 @@
       "@eagle/general-public/*": [
         "libs/general-public/src/*"
       ],
-      "@eagle/medical": [
-        "libs/medical/src"
-      ],
-      "@eagle/medical/*": [
-        "libs/medical/src/*"
-      ],
       "@eagle/ehr-intercom": [
         "libs/ehr-intercom/src"
       ],

@@ -1,10 +1,10 @@
 export * from './institutions.module';
 export * from './institutions.service';
 
-export * from './models/admission.entity';
-export * from './models/consultation.entity';
-export * from './models/institution.entity';
-export * from './models/labtest.entity';
-export * from './models/prescription.entity';
-export * from './models/review.entity';
-export * from './models/staff.entity';
+export * from './data-layer/admission/admission.entity';
+export * from './data-layer/consultation/consultation.entity';
+export * from './data-layer/institution/institution.entity';
+export * from './data-layer/labtest/labtest.entity';
+export * from './data-layer/prescription/prescription.entity';
+export * from './data-layer/review/review.entity';
+export * from './data-layer/staff/staff.entity';

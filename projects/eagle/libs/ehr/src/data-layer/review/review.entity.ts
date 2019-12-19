@@ -25,12 +25,20 @@ export class Review extends BaseModel {
     consulationTrackId: string;
 
     /**
-     * the Id for the new consultation
+     * the id of the staff who did the consultation
      */
     @IsDefined()
     @Column({ type: 'varchar', nullable: false, update: false })
     @ApiModelProperty()
-    consultantionId: string;
+    staffId: string;
+
+    /**
+     * the Id for the admission since the review is done inside the ward
+     */
+    @IsDefined()
+    @Column({ type: 'varchar', nullable: false, update: false })
+    @ApiModelProperty()
+    admissionId: string;
 
     /**
      * the department which the consultaion was done

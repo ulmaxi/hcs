@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { LabTestService } from '../services/labtest.service';
+import { LabTestService } from './labtest.service';
 import { Crud } from '@nestjsx/crud';
-import { LabTest } from '../models/labtest.entity';
+import { LabTest } from './labtest.entity';
 
 @Crud({
   model: {

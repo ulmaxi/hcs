@@ -12,14 +12,19 @@ export class BaseModel {
    * time which the model was created originally
    */
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   /**
    * the last time it was updated by
    */
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }
+
+/**
+ * filtered database generated fields from models
+ */
+export type UnsavedModel<T extends BaseModel> = Omit<T, 'createdAt' | 'updatedAt' | 'id'>;
 
 /**
  * Interface for queryparams structuring
