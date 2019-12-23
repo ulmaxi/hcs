@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
-import { IsDefined } from 'class-validator';
+import { IsDefined,  } from 'class-validator';
+import { Exclude } from 'class-transformer';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 @Entity()
@@ -15,9 +16,16 @@ export class Staff extends BaseModel {
      * the authenticaton tracking id
      */
     @IsDefined()
+    @Exclude({ toPlainOnly: true })
     @Column({ type: 'varchar', nullable: false })
     @ApiModelPropertyOptional()
     trackID: string;
+
+    @IsDefined()
+    @Exclude({ toPlainOnly: true })
+    @Column({ type: 'bool', nullable: false })
+    @ApiModelPropertyOptional()
+    revoked: boolean;
 
     @IsDefined()
     @ApiModelProperty({ description: `The field of the staff` })

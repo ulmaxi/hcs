@@ -19,7 +19,7 @@ export class SuperAdminAuthorizationController {
   @ApiOkResponse({ description: `Successfull creates other super admin` })
   @Post('create')
   @HttpCode(201)
-  @UsePipes(AuthorizedPipe)
+  // @UsePipes(AuthorizedPipe)
   createAdmin(
     @Authorized() auth: Authorization,
     @Body() body: AuthorizeRequest,

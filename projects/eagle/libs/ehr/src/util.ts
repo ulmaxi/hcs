@@ -9,7 +9,7 @@ export type PrescriptionClaim = Pick<Prescription, 'name' | 'dosage' | 'time'>;
 export type ReviewClaim = Pick<Review, 'department' | 'note'>;
 
 /**
- * informations about the medical care for the patient
+ * informations about the incoming medical care for the patient
  */
 export class MedicalCarePlan {
     /**

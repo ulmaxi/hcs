@@ -68,7 +68,8 @@ export const reviewFactory = Factory.Sync.makeFactory<Review>({
     updatedAt: Factory.each(() => chance.date()),
     createdAt: Factory.each(() => chance.date()),
     consulationTrackId: Factory.each((i) => i.toString()),
-    consultantionId: Factory.each((i) => i.toString()),
+    admissionId: Factory.each((i) => i.toString()),
+    staffId: Factory.each((i) => i.toString()),
     department: Factory.each((i) => chance.profession()),
     note: Factory.each((i) => chance.paragraph()),
 
@@ -78,9 +79,9 @@ export const staffFactory = Factory.Sync.makeFactory<Staff>({
     id: Factory.each((i) => i.toString()),
     updatedAt: Factory.each(() => chance.date()),
     createdAt: Factory.each(() => chance.date()),
-    Institution: Factory.each((i) => i.toString()),
+    institution: Factory.each((i) => i.toString()),
     department: Factory.each((i) => chance.profession()),
+    revoked: Factory.each((i) => chance.bool()),
     trackID: Factory.each((i) => i.toString()),
     field: Factory.each((i) => chance.profession()),
 });
-
