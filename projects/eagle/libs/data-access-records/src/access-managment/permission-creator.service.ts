@@ -1,69 +1,47 @@
-import {
-  Injectable,
-  UnauthorizedException,
-  Inject,
-  BadRequestException,
-  ForbiddenException,
-} from '@nestjs/common';
-import { PermissionRecordService } from './permission-records.service';
-import { PermissionRecord } from '../models/permission-records.entity';
-import { isWithinRange, addMonths } from 'date-fns';
-import {
-  generateOtp,
-  microServiceToken,
-  MessageEvents,
-  SendSMSEvent,
-} from '@eagle/server-shared';
-import { ClientProxy } from '@nestjs/microservices';
-import { DataRetrievalService } from './data-retrieval.service';
+import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { Authorization } from '@eagle/generated';
+import { generateOtp, MessageEvents, SendSMSEvent, microServiceToken } from '@eagle/server-shared';
+import { addMonths } from 'date-fns';
+import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
+import { DataRetrievalService } from './data-retrieval.service';
+import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
+import { ClientProxy } from '@nestjs/microservices';
 
+/**
+ * Alert OTP address information interface
+ */
+export interface OTPAddress {
+  clientName: string;
+  clientPhoneNo: string;
+  institutionName: string;
+  institutionId: string;
+}
+
+/**
+ * Alert OTP interface
+ */
+export interface AlertOtp extends OTPAddress {
+  code: number;
+}
+
+/**
+ * PermissionCreatorService is responsible for
+ * creating a new permission for an instituiton
+ */
 @Injectable()
-export class InstitutionAccessService {
+export class PermissionCreatorService {
   constructor(
     private permSvc: PermissionRecordService,
     private transport: DataRetrievalService,
     @Inject(microServiceToken) private readonly client: ClientProxy,
-  ) {}
+  ) { }
 
-  /**
-   * checks if the instution is verified to access the client data
-   */
-  async verify(institution: string, clientId: string) {
-    const perm = this.filterAuthorizedPermission(
-      await this.permSvc.find({
-        institution,
-        clientId,
-        authorized: true,
-      }),
-    );
-    if (!perm) {
-      throw permssionVerificationError;
-    }
-    return perm;
-  }
-
-  /**
-   * checks for a recent permission given by client that has been
-   * validated
-   */
-  filterAuthorizedPermission(
-    perms: PermissionRecord[],
-  ): null | PermissionRecord {
-    let valid: PermissionRecord;
-    for (const perm of perms) {
-      if (isWithinRange(new Date(), perm.createdAt, perm.expires)) {
-        valid = perm;
-      }
-    }
-    return valid;
-  }
-
-  /**
-   * request for a client to allow an organization to access their own data
-   * TODO: change instution to its appropiate data format
-   */
-  async request(institution: string, clientIdentification: string) {
+    /**
+     * creates a new permission for a client to allow
+     * an organization to access their __own data__
+     * TODO: change instution to its appropiate data format
+     */
+  async create(institution: string, clientIdentification: string) {
     const institutionData = await this.transport.retrieveInstitution({
       trackId: institution,
     });
@@ -136,7 +114,7 @@ export class InstitutionAccessService {
    */
   alertOtp({ clientName, clientPhoneNo, code, institutionName }: AlertOtp) {
     const message = `${clientName}, ${institutionName} is requesting access to your health records,
-     confirm with ${code}. Thank you.`;
+    confirm with ${code}. Thank you.`;
     this.client.emit(
       MessageEvents.SMS,
       new SendSMSEvent(clientPhoneNo, message),
@@ -155,28 +133,6 @@ export class InstitutionAccessService {
     throw permissionRequestAuthorizationError;
   }
 }
-
-/**
- * Alert OTP address information interface
- */
-export interface OTPAddress {
-  clientName: string;
-  clientPhoneNo: string;
-  institutionName: string;
-  institutionId: string;
-}
-
-/**
- * Alert OTP interface
- */
-export interface AlertOtp extends OTPAddress {
-  code: number;
-}
-
-/** error thrown when verifing permision */
-export const permssionVerificationError = new UnauthorizedException(
-  `Permission verification failed, request for new permission`,
-);
 
 /** error thrown when requesting permission and required datas are incomplete */
 export const permissionRequestDetailError = new BadRequestException(

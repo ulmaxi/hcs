@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { PermissionRecordService } from './permission-records.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { PermissionRecord } from '../models/permission-records.entity';
+import { PermissionRecord } from './permission-records.entity';
 
 describe('PermissionRecordService', () => {
   let permSvc: PermissionRecordService;

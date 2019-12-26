@@ -1,36 +1,19 @@
 import { Test } from '@nestjs/testing';
+import { Authorization, AccessLevel, PersonalBiodata } from '@eagle/generated';
+import { addMonths } from 'date-fns';
 import {
-  InstitutionAccessService,
-  permssionVerificationError,
-  AlertOtp,
+  PermissionCreatorService,
   permissionRequestDetailError,
-  OTPAddress,
   permissionRequestUserError,
   permissionRequestAuthorizationError,
-} from './institution-access.service';
-import { PermissionRecordService } from './permission-records.service';
-import { PermissionRecord } from '../models/permission-records.entity';
-import { addMonths, subMonths } from 'date-fns';
-import {
-  microServiceToken,
-  SendSMSEvent,
-  MessageEvents,
-} from '@eagle/server-shared';
+  OTPAddress,
+  AlertOtp,
+} from './permission-creator.service';
+import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { DataRetrievalService } from './data-retrieval.service';
-import { Authorization, AccessLevel, PersonalBiodata } from '@eagle/generated';
-
-const mockPermSvc = {
-  find: jest.fn,
-  findOne: jest.fn,
-  repository: {
-    save: jest.fn,
-  },
-};
-
-const clientMock = {
-  emit: jest.fn,
-};
+import { microServiceToken, MessageEvents, SendSMSEvent } from '@eagle/server-shared';
+import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
 
 const today = new Date();
 
@@ -50,7 +33,7 @@ const authorBase: Authorization = {
   apiKey: 'random-apikey',
   identification: 'institution@mail.com',
   trackId: 'institution-trackId',
-  institutionId: 'instution-id'
+  institutionId: 'instution-id',
 };
 
 const institutionBase: { trackId: string; name: string } = {
@@ -58,7 +41,7 @@ const institutionBase: { trackId: string; name: string } = {
   name: 'institution',
 };
 
-const clientBase: PersonalBiodata & { id: string }= {
+const clientBase: PersonalBiodata & { id: string } = {
   address: 'random_address',
   dob: 1111111111111111,
   firstname: 'first_name',
@@ -70,8 +53,20 @@ const clientBase: PersonalBiodata & { id: string }= {
   town: 'town_id',
 };
 
-describe('InstitutionAccessService', () => {
-  let instutionSvc: InstitutionAccessService;
+const mockPermSvc = {
+  find: jest.fn,
+  findOne: jest.fn,
+  repository: {
+    save: jest.fn,
+  },
+};
+
+const clientMock = {
+  emit: jest.fn,
+};
+
+describe('PermissionCreatorService', () => {
+  let svc: PermissionCreatorService;
   let permissionSvc: PermissionRecordService;
   let clientSvc: ClientProxy;
   let transportSvc: DataRetrievalService;
@@ -80,7 +75,7 @@ describe('InstitutionAccessService', () => {
     const app = await Test.createTestingModule({
       controllers: [],
       providers: [
-        InstitutionAccessService,
+        PermissionCreatorService,
         DataRetrievalService,
         { provide: PermissionRecordService, useValue: mockPermSvc },
         { provide: microServiceToken, useValue: clientMock },
@@ -89,48 +84,8 @@ describe('InstitutionAccessService', () => {
 
     transportSvc = app.get<DataRetrievalService>(DataRetrievalService);
     permissionSvc = app.get<PermissionRecordService>(PermissionRecordService);
-    instutionSvc = app.get<InstitutionAccessService>(InstitutionAccessService);
+    svc = app.get<PermissionCreatorService>(PermissionCreatorService);
     clientSvc = app.get<ClientProxy>(microServiceToken);
-  });
-
-  describe('verify', () => {
-    it('should throw error if novalid permssion', async () => {
-      try {
-        jest.spyOn(permissionSvc, 'find').mockResolvedValue([]);
-        const { institution, clientId } = validPermssion;
-        await instutionSvc.verify(institution, clientId);
-      } catch (error) {
-        expect(error).toEqual(permssionVerificationError);
-      }
-    });
-
-    it('should return valid permission if verified', async () => {
-      jest.spyOn(permissionSvc, 'find').mockResolvedValue([validPermssion]);
-      const { institution, clientId } = validPermssion;
-      expect(await instutionSvc.verify(institution, clientId)).toEqual(
-        validPermssion,
-      );
-    });
-  });
-
-  describe('filterAuthorizedPermission', () => {
-    it('should return a valid permission if among the permissions', () => {
-      expect(instutionSvc.filterAuthorizedPermission([validPermssion])).toEqual(
-        validPermssion,
-      );
-    });
-
-    it('should return null if all are invalid permission', () => {
-      const invalid1 = validPermssion;
-      invalid1.createdAt = subMonths(today, 10);
-      invalid1.expires = subMonths(today, 8);
-      const invalid2 = validPermssion;
-      invalid1.createdAt = subMonths(today, 3);
-      invalid1.expires = subMonths(today, 1);
-      expect(
-        instutionSvc.filterAuthorizedPermission([invalid1, invalid2]),
-      ).toBeUndefined();
-    });
   });
 
   describe('request', () => {
@@ -140,8 +95,8 @@ describe('InstitutionAccessService', () => {
           .spyOn(transportSvc, 'retrieveInstitution')
           .mockResolvedValue(institutionBase);
         jest.spyOn(transportSvc, 'retrieveAuth').mockResolvedValue(null);
-        jest.spyOn(instutionSvc, 'retrieveBiodata').mockResolvedValue(null);
-        await instutionSvc.request(
+        jest.spyOn(svc, 'retrieveBiodata').mockResolvedValue(null);
+        await svc.create(
           institutionBase.trackId,
           authorBase.identification,
         );
@@ -161,12 +116,12 @@ describe('InstitutionAccessService', () => {
         .spyOn(transportSvc, 'retrieveInstitution')
         .mockResolvedValue(institutionBase);
       jest.spyOn(transportSvc, 'retrieveAuth').mockResolvedValue(authorBase);
-      jest.spyOn(instutionSvc, 'retrieveBiodata').mockResolvedValue(clientBase);
+      jest.spyOn(svc, 'retrieveBiodata').mockResolvedValue(clientBase);
       const retrieveSpy = jest.spyOn(
-        instutionSvc as any,
+        svc as any,
         'saveAndAlertRequest',
       );
-      await instutionSvc.request(
+      await svc.create(
         institutionBase.trackId,
         authorBase.identification,
       );
@@ -177,7 +132,7 @@ describe('InstitutionAccessService', () => {
   describe('retrieveBiodata', () => {
     it('should throw error for invalid clientAuth', async () => {
       try {
-        await instutionSvc.retrieveBiodata(null);
+        await svc.retrieveBiodata(null);
       } catch (error) {
         expect(error).toEqual(permissionRequestUserError);
       }
@@ -187,7 +142,7 @@ describe('InstitutionAccessService', () => {
         jest
           .spyOn(transportSvc, 'retrievePersonalBiodata')
           .mockResolvedValue(null);
-        await instutionSvc.retrieveBiodata(authorBase);
+        await svc.retrieveBiodata(authorBase);
       } catch (error) {
         expect(error).toEqual(permissionRequestUserError);
       }
@@ -197,7 +152,7 @@ describe('InstitutionAccessService', () => {
       jest
         .spyOn(transportSvc, 'retrievePersonalBiodata')
         .mockResolvedValue(clientBase);
-      const biodata = await instutionSvc.retrieveBiodata(authorBase);
+      const biodata = await svc.retrieveBiodata(authorBase);
       expect(biodata).toEqual(clientBase);
     });
   });
@@ -211,10 +166,10 @@ describe('InstitutionAccessService', () => {
         institutionName: '__insitution_name',
       };
       jest
-        .spyOn(instutionSvc, 'saveNewPermission')
+        .spyOn(svc, 'saveNewPermission')
         .mockResolvedValue(validPermssion);
-      const alertSpy = jest.spyOn(instutionSvc, 'alertOtp');
-      const perm = await instutionSvc.saveAndAlertRequest(otpAddr);
+      const alertSpy = jest.spyOn(svc, 'alertOtp');
+      const perm = await svc.saveAndAlertRequest(otpAddr);
       expect(alertSpy).toHaveBeenCalledWith({
         ...otpAddr,
         code: validPermssion.code,
@@ -226,12 +181,12 @@ describe('InstitutionAccessService', () => {
   describe('saveNewPermission', () => {
     it('should save and return the new generated permission', async () => {
       jest
-        .spyOn(instutionSvc, 'generateNewPermission')
+        .spyOn(svc, 'generateNewPermission')
         .mockReturnValue(validPermssion);
       jest
         .spyOn(permissionSvc.repository, 'save')
         .mockImplementation(arg => Promise.resolve(arg as PermissionRecord));
-      const perm = await instutionSvc.saveNewPermission(
+      const perm = await svc.saveNewPermission(
         validPermssion.institution,
         authorBase.identification,
       );
@@ -243,7 +198,7 @@ describe('InstitutionAccessService', () => {
     it('should return a permission with properties assigned', () => {
       const institution = 'my_instution';
       const clientId = 'my_clientId';
-      const perm = instutionSvc.generateNewPermission(institution, clientId);
+      const perm = svc.generateNewPermission(institution, clientId);
       expect(perm).toBeInstanceOf(PermissionRecord);
       expect(perm.institution).toEqual(institution);
       expect(perm.clientId).toEqual(clientId);
@@ -268,7 +223,7 @@ describe('InstitutionAccessService', () => {
             expect(message).toContain(otpAlert.code);
           },
         );
-      instutionSvc.alertOtp(otpAlert);
+      svc.alertOtp(otpAlert);
     });
   });
 
@@ -276,12 +231,12 @@ describe('InstitutionAccessService', () => {
     it(`should throw error if permission doesn't exist`, async () => {
       try {
         jest.spyOn(permissionSvc, 'findOne').mockResolvedValue(null);
-        await instutionSvc.authorize(validPermssion.id, 23333);
+        await svc.authorize(validPermssion.id, 23333);
       } catch (error) {
         expect(error).toEqual(permissionRequestAuthorizationError);
       }
     });
-    
+
     it('should return authorized permission', async () => {
       const invalidPerm = validPermssion;
       invalidPerm.authorized = false;
@@ -289,11 +244,12 @@ describe('InstitutionAccessService', () => {
       jest
         .spyOn(permissionSvc.repository, 'save')
         .mockImplementation(arg => Promise.resolve(arg as PermissionRecord));
-      const perm = await instutionSvc.authorize(
+      const perm = await svc.authorize(
         invalidPerm.id,
         invalidPerm.code,
       );
       expect(perm).toEqual(validPermssion);
     });
   });
+
 });

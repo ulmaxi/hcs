@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AccessLogs } from '../models/access-logs.entity';
+import { AccessLogs } from './access-logs.entity';
 import { AccessLogService } from './access-logs.service';
 
 describe('AccessLogService', () => {

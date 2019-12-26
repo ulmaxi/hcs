@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { DataRetrievalService } from './services/data-retrieval.service';
-import { InstitutionAccessService } from './services/institution-access.service';
-import { PermissionRecordService } from './services/permission-records.service';
+import { PermissionRecordService } from './data-layer/permission-records/permission-records.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AccessLogs } from './models/access-logs.entity';
-import { PermissionRecord } from './models/permission-records.entity';
+import { AccessLogs } from './data-layer/access-logs/access-logs.entity';
+import { PermissionRecord } from './data-layer/permission-records/permission-records.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microServiceToken } from '@eagle/server-shared';
+import { DataRetrievalService } from './access-managment/data-retrieval.service';
+import { PermissionManagmentService } from './access-managment/permission-managment.service';
+import { PermissionCreatorService } from './access-managment/permission-creator.service';
 
 @Module({
   imports: [
@@ -17,8 +18,9 @@ import { microServiceToken } from '@eagle/server-shared';
   ],
   providers: [
     DataRetrievalService,
-    InstitutionAccessService,
     PermissionRecordService,
+    PermissionManagmentService,
+    PermissionCreatorService,
   ],
 })
 export class DataAccessRecordsModule {}
