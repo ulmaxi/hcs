@@ -3,7 +3,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { PostService } from './posts.service';
 import { Post } from '../models/posts.entity';
 
-
 describe('PostService', () => {
   let postSvc: PostService;
   const mockRepo = {

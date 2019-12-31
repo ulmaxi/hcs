@@ -3,9 +3,9 @@ import { LoginService } from './login.service';
 import { Authorization } from '../models/author.entity';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ValidateAuthorizationReq, SecurityKeys } from '@eagle/generated';
 import { classToPlain } from 'class-transformer';
 import { OTPValidationError } from '@eagle/server-shared';
+import { ValidateAuthorizationReq, SecurityKeys } from '../controllers/typecast';
 
 /**
  * validates the authorized otp and the Authorization details
@@ -38,10 +38,9 @@ export class ValidateAuthorizedService {
    * generates a json web token and also sends the apikeys for appropiate
    */
   async securedKeys(data: Authorization) {
-    const keys = new SecurityKeys({
-      apiKey: data.apiKey,
-      jwt: await this.jwt.signAsync(classToPlain(data)),
-    });
+    const keys = new SecurityKeys();
+    keys.apiKey = data.apiKey;
+    keys.jwt = await this.jwt.signAsync(classToPlain(data));
     return keys;
   }
 

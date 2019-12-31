@@ -1,11 +1,11 @@
 import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { Authorization } from '@eagle/generated';
 import { generateOtp, MessageEvents, SendSMSEvent, microServiceToken } from '@eagle/server-shared';
 import { addMonths } from 'date-fns';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
 import { DataRetrievalService } from './data-retrieval.service';
 import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
 import { ClientProxy } from '@nestjs/microservices';
+import { Authorization } from '@eagle/authentication';
 
 /**
  * Alert OTP address information interface

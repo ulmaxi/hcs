@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccessLevel } from '@eagle/generated';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
 import {
   SuperAdminAuthorizeService,
   SuperAdminSignupError,
@@ -60,7 +59,7 @@ describe('SuperAdminAuthorizeService', () => {
       jest.spyOn(authorSvc, 'findOne').mockResolvedValue(superAdminBase);
       expect(await superAdminSvc.createInitalAdmin()).toEqual(superAdminBase);
     });
-    
+
     it('should create a new admin if none exists before', async () => {
       const newAdmin = superAdminBase;
       newAdmin.identification = 'newAdminId';
@@ -121,7 +120,7 @@ describe('SuperAdminAuthorizeService', () => {
       newAdmin.accessLevel = AccessLevel.SuperAdmin;
       expect(saveSpy).toHaveBeenCalledWith(newAdmin);
     });
-    
+
     it('should create new admin if not previously existed', async () => {
       const newAdmin = superAdminBase;
       jest.spyOn(authorSvc, 'findOne').mockResolvedValue(null);

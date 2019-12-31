@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { IsDefined, IsNumber, IsBoolean } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
 

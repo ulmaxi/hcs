@@ -9,9 +9,9 @@ import {
   AuthorizeRequest,
   ValidateAuthorizationReq,
   AuthorizedEntity,
+  SecurityKeys,
 } from './typecast';
-import { AccessLevel, SecurityKeys } from '@eagle/generated';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
 
 describe('AuthenticationController', () => {
   let authCtrl: AuthenticationController;
@@ -93,7 +93,9 @@ describe('AuthenticationController', () => {
     it('should return an authorized entity', async () => {
       const xptdAuthorizedEntity = new AuthorizedEntity();
       xptdAuthorizedEntity.data = new Authorization();
-      xptdAuthorizedEntity.keys = new SecurityKeys({ jwt: 'jwtbase64key' });
+      const keys = new SecurityKeys();
+      keys.jwt = 'jwtbase64key';
+      xptdAuthorizedEntity.keys = keys;
       const confirmOTP = new ValidateAuthorizationReq();
       confirmOTP.id = 'randomId';
       confirmOTP.otp = 123456;

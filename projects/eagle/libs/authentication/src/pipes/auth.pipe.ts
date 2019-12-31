@@ -1,13 +1,7 @@
-import {
-  PipeTransform,
-  Injectable,
-  ArgumentMetadata,
-  Inject,
-} from '@nestjs/common';
+import { Authorization, KeyVerification } from '@eagle/authentication';
+import { AuthenticationMessage, microServiceToken } from '@eagle/server-shared';
+import { ArgumentMetadata, Inject, Injectable, PipeTransform } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Authorization, KeyVerification } from '@eagle/generated';
-import { AuthenticationMessage } from '../events';
-import { microServiceToken } from '../util';
 
 @Injectable()
 export class AuthorizedPipe

@@ -1,8 +1,7 @@
-import { Controller, Get, Body } from '@nestjs/common';
-import { StaffManagmentService } from './staff-management.service';
-import { Authorized } from '@eagle/server-shared';
-import { Authorization } from '@eagle/generated';
+import { Authorization, Authorized } from '@eagle/authentication';
+import { Body, Controller } from '@nestjs/common';
 import { RegisterStaffDetails } from './register-staff';
+import { StaffManagmentService } from './staff-management.service';
 
 @Controller('personnel')
 export class PersonelController {

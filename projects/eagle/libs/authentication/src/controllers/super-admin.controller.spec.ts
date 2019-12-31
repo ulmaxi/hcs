@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { SuperAdminAuthorizationController } from './super-admin.controller';
 import { SuperAdminAuthorizeService } from '../services/super-admin.service';
-import { Authorization, AuthorizeRequest } from '@eagle/generated';
-
+import { Authorization } from '../models/author.entity';
+import { AuthorizeRequest } from './typecast';
 
 describe('Controller', () => {
   let ctrl: SuperAdminAuthorizationController;

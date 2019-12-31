@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { MedicalClaimService } from './medical-claim.service';
-import { Authorized } from '@eagle/server-shared';
+import { Authorization, Authorized } from '@eagle/authentication';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { MedicalCarePlan } from '../util';
-import { Authorization } from '@eagle/generated';
+import { MedicalClaimService } from './medical-claim.service';
 
 @Controller('medicalclaims')
 export class MedicalClaimController {

@@ -7,8 +7,7 @@ import {
   SendSMSEvent,
   SendEmailEvent,
 } from '@eagle/server-shared';
-import { Authorization } from '../models/author.entity';
-import { AccessLevel } from '@eagle/generated';
+import { Authorization, AccessLevel } from '../models/author.entity';
 import { Login } from '../models/login.entity';
 import { addMinutes, format } from 'date-fns';
 

@@ -110,4 +110,3 @@ export class UploadMedicalCareService {
     }
 
 }
-

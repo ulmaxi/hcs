@@ -1,19 +1,8 @@
-import {
-  Controller,
-  Get,
-  Query,
-  Param,
-  BadRequestException,
-} from '@nestjs/common';
-import { SipService } from '../services/sip.service';
-import {
-  FindQueryParams,
-  SearchQueryParams,
-  Authorized,
-  AuthorizedPipe,
-} from '@eagle/server-shared';
-import { Authorization } from '@eagle/generated';
+import { Authorization, Authorized, AuthorizedPipe } from '@eagle/authentication';
+import { FindQueryParams, SearchQueryParams } from '@eagle/server-shared';
+import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { SipService } from '../services/sip.service';
 
 @Controller('stream')
 export class SipController {

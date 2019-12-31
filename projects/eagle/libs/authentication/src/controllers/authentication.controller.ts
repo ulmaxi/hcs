@@ -1,27 +1,14 @@
+import { AuthenticationMessage } from '@eagle/server-shared';
+import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedException } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { AccessLevel } from '../models/author.entity';
 import { AuthorizeRequestService } from '../services/authorize-req.service';
 import { ValidateAuthorizedService } from '../services/validate-author.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Query,
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { AccessLevel } from '@eagle/generated';
-import {
-  AuthorizeRequest,
-  ValidateAuthorizationReq,
-  AuthorizedEntity,
-  KeyVerfication,
-} from './typecast';
-import { AuthenticationMessage } from '@eagle/server-shared';
-import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { AuthorizedEntity, AuthorizeRequest, KeyVerfication, ValidateAuthorizationReq } from './typecast';
 
 export const authenticateValidateError = new BadRequestException(
-  `the parameters for otp validation is missing, 
+  `the parameters for otp validation is missing,
   check your query params either to contain the otp and id sent previously`,
 );
 
@@ -36,7 +23,6 @@ export class AuthenticationController {
     private authorizer: AuthorizeRequestService,
     private validator: ValidateAuthorizedService,
   ) { }
-
 
   @ApiOkResponse({
     description: `Successfull created authorization details of the institution`,

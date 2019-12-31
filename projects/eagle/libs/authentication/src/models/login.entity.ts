@@ -1,11 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { ILogin } from '@eagle/generated';
 import { BaseModel } from '@eagle/server-shared';
 import { IsNumber, IsString } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 @Entity()
-export class Login extends BaseModel implements ILogin {
+export class Login extends BaseModel {
   @ApiModelProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;

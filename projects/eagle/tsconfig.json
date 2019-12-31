@@ -11,12 +11,6 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@eagle/generated": [
-        "libs/generated"
-      ],
-      "@eagle/generated/*": [
-        "libs/generated/*"
-      ],
       "@eagle/server-shared": [
         "libs/server-shared/src"
       ],

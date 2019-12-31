@@ -1,12 +1,10 @@
-import * as generated from '@eagle/generated';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { IsDefined, IsOptional, IsEmail } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
 import { plainToClass } from 'class-transformer';
 
 @Entity()
-export class PersonalBiodata extends BaseModel
-  implements generated.PersonalBiodata {
+export class PersonalBiodata extends BaseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

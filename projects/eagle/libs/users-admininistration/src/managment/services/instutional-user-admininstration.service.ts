@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionRecord } from '@eagle/generated';
+import { PermissionRecord } from '@eagle/data-access-records';
 import { PersonalBiodataService } from './person-biodata.service';
 import { CommunalDataService } from './communal-data.service';
 import { PersonalBiodata } from '../models/personal-biodata.entity';

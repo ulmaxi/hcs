@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { microServiceToken } from '@eagle/server-shared';
 import { ClientProxy } from '@nestjs/microservices';
-import { Authorization, PersonalBiodata } from '@eagle/generated';
+import { Authorization } from '@eagle/authentication';
+import { PersonalBiodata } from '@eagle/users-admininistration';
 
 @Injectable()
 export class DataRetrievalService {

@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { LoginService } from '../services/login.service';
 import { LoginController } from './login.controller';
 
-
 describe('LoginController', () => {
   let controller: LoginController;
   let service: LoginService;

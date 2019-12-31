@@ -1,8 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { PersonelController } from './staff-managment.controller';
 import { StaffManagmentService } from './staff-management.service';
-import { Authorization } from '@eagle/generated';
-import { RegisterStaffDetails } from './register-staff';
 
 describe('PersonelController', () => {
     const auth = { trackId: 'trackId' } as any;

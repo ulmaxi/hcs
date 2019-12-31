@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { Authorization, AccessLevel, PersonalBiodata } from '@eagle/generated';
 import { addMonths } from 'date-fns';
 import {
   PermissionCreatorService,
@@ -14,6 +13,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { DataRetrievalService } from './data-retrieval.service';
 import { microServiceToken, MessageEvents, SendSMSEvent } from '@eagle/server-shared';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
+import { PersonalBiodata } from '@eagle/users-admininistration';
+import { AccessLevel, Authorization } from '@eagle/authentication';
 
 const today = new Date();
 

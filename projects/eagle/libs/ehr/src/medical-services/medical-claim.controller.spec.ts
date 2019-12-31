@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { MedicalClaimController } from './medical-claim.controller';
 import { MedicalClaimService } from './medical-claim.service';
-import { Authorization } from '@eagle/generated';
+import { Authorization } from '@eagle/authentication';
 
 describe('MedicalClaimController', () => {
     let ctrl: MedicalClaimController;

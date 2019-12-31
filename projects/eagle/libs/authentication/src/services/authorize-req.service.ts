@@ -1,10 +1,5 @@
 import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
-import {
-  AuthorizeRequest,
-  AccessLevel,
-  AuthorizeResponse,
-} from '@eagle/generated';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
 import { addMinutes, format } from 'date-fns';
 import { AuthorService } from './author.service';
 import { LoginService } from './login.service';
@@ -12,6 +7,7 @@ import { AuthorizeAlertService } from './authorize-alert.service';
 import { v4 } from 'uuid';
 import { Login } from '../models/login.entity';
 import { generateOtp } from '@eagle/server-shared';
+import { AuthorizeRequest, AuthorizeResponse } from '../controllers/typecast';
 
 const { Institution, SuperAdmin, Users } = AccessLevel;
 

@@ -1,12 +1,12 @@
 import { Test } from '@nestjs/testing';
-import { AccessLevel, AuthorizeResponse } from '@eagle/generated';
 import { HttpException } from '@nestjs/common';
 import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
 import { AuthorService } from './author.service';
 import { LoginService } from './login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
 import { Login } from '../models/login.entity';
+import { AuthorizeResponse } from '../controllers/typecast';
 
 describe('AuthorizeReqController', () => {
   let authorReqSvc: AuthorizeRequestService;
