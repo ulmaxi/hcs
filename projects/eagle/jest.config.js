@@ -12,5 +12,6 @@ module.exports = {
     '^@eagle/ehr': '<rootDir>/libs/ehr/src/index.ts',
     '^@eagle/general-public': '<rootDir>/libs/general-public/src/index.ts',
   },
-  coveragePathIgnorePatterns: ['<rootDir>/libs/testing',]
+  // until Sip module until it's plugged back in
+  coveragePathIgnorePatterns: ['<rootDir>/libs/testing', '<rootDir>/libs/sip']
 };
