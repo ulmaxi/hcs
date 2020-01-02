@@ -1,29 +1,18 @@
-import { Module, Logger, Inject, OnApplicationBootstrap } from '@nestjs/common';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import {
-  AuthenticationModule,
-  SuperAdminAuthenticationModule,
-} from '@eagle/authentication';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthenticationModule, AuthorizedPipe, SuperAdminAuthenticationModule } from '@eagle/authentication';
 import { DataAccessRecordsModule } from '@eagle/data-access-records';
-import {
-  UsersAdmininistrationModule,
-  SuperUsersAdmininistrationModule,
-} from '@eagle/users-admininistration';
 import { MessagingModule } from '@eagle/messaging';
-import { ClientsModule, Transport, ClientProxy } from '@nestjs/microservices';
-import {
-  microServiceToken,
-  MessageEvents,
-  SendSMSEvent,
-  AuthorizedPipe,
-} from '@eagle/server-shared';
+import { MessageEvents, microServiceToken, SendSMSEvent } from '@eagle/server-shared';
+import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@eagle/users-admininistration';
+import { Inject, Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
+import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { RouterModule } from 'nest-router';
-import { routes } from './app.routes';
 // import { SipAdminModule, SipModule } from '@eagle/sip';
 import { join } from 'path';
+import { AppController } from './app.controller';
+import { routes } from './app.routes';
+import { AppService } from './app.service';
 
 @Module({
   imports: [

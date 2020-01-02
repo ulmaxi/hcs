@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
-import { IsDefined, IsOptional } from 'class-validator';
-import { hcsIdentifer } from './indentier.decorator';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsDefined, IsOptional } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { hcsIdentifer } from './indentier.decorator';
 
 /** Access level for operations across the whole system */
 export enum AccessLevel {
