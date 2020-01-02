@@ -1,6 +1,6 @@
+import { BadRequestException } from '@nestjs/common';
 import * as chance from 'chance';
 import { validate } from 'class-validator';
-import { BadRequestException } from '@nestjs/common';
 
 /**
  * the property is nullable
@@ -52,10 +52,10 @@ export async function classValidationError<T>(value: T) {
  */
 export async function requestError<T>(obj: T) {
   const errorMessage = await classValidationError(obj);
-  /** istanbul ignore else */
   if (!errorMessage) {
     return;
   }
+  /* istanbul ignore next */
   throw new BadRequestException(errorMessage);
 }
 

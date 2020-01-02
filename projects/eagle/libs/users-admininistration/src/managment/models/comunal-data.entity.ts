@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { IsDefined, IsOptional } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
-import { plainToClass } from 'class-transformer';
+import { IsDefined, IsOptional } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class CommunalData extends BaseModel {
@@ -44,7 +43,4 @@ export class CommunalData extends BaseModel {
   @Column('varchar', { length: 244 })
   employerAddress: string;
 
-  static fromJSON(json: object) {
-    return plainToClass(CommunalData, json);
-  }
 }

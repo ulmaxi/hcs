@@ -1,7 +1,7 @@
 // tslint:disable: max-classes-per-file
-import { Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 
 /**
  * the base model which all model must extend and be derived from
@@ -58,10 +58,6 @@ export class SearchQueryParams extends FindQueryParams {
   @ApiModelPropertyOptional()
   search?: string;
 
-  /** would create a class from the JSON object */
-  static fromJson(json: object) {
-    return plainToClass(SearchQueryParams, json);
-  }
 }
 
 export interface FindProperties<T> {

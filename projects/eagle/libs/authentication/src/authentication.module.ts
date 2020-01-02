@@ -1,3 +1,10 @@
+import { microServiceToken } from '@eagle/server-shared';
+import { Logger, Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthenticationController } from './controllers/authentication.controller';
 import { Authorization } from './models/author.entity';
 import { Login } from './models/login.entity';
 import { AuthorService } from './services/author.service';
@@ -5,13 +12,6 @@ import { AuthorizeAlertService } from './services/authorize-alert.service';
 import { AuthorizeRequestService } from './services/authorize-req.service';
 import { LoginService } from './services/login.service';
 import { ValidateAuthorizedService } from './services/validate-author.service';
-import { Module, Logger } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthenticationController } from './controllers/authentication.controller';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { microServiceToken } from '@eagle/server-shared';
-import { Transport, ClientsModule } from '@nestjs/microservices';
 
 // key settings for jwt token
 const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
@@ -43,5 +43,5 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {
-  constructor() {}
+  constructor() { }
 }

@@ -2,7 +2,7 @@ import { Admission, Consultation, Institution, LabTest, Prescription, Review, St
 import * as Chance from 'chance';
 import * as Factory from 'factory.ts';
 import { authorizationFactory } from './authentication';
-import { personalBiodataFactory } from './users';
+import { communalBiodataFactory, personalBiodataFactory } from './users';
 
 const chance = new Chance();
 
@@ -124,5 +124,9 @@ function biodatas(consultantions: Consultation[]) {
   const authorization = staffs
     .map(s => authorizationFactory
       .build({ trackId: s.trackID, institutionId: chance.pickone(institutions).id }));
-  return { institutions, staffs, consultants, authorization };
+  const patients = consultantions
+    .map((c) => personalBiodataFactory.build({ id: c.patientId }));
+  const communals = [...consultants, ...patients]
+    .map(c => communalBiodataFactory.build({ trackId: c.trackId }));
+  return { institutions, staffs, consultants, authorization, patients, communals };
 }

@@ -8,8 +8,11 @@ export enum AuthHeaderKeys {
   APIKEY = 'ULMAX_MPI_APIKEY_KEY'.toLowerCase() as any,
 }
 
+/* istanbul ignore next */
 /**
  * Auth decorator to select auth details from the request
+ * (it's being ignored due to the fact that it can't be unit tested)
+ * (and would be added back during integration or E2E tests)
  */
 export const Authorized = createParamDecorator((data, { headers }: Request) => {
   const { APIKEY, JWT } = AuthHeaderKeys;

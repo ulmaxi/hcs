@@ -1,7 +1,7 @@
 import { BaseModel, List } from '@eagle/server-shared';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { IsDefined } from 'class-validator';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * the datastructure to represent patient cosultation
@@ -81,7 +81,7 @@ export class Consultation extends BaseModel {
     @IsDefined()
     @ApiModelProperty()
     @Column({ type: 'varchar', array: true })
-    prescriptions: List<string>;
+    prescriptions: List<string> = [];
 
     /**
      * an array of unique ids for laboratory tests.

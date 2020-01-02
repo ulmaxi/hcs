@@ -1,11 +1,12 @@
-import { Controller, Get, Body, Post } from '@nestjs/common';
-import { PersonalAdminstrationService } from '../services/personal-administration.service';
-import { PersonalBiodata } from '../models/personal-biodata.entity';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
 import { CommunalData } from '../models/comunal-data.entity';
+import { PersonalBiodata } from '../models/personal-biodata.entity';
+import { PersonalAdminstrationService } from '../services/personal-administration.service';
 
 @Controller('biodata')
 export class PersonalAdminController {
-  constructor(private pas: PersonalAdminstrationService) {}
+  constructor(private pas: PersonalAdminstrationService) { }
 
   @Get('personal')
   retrievePersonal() {
@@ -14,7 +15,7 @@ export class PersonalAdminController {
 
   @Post('personal')
   updatePersonal(@Body() data: Partial<PersonalBiodata>) {
-    return this.pas.PersonalDataUpdate(null, PersonalBiodata.fromJSON(data));
+    return this.pas.PersonalDataUpdate(null, plainToClass(PersonalBiodata, data));
   }
 
   @Get('communal')
@@ -24,6 +25,6 @@ export class PersonalAdminController {
 
   @Post('communal')
   updateCommunal(@Body() data: Partial<CommunalData>) {
-    return this.pas.communalDataUpdate(null, CommunalData.fromJSON(data));
+    return this.pas.communalDataUpdate(null, plainToClass(CommunalData, data));
   }
 }
