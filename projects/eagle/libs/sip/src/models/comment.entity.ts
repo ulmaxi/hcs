@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
-import { IsDefined } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Comment extends BaseModel {
@@ -18,14 +18,14 @@ export class Comment extends BaseModel {
    */
   @IsDefined()
   @ApiModelProperty()
-  @Column('varchar')
+  @Column()
   authorId: string;
 
   /**
    * the comment text
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   text: string;
 
@@ -33,7 +33,7 @@ export class Comment extends BaseModel {
    * the comment text
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   postId: string;
 }

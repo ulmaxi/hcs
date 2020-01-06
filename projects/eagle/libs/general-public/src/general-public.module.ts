@@ -1,7 +1,10 @@
 // tslint:disable: max-classes-per-file
+import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmergencyController } from './controllers/emergency.controller';
+import { PublicAccessController } from './controllers/public.controller';
 import { Emergency } from './models/emergency.entity';
 import { PublicDataService } from './services/data.service';
 import { EmergencyService } from './services/emergency.service';
@@ -9,17 +12,25 @@ import { EmergencyService } from './services/emergency.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Emergency])],
   providers: [EmergencyService],
+  exports: [EmergencyService],
 })
-export class GeneralPublicDataServiceModule {}
+export class GeneralPublicDataServiceModule { }
 
 @Module({
   imports: [GeneralPublicDataServiceModule],
   controllers: [EmergencyController],
 })
-export class GeneralPublicDataControllerModule {}
+export class GeneralPublicDataControllerModule { }
 
 @Module({
-  imports: [GeneralPublicDataServiceModule],
+  imports: [GeneralPublicDataServiceModule,
+    ClientsModule.register([
+      {
+        name: microServiceToken,
+        transport: Transport.TCP,
+      },
+    ])],
   providers: [PublicDataService],
+  controllers: [PublicAccessController],
 })
-export class GeneralPublicModule {}
+export class GeneralPublicModule { }

@@ -47,6 +47,7 @@ const configs = [
     Staff,
   ])],
   providers: [...configs.map(c => c.provider)],
+  exports: [ ...configs.map(c => c.provider) ],
 })
 export class EHRDataServiceModule { }
 

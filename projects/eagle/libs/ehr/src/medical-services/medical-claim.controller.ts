@@ -3,7 +3,7 @@ import { Body, Controller, Param, Post } from '@nestjs/common';
 import { MedicalCarePlan } from '../util';
 import { MedicalClaimService } from './medical-claim.service';
 
-@Controller('medicalclaims')
+@Controller()
 export class MedicalClaimController {
     constructor(private claim: MedicalClaimService) { }
 

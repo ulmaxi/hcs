@@ -1,5 +1,6 @@
 // tslint:disable: max-classes-per-file
-import { Consultation, Admission, LabTest, Prescription, Review } from '@eagle/ehr';
+import { Admission, Consultation, LabTest, Prescription, Review } from '@eagle/ehr';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsDefined, IsOptional } from 'class-validator';
 
 export type ConsultationClaim = Pick<Consultation, 'complain' | 'diagnosis' | 'planAndProcedure'>;
@@ -12,79 +13,93 @@ export type ReviewClaim = Pick<Review, 'department' | 'note'>;
  * informations about the incoming medical care for the patient
  */
 export class MedicalCarePlan {
-    /**
-     * the uniqueId for the staff
-     */
-    @IsDefined()
-    staffPhoneNo: string;
+  /**
+   * the uniqueId for the staff
+   */
+  @IsDefined()
+  @ApiModelProperty()
+  staffPhoneNo: string;
 
-    /**
-     * The patient phone number
-     */
-    @IsDefined()
-    patientPhoneNo: string;
+  /**
+   * The patient phone number
+   */
+  @ApiModelProperty()
+  @IsDefined()
+  patientPhoneNo: string;
 
-    /**
-     * medical consultations
-     */
-    @IsDefined()
-    consultation: ConsultationClaim;
+  /**
+   * medical consultations
+   */
+  @ApiModelProperty()
+  @IsDefined()
+  consultation: ConsultationClaim;
 
-    /**
-     * admission informations
-     */
-    @IsOptional()
-    admission?: AdmissionClaim;
+  /**
+   * admission informations
+   */
+  @ApiModelPropertyOptional()
+  @IsOptional()
+  admission?: AdmissionClaim;
 
-    /**
-     * various tests required
-     */
-    @IsOptional()
-    labTests?: LabTestClaim[];
+  /**
+   * various tests required
+   */
+  @ApiModelPropertyOptional()
+  @IsOptional()
+  labTests?: LabTestClaim[];
 
-    /**
-     * various prescriptions for the patient
-     */
-    @IsOptional()
-    prescriptions?: PrescriptionClaim[];
+  /**
+   * various prescriptions for the patient
+   */
+  @ApiModelPropertyOptional()
+  @IsOptional()
+  prescriptions?: PrescriptionClaim[];
 
-    /**
-     * consultant review of the patient in the ward
-     */
-    @IsOptional()
-    review?: ReviewClaim;
+  /**
+   * consultant review of the patient in the ward
+   */
+  @ApiModelPropertyOptional()
+  @IsOptional()
+  review?: ReviewClaim;
 }
 
 /**
- * full details about the saved medical planned 
+ * full details about the saved medical planned
  */
 export class TrackedMedicalCarePlan {
-    /**
-     * the uniqueId for the staff
-     */
-    staffId: string;
-    /**
-     * The patient phone number
-     */
-    patientId: string;
-    /**
-     * full information about consultation
-     */
-    consultation: Consultation;
-    /**
-     * full information about admission
-     */
-    admission?: Admission;
-    /**
-     * full information about lab tests
-     */
-    labTests?: LabTest[];
-    /**
-     * full information about prescriptions
-     */
-    prescriptions?: Prescription[];
-    /**
-     * full informations about the review
-     */
-    review?: Review;
+  /**
+   * the uniqueId for the staff
+   */
+  @ApiModelProperty()
+  staffId: string;
+  /**
+   * The patient phone number
+   */
+  @ApiModelProperty()
+  patientId: string;
+  /**
+   * full information about consultation
+   */
+  @ApiModelProperty()
+  consultation: Consultation;
+  /**
+   * full information about admission
+   */
+  @ApiModelPropertyOptional()
+  admission?: Admission;
+  /**
+   * full information about lab tests
+   */
+  @ApiModelPropertyOptional()
+  labTests?: LabTest[];
+  /**
+   * full information about prescriptions
+   */
+  @ApiModelPropertyOptional()
+  prescriptions?: Prescription[];
+  /**
+   * full informations about the review
+   */
+  @ApiModelPropertyOptional()
+  review?: Review;
 }

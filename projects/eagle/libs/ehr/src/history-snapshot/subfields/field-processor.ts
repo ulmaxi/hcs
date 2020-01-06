@@ -1,13 +1,10 @@
 import { Consultation } from '../../data-layer/consultation/consultation.entity';
-
-export interface FilterOptions {
-  depth: number;
-  skip: number;
-}
+import { FilterOptions } from '../util';
 
 /**
  * Filters and select TrackedId for consultations
  */
+// tslint:disable-next-line: max-classes-per-file
 export class FieldProcessorOperator {
   // set advantage is that it doesn't allow duplicate datas
   trackIds = new Set<string>();
@@ -21,7 +18,7 @@ export class FieldProcessorOperator {
 
   constructor(
     public config: FilterOptions,
-  ) {}
+  ) { }
 
   /**
    * checks if the consultation should be processed

@@ -1,7 +1,7 @@
-import { FieldProcessorOperator, FilterOptions } from '../subfields/field-processor';
-import { SubFieldMap, HistoryGraphSnapshot } from './history-graph-snapshot';
 import { ehr_data_preload } from '@eagle/testing';
-import { MiniConsultantDetails } from '../util';
+import { FieldProcessorOperator } from '../subfields/field-processor';
+import { FilterOptions, MiniConsultantDetails } from '../util';
+import { HistoryGraphSnapshot, SubFieldMap } from './history-graph-snapshot';
 
 function field2Map<T>(items: T[]) {
   const map = new Map<string, T>();

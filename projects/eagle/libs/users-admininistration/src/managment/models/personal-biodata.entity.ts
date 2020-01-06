@@ -8,16 +8,16 @@ export class PersonalBiodata extends BaseModel {
   id: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   firstname: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   lastname: string;
 
   @IsEmail()
   @IsOptional()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   email: string;
 
   @IsDefined()
@@ -29,15 +29,15 @@ export class PersonalBiodata extends BaseModel {
   dob: number;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   gender: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   town: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   trackId: string;
 
 }

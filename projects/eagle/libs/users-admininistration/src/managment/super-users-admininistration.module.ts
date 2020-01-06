@@ -1,13 +1,14 @@
+import { AuthorizedPipe } from '@eagle/authentication';
+import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
-import { CommunalDataService } from './services/communal-data.service';
-import { PersonalBiodataService } from './services/person-biodata.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PersonalBiodata } from './models/personal-biodata.entity';
-import { CommunalData } from './models/comunal-data.entity';
 import { CommunalDataController } from './controllers/communal-data.controller';
 import { PersonalBiodataController } from './controllers/personal-biodata.controller';
-import { AuthorizedPipe, microServiceToken } from '@eagle/server-shared';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { CommunalData } from './models/comunal-data.entity';
+import { PersonalBiodata } from './models/personal-biodata.entity';
+import { CommunalDataService } from './services/communal-data.service';
+import { PersonalBiodataService } from './services/person-biodata.service';
 
 @Module({
   imports: [

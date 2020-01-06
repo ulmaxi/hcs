@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { IsDefined, IsNumber } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
+import { IsDefined, IsNumber } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class AccessLogs extends BaseModel {
@@ -8,11 +8,11 @@ export class AccessLogs extends BaseModel {
   id: string;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   staff: string;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   clientId: string;
 
   @IsDefined()
@@ -21,6 +21,6 @@ export class AccessLogs extends BaseModel {
   time: number;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   institution: string;
 }

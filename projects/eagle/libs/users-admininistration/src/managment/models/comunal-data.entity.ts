@@ -8,39 +8,39 @@ export class CommunalData extends BaseModel {
   id: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   trackId: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   maritalstatus: string;
 
   @IsOptional()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   religion: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   nextofkin: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   nextofkinphoneNo: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   lgaorigin: string;
 
   @IsDefined()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   stateoforigin: string;
 
   @IsOptional()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   employerphoneNo: string;
 
   @IsOptional()
-  @Column('varchar', { length: 244 })
+  @Column({ length: 244 })
   employerAddress: string;
 
 }

@@ -1,11 +1,12 @@
 import { BaseModel } from '@eagle/server-shared';
-import { IsDefined, IsBoolean  } from 'class-validator';
-import { PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ApiModelPropertyOptional, ApiModelProperty } from '@nestjs/swagger';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsBoolean, IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * the data structure for patient admission
  */
+@Entity()
 export class Admission extends BaseModel {
     /**
      * the uniqueID for each admission
@@ -19,7 +20,7 @@ export class Admission extends BaseModel {
      * the uniqueId for the patientId
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false, update: false })
+    @Column({  nullable: false, update: false })
     @ApiModelProperty()
     patientId: string;
 
@@ -27,7 +28,7 @@ export class Admission extends BaseModel {
      * the name of the ward which the patient is admitted
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty()
     ward: string;
 
@@ -35,7 +36,7 @@ export class Admission extends BaseModel {
      * the uniueId to track consultations
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false, update: false })
+    @Column({  nullable: false, update: false })
     @ApiModelProperty()
     consulationTrackId: string;
 

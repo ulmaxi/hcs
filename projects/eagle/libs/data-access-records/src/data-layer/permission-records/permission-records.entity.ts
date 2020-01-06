@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { IsDefined, IsNumber, IsBoolean } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
+import { IsBoolean, IsDefined, IsNumber } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class PermissionRecord extends BaseModel {
@@ -8,7 +8,7 @@ export class PermissionRecord extends BaseModel {
   id: string;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   institution: string;
 
   @IsDefined()
@@ -25,6 +25,6 @@ export class PermissionRecord extends BaseModel {
   authorized: boolean = false;
 
   @IsDefined()
-  @Column('varchar')
+  @Column()
   clientId: string;
 }

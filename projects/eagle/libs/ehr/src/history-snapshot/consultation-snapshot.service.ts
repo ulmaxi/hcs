@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
 import { BaseModel } from '@eagle/server-shared';
+import { Injectable } from '@nestjs/common';
 import { format } from 'date-fns';
 import { Consultation } from '../data-layer/consultation/consultation.entity';
-import { FieldSnaphotService } from './subfields/fields-snapshot.service';
-import { filterOperator } from './subfields/field-operator';
 import { ConsultationService } from '../data-layer/consultation/consultation.service';
-import { FilterOptions, FieldProcessorOperator } from './subfields/field-processor';
 import { HistoryGraphSnapshot } from './graph/history-graph-snapshot';
+import { filterOperator } from './subfields/field-operator';
+import { FieldProcessorOperator } from './subfields/field-processor';
+import { FieldSnaphotService } from './subfields/fields-snapshot.service';
 import { PersonalDataSnaphotService } from './subfields/personal-data.service';
+import { FilterOptions } from './util';
 
 /**
  * get all the consultations first with the query
@@ -21,7 +22,6 @@ import { PersonalDataSnaphotService } from './subfields/personal-data.service';
  * has key to retrive the values of the previous map to an object
  * the first child has main, the others as followup
  */
-
 
 @Injectable()
 export class ConsultationShapshotService {

@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
-import { IsNumber, IsString } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsNumber, IsString } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Login extends BaseModel {
@@ -21,6 +21,6 @@ export class Login extends BaseModel {
 
   @ApiModelProperty()
   @IsString()
-  @Column('varchar')
+  @Column()
   trackingId: string;
 }

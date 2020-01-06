@@ -1,26 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { EmergencyService } from './emergency.service';
-import { Emergency } from '../models/emergency.entity';
-import { plainToClass } from 'class-transformer';
-import * as assert from 'assert';
-import { omit } from 'lodash';
-import { microServiceToken } from '@eagle/server-shared';
 import { Institution } from '@eagle/ehr';
-
-/**
- * The response for emergency request by the public
- */
-export interface EmergencyResponse {
-    /**
-     * saved emergency information
-     */
-    emergency: Emergency;
-    /**
-     * pit information about the instituion
-     */
-    institution: Omit<Institution, 'id' | 'trackId' | 'zipcode'>;
-}
+import { microServiceToken } from '@eagle/server-shared';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { plainToClass } from 'class-transformer';
+import { omit } from 'lodash';
+import { Emergency } from '../models/emergency.entity';
+import { EmergencyService } from './emergency.service';
+import { EmergencyResponse } from './typecast';
 
 @Injectable()
 export class PublicDataService {

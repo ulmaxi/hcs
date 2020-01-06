@@ -1,12 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PublicDataService, EmergencyResponse, InstitutionClassificationError } from './data.service';
-import { ClientProxy } from '@nestjs/microservices';
-import { of } from 'rxjs';
-import { EmergencyService } from './emergency.service';
-import { Emergency } from '../models/emergency.entity';
-import { emergencyFactory, institutionFactory } from '@eagle/testing';
-import { omit } from 'lodash';
 import { microServiceToken } from '@eagle/server-shared';
+import { emergencyFactory, institutionFactory } from '@eagle/testing';
+import { ClientProxy } from '@nestjs/microservices';
+import { Test, TestingModule } from '@nestjs/testing';
+import { omit } from 'lodash';
+import { of } from 'rxjs';
+import { Emergency } from '../models/emergency.entity';
+import { InstitutionClassificationError, PublicDataService } from './data.service';
+import { EmergencyService } from './emergency.service';
+import { EmergencyResponse } from './typecast';
 
 describe('PublicDataService', () => {
     let module: TestingModule;

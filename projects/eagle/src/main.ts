@@ -1,14 +1,15 @@
-// tslint:disable-next-line: no-var-requires
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  // tslint:disable-next-line: no-var-requires
+  require('dotenv').config();
+}
 
 const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
 console.log({ JWT_SECRET_KEY, JWT_EXPIRES });
 
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
-
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './swagger';
 
 async function bootstrap() {

@@ -1,13 +1,14 @@
+import { AuthorizedPipe } from '@eagle/authentication';
+import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
-import { SipService } from './services/sip.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SipController } from './controllers/sip.controller';
+import { Comment } from './models/comment.entity';
+import { Post } from './models/posts.entity';
 import { CommentService } from './services/comment.service';
 import { PostService } from './services/posts.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Post } from './models/posts.entity';
-import { Comment } from './models/comment.entity';
-import { SipController } from './controllers/sip.controller';
-import { AuthorizedPipe, microServiceToken } from '@eagle/server-shared';
+import { SipService } from './services/sip.service';
 
 @Module({
   imports: [

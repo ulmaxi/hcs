@@ -1,35 +1,50 @@
-import { Routes } from 'nest-router';
-import {
-  AuthenticationModule,
-  SuperAdminAuthenticationModule,
-} from '@eagle/authentication';
+import { AuthenticationModule, SuperAdminAuthenticationModule } from '@eagle/authentication';
 import { DataAccessRecordsModule } from '@eagle/data-access-records';
-import { UsersAdmininistrationModule, SuperUsersAdmininistrationModule } from '@eagle/users-admininistration';
+import { EHRDataControllerModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@eagle/ehr';
+import { EHRHistoryModule, ReferralDataLayerModule } from '@eagle/ehr-intercom';
+import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@eagle/general-public';
 import { MessagingModule } from '@eagle/messaging';
-import { SipModule, SipAdminModule } from '@eagle/sip';
+import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@eagle/users-admininistration';
+import { Routes } from 'nest-router';
 
 export const internalRoutes: Routes = [
   {
     path: 'security',
-    module: SuperAdminAuthenticationModule,
+    children: [
+      { path: 'client', module: AuthenticationModule },
+      { path: 'superadmin', module: SuperAdminAuthenticationModule },
+    ],
   },
   { path: 'useradmin', module: UsersAdmininistrationModule },
-  {
-    path: 'accessrecord',
-    module: DataAccessRecordsModule,
-  },
   { path: 'messaging', module: MessagingModule },
-  { path: 'sip', module: SipAdminModule },
+  // { path: 'sip', module: SipAdminModule },
   { path: 'accessrecord', module: DataAccessRecordsModule },
   { path: 'users', module: SuperUsersAdmininistrationModule },
   {
-    path: 'security',
-    module: AuthenticationModule,
+    path: 'ehr',
+    module: EHRDataControllerModule,
+  },
+  {
+    path: 'generalpublic',
+    module: GeneralPublicDataControllerModule,
+  },
+  {
+    path: 'referral',
+    module: ReferralDataLayerModule,
   },
 ];
 
+// { path: 'sip', module: SipModule },
 export const externalRoutes: Routes = [
-  { path: 'sip', module: SipModule },
+  {
+    path: 'ehr', children: [
+      { path: 'medicalclaims', module: EHRMedicalClaimModule },
+      { path: 'history', module: EHRHistoryModule },
+      // { path: 'intercomm', module: SipModule },
+      { path: 'personnel', module: EHRpersonnelModule },
+    ],
+  },
+  { path: 'generalpublic', module: GeneralPublicModule },
 ];
 
 export const routes: Routes = [

@@ -1,5 +1,6 @@
 import { Consultation } from '../../data-layer/consultation/consultation.entity';
-import { FilterOptions, FieldProcessorOperator } from './field-processor';
+import { FilterOptions } from '../util';
+import { FieldProcessorOperator } from './field-processor';
 
 /**
  * Filters and select TrackedId for consultations

@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsDefined, IsOptional } from 'class-validator';
-import { BaseModel } from '@eagle/server-shared';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * Entity for the various instutions
@@ -17,57 +17,57 @@ export class Institution extends BaseModel {
      * the authentication tracking ID
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelPropertyOptional()
     trackId: string;
 
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty({ description: `The name of the health institution` })
     name: string;
 
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty({ description: `Address of the health institution` })
     address: string;
 
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty()
     town: string;
 
     @IsDefined()
     @ApiModelProperty()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     lga: string;
 
     @IsDefined()
     @ApiModelProperty()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     state: string;
 
     @IsDefined()
     @ApiModelProperty({ description: `The type of the health institution either private or public` })
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     setting: string;
 
     @IsDefined()
     @ApiModelProperty({ description: `The classification i.e hospital, clinic or pharmacy` })
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     classification: string;
 
     @IsOptional()
     @ApiModelPropertyOptional()
-    @Column('varchar')
+    @Column()
     website: string;
 
     @IsDefined()
     @ApiModelProperty()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     customcare: string;
 
     @IsDefined()
     @ApiModelProperty()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     country: string;
 }

@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
-import { IsDefined } from 'class-validator';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * the prescription structural representation
@@ -21,7 +21,7 @@ export class Prescription extends BaseModel {
      */
     @IsDefined()
     @ApiModelProperty()
-    @Column('varchar')
+    @Column()
     name: string;
 
     /**
@@ -29,7 +29,7 @@ export class Prescription extends BaseModel {
      */
     @IsDefined()
     @ApiModelProperty()
-    @Column('varchar')
+    @Column()
     dosage: string;
 
     /**
@@ -37,6 +37,6 @@ export class Prescription extends BaseModel {
      */
     @IsDefined()
     @ApiModelProperty()
-    @Column('varchar')
+    @Column()
     time: string;
 }

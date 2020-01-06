@@ -1,4 +1,7 @@
+import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { EHRDataServiceModule } from '../data-layer/ehr-data.module';
 import { EHRpersonnelModule } from '../personnel/personnel.module';
 import { MedicalClaimController } from './medical-claim.controller';
 import { MedicalClaimService } from './medical-claim.service';
@@ -10,7 +13,12 @@ import { UploadMedicalCareService } from './upload-medicare.service';
  * EHR provider
  */
 @Module({
-  imports: [EHRpersonnelModule],
+  imports: [EHRpersonnelModule, EHRDataServiceModule, ClientsModule.register([
+    {
+      name: microServiceToken,
+      transport: Transport.TCP,
+    },
+  ])],
   controllers: [MedicalClaimController],
   providers: [
     MedicalClaimService,

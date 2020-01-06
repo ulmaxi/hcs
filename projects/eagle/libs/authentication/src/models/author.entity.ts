@@ -18,23 +18,24 @@ export enum AccessLevel {
 @Entity()
 export class Authorization extends BaseModel {
   @IsDefined()
-  @Column({ type: 'integer', enum: AccessLevel })
+  // @Column({ type: 'integer', enum: AccessLevel })
+  @Column({ type: 'int' })
   @ApiModelProperty()
   accessLevel: AccessLevel;
 
   @IsOptional()
   @ApiModelPropertyOptional()
-  @Column({ type: 'varchar', unique: true, length: 244, nullable: true })
+  @Column({ unique: true, length: 244, nullable: true })
   apiKey: string;
 
   @IsOptional()
   @ApiModelPropertyOptional()
-  @Column({ type: 'varchar', unique: true, length: 244, nullable: true })
+  @Column({ unique: true, length: 244, nullable: true })
   institutionId: string;
 
   @hcsIdentifer()
   @ApiModelProperty()
-  @Column({ type: 'varchar', unique: true, update: false, length: 244, nullable: false })
+  @Column({ unique: true, update: false, length: 244, nullable: false })
   identification: string;
 
   @ApiModelProperty()

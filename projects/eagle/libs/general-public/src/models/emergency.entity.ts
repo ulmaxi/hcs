@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { BaseModel } from '@eagle/server-shared';
+import { ApiModelProperty } from '@nestjs/swagger';
 import { IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Emergency extends BaseModel {
@@ -15,8 +16,9 @@ export class Emergency extends BaseModel {
     /**
      * what's happening on ground and how bad
      */
-    @Column('v')
+    @Column()
     @IsDefined()
+    @ApiModelProperty()
     assessment: string;
 
     /**
@@ -24,26 +26,30 @@ export class Emergency extends BaseModel {
      */
     @Column('date')
     @IsDefined()
+    @ApiModelProperty()
     time: string;
 
     /**
      * location of where the emergency is
      */
-    @Column('varchar')
+    @Column()
     @IsDefined()
+    @ApiModelProperty()
     address: string;
 
     /**
      * the phone No to contact someone at the emergency scene
      */
-    @Column('varchar')
+    @Column()
     @IsDefined()
+    @ApiModelProperty()
     contact: string;
 
     /**
      * the hospital to respond to the emergency
      */
-    @Column('varchar')
+    @Column()
     @IsDefined()
+    @ApiModelProperty()
     hospital: string;
 }

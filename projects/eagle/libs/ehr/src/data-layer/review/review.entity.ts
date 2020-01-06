@@ -1,12 +1,13 @@
 import { BaseModel } from '@eagle/server-shared';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsDefined } from 'class-validator';
-import { PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ApiModelPropertyOptional, ApiModelProperty } from '@nestjs/swagger';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * datastructure for review, which doctors do on
  * admitted patients
  */
+@Entity()
 export class Review extends BaseModel {
     /**
      * the uniqueId for each ward review
@@ -20,7 +21,7 @@ export class Review extends BaseModel {
      * the consulation TrackId for continuation
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false, update: false })
+    @Column({  nullable: false, update: false })
     @ApiModelProperty()
     consulationTrackId: string;
 
@@ -28,7 +29,7 @@ export class Review extends BaseModel {
      * the id of the staff who did the consultation
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false, update: false })
+    @Column({  nullable: false, update: false })
     @ApiModelProperty()
     staffId: string;
 
@@ -36,7 +37,7 @@ export class Review extends BaseModel {
      * the Id for the admission since the review is done inside the ward
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false, update: false })
+    @Column({  nullable: false, update: false })
     @ApiModelProperty()
     admissionId: string;
 
@@ -44,7 +45,7 @@ export class Review extends BaseModel {
      * the department which the consultaion was done
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty()
     department: string;
 
@@ -52,7 +53,7 @@ export class Review extends BaseModel {
      * a note on the patient apart from the consultation.
      */
     @IsDefined()
-    @Column({ type: 'varchar', nullable: false })
+    @Column({  nullable: false })
     @ApiModelProperty()
     note: string;
 }
