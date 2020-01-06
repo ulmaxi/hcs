@@ -23,7 +23,7 @@ async function bootstrap() {
   microservice.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.startAllMicroservicesAsync();
-  await app.listen(3001);
+  const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
+  await app.listen(port);
 }
 bootstrap();
-
