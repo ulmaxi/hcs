@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Authorization, AccessLevel } from '../models/author.entity';
-import {
-  SuperAdminAuthorizeService,
-  SuperAdminSignupError,
-} from './super-admin.service';
-import { AuthorService } from './author.service';
+import { AccessLevel, Authorization } from '../data-layer/author/author.entity';
+import { AuthorService } from '../data-layer/author/author.service';
+import { SuperAdminAuthorizeService, SuperAdminSignupError } from './super-admin.service';
 
 const authServicMock = {
   findOne: jest.fn(),
@@ -124,7 +121,7 @@ describe('SuperAdminAuthorizeService', () => {
     it('should create new admin if not previously existed', async () => {
       const newAdmin = superAdminBase;
       jest.spyOn(authorSvc, 'findOne').mockResolvedValue(null);
-      jest.spyOn(superAdminSvc, 'createAdmin').mockResolvedValue(newAdmin)
+      jest.spyOn(superAdminSvc, 'createAdmin').mockResolvedValue(newAdmin);
       const adminRes = await superAdminSvc.findOrCreateAdmin(authorizeRequestBase);
       expect(adminRes).toBe(newAdmin);
     });

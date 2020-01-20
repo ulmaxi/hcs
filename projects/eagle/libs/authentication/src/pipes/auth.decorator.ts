@@ -1,7 +1,7 @@
 import { createParamDecorator, UnauthorizedException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { Request } from 'express';
-import { KeyVerification } from '../controllers/typecast';
+import { KeyVerification } from '../authorization/authorizer/typecast';
 import { AuthHeaderKeys } from './constants';
 
 /* istanbul ignore next */

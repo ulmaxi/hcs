@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
+import { AuthorizeRequest } from '../authorization/authorizer/typecast';
+import { Authorization } from '../data-layer/author/author.entity';
 import { SuperAdminAuthorizationController } from './super-admin.controller';
-import { SuperAdminAuthorizeService } from '../services/super-admin.service';
-import { Authorization } from '../models/author.entity';
-import { AuthorizeRequest } from './typecast';
+import { SuperAdminAuthorizeService } from './super-admin.service';
 
 describe('Controller', () => {
   let ctrl: SuperAdminAuthorizationController;
@@ -12,7 +12,7 @@ describe('Controller', () => {
     const module = await Test.createTestingModule({
       controllers: [SuperAdminAuthorizationController],
       providers: [
-        { provide: SuperAdminAuthorizeService, useValue: { signupAdmin: jest.fn().mockResolvedValue(null)  } }
+        { provide: SuperAdminAuthorizeService, useValue: { signupAdmin: jest.fn().mockResolvedValue(null)  } },
       ],
     }).compile();
 

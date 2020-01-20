@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MessageEvents, microServiceToken, SendEmailEvent, SendSMSEvent } from '@ulmax/server-shared';
 import { differenceInMinutes } from 'date-fns';
-import { AccessLevel, Authorization } from '../models/author.entity';
-import { Login } from '../models/login.entity';
+import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { Login } from '../../data-layer/login/login.entity';
 
 /**
  * Authorize alert sends the otp code to the

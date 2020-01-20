@@ -2,11 +2,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { OTPValidationError } from '@ulmax/server-shared';
 import { plainToClass } from 'class-transformer';
-import { SecurityKeys } from '../controllers/typecast';
-import { Authorization } from '../models/author.entity';
-import { Login } from '../models/login.entity';
-import { AuthorService } from './author.service';
-import { LoginService } from './login.service';
+import { Authorization } from '../../data-layer/author/author.entity';
+import { AuthorService } from '../../data-layer/author/author.service';
+import { Login } from '../../data-layer/login/login.entity';
+import { LoginService } from '../../data-layer/login/login.service';
+import { SecurityKeys } from '../authorizer/typecast';
 import { ValidateAuthorizedService } from './validate-author.service';
 
 describe('ValidateAuthorizedService', () => {

@@ -1,12 +1,12 @@
-import { Test } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
-import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
-import { AuthorService } from './author.service';
-import { LoginService } from './login.service';
+import { Test } from '@nestjs/testing';
+import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { AuthorService } from '../../data-layer/author/author.service';
+import { Login } from '../../data-layer/login/login.entity';
+import { LoginService } from '../../data-layer/login/login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
-import { Authorization, AccessLevel } from '../models/author.entity';
-import { Login } from '../models/login.entity';
-import { AuthorizeResponse } from '../controllers/typecast';
+import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
+import { AuthorizeResponse } from './typecast';
 
 describe('AuthorizeReqController', () => {
   let authorReqSvc: AuthorizeRequestService;

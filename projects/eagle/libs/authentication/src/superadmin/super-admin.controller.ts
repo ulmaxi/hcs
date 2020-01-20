@@ -1,9 +1,9 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
-import { Authorization } from '../models/author.entity';
+import { AuthorizeRequest } from '../authorization/authorizer/typecast';
+import { Authorization } from '../data-layer/author/author.entity';
 import { Authorized } from '../pipes/auth.decorator';
-import { SuperAdminAuthorizeService } from '../services/super-admin.service';
-import { AuthorizeRequest } from './typecast';
+import { SuperAdminAuthorizeService } from './super-admin.service';
 
 /**
  * Responsible for authenticating and creating super admins

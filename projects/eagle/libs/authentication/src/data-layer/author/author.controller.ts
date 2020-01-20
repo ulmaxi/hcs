@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
-import { Crud } from '@nestjsx/crud';
-import { Authorization } from '../models/author.entity';
-import { AuthorService } from '../services/author.service';
 import { ApiUseTags } from '@nestjs/swagger';
+import { Crud } from '@nestjsx/crud';
+import { Authorization } from './author.entity';
+import { AuthorService } from './author.service';
 
 @Crud({
   model: {

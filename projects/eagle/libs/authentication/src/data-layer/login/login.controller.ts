@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
-import { LoginService } from '../services/login.service';
-import { Crud } from '@nestjsx/crud';
-import { Login } from '../models/login.entity';
 import { ApiUseTags } from '@nestjs/swagger';
+import { Crud } from '@nestjsx/crud';
+import { Login } from './login.entity';
+import { LoginService } from './login.service';
 
 @Crud({
   model: {

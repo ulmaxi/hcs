@@ -2,8 +2,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Test } from '@nestjs/testing';
 import { MessageEvents, microServiceToken, SendEmailEvent, SendSMSEvent } from '@ulmax/server-shared';
 import { addMinutes, format } from 'date-fns';
-import { AccessLevel, Authorization } from '../models/author.entity';
-import { Login } from '../models/login.entity';
+import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { Login } from '../../data-layer/login/login.entity';
 import { AuthorizeAlertService } from './authorize-alert.service';
 
 const authorizeBase: Partial<Authorization> = {

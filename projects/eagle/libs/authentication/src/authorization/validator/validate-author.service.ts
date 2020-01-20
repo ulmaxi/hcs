@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { OTPValidationError } from '@ulmax/server-shared';
 import { classToPlain } from 'class-transformer';
-import { SecurityKeys, ValidateAuthorizationReq } from '../controllers/typecast';
-import { Authorization } from '../models/author.entity';
-import { AuthorService } from './author.service';
-import { LoginService } from './login.service';
+import { Authorization } from '../../data-layer/author/author.entity';
+import { AuthorService } from '../../data-layer/author/author.service';
+import { LoginService } from '../../data-layer/login/login.service';
+import { SecurityKeys, ValidateAuthorizationReq } from '../authorizer/typecast';
 
 /**
  * validates the authorized otp and the Authorization details

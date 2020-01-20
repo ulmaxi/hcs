@@ -2,9 +2,9 @@ import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedEx
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 import { AuthenticationMessage } from '@ulmax/server-shared';
-import { AccessLevel } from '../models/author.entity';
-import { AuthorizeRequestService } from '../services/authorize-req.service';
-import { ValidateAuthorizedService } from '../services/validate-author.service';
+import { AccessLevel } from '../../data-layer/author/author.entity';
+import { ValidateAuthorizedService } from '../validator/validate-author.service';
+import { AuthorizeRequestService } from './authorize-req.service';
 import { AuthorizedEntity, AuthorizeRequest, KeyVerfication, ValidateAuthorizationReq } from './typecast';
 
 export const authenticateValidateError = new BadRequestException(
@@ -50,8 +50,19 @@ export class AuthenticationController {
   @ApiOkResponse({
     description: `Successfull authorization details of the client`,
   })
-  @Post('client')
+  @Post('client/login')
   async authorize(@Body() loginReq: AuthorizeRequest) {
+    return await this.authorizer.authorize({
+      ...loginReq,
+      accessLevel: AccessLevel.Users,
+    }, false);
+  }
+
+  @ApiOkResponse({
+    description: `Successfull authorization details of the client`,
+  })
+  @Post('client/signup')
+  async registerUser(@Body() loginReq: AuthorizeRequest) {
     return await this.authorizer.authorize({
       ...loginReq,
       accessLevel: AccessLevel.Users,

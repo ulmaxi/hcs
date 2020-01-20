@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Authorization } from '../models/author.entity';
 import { Repository } from 'typeorm';
+import { Authorization } from './author.entity';
 
 /**
  * CRUD service for Authorization model

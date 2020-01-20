@@ -4,14 +4,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { microServiceToken } from '@ulmax/server-shared';
-import { AuthenticationController } from './controllers/authentication.controller';
-import { Authorization } from './models/author.entity';
-import { Login } from './models/login.entity';
-import { AuthorService } from './services/author.service';
-import { AuthorizeAlertService } from './services/authorize-alert.service';
-import { AuthorizeRequestService } from './services/authorize-req.service';
-import { LoginService } from './services/login.service';
-import { ValidateAuthorizedService } from './services/validate-author.service';
+import { AuthenticationController } from './authorization/authorizer/authentication.controller';
+import { AuthorizeAlertService } from './authorization/authorizer/authorize-alert.service';
+import { AuthorizeRequestService } from './authorization/authorizer/authorize-req.service';
+import { ValidateAuthorizedService } from './authorization/validator/validate-author.service';
+import { Authorization } from './data-layer/author/author.entity';
+import { AuthorService } from './data-layer/author/author.service';
+import { Login } from './data-layer/login/login.entity';
+import { LoginService } from './data-layer/login/login.service';
 
 // key settings for jwt token
 const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;

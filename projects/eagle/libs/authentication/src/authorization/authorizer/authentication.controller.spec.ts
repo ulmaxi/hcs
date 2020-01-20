@@ -1,17 +1,9 @@
 import { Test } from '@nestjs/testing';
-import {
-  AuthenticationController,
-  keyVerificationError,
-} from './authentication.controller';
-import { AuthorizeRequestService } from '../services/authorize-req.service';
-import { ValidateAuthorizedService } from '../services/validate-author.service';
-import {
-  AuthorizeRequest,
-  ValidateAuthorizationReq,
-  AuthorizedEntity,
-  SecurityKeys,
-} from './typecast';
-import { Authorization, AccessLevel } from '../models/author.entity';
+import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { ValidateAuthorizedService } from '../validator/validate-author.service';
+import { AuthenticationController, keyVerificationError } from './authentication.controller';
+import { AuthorizeRequestService } from './authorize-req.service';
+import { AuthorizedEntity, AuthorizeRequest, SecurityKeys, ValidateAuthorizationReq } from './typecast';
 
 describe('AuthenticationController', () => {
   let authCtrl: AuthenticationController;
@@ -85,7 +77,20 @@ describe('AuthenticationController', () => {
       await authCtrl.authorize(req);
       const authorizedParam = req;
       authorizedParam.accessLevel = AccessLevel.Users;
-      expect(spy).toBeCalledWith(authorizedParam, true);
+      expect(spy).toBeCalledWith(authorizedParam, false);
+    });
+  });
+
+  describe('registerUser', () => {
+    it('should authorize with users accesslevel', async () => {
+      const spy = jest
+        .spyOn(authorReqSvc, 'authorize')
+        .mockResolvedValueOnce(null);
+      const req = new AuthorizeRequest();
+      req.accessLevel = AccessLevel.SuperAdmin;
+      req.identification = 'example@test.com';
+      await authCtrl.registerUser(req);
+      expect(spy).toHaveBeenCalledWith([{ ...req, accessLevel: AccessLevel.Users }, true]);
     });
   });
 

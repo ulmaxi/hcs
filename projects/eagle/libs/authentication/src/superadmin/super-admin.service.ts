@@ -1,8 +1,8 @@
-import { AuthorService } from './author.service';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { Authorization, AccessLevel } from '../models/author.entity';
-import { AuthorizeRequest } from '../controllers/typecast';
+import { AuthorizeRequest } from '../authorization/authorizer/typecast';
+import { AccessLevel, Authorization } from '../data-layer/author/author.entity';
+import { AuthorService } from '../data-layer/author/author.service';
 
 const { SuperAdmin } = AccessLevel;
 
@@ -12,7 +12,7 @@ const { SuperAdmin } = AccessLevel;
 @Injectable()
 export class SuperAdminAuthorizeService {
   constructor(
-    private author: AuthorService
+    private author: AuthorService,
   ) { }
 
   /**

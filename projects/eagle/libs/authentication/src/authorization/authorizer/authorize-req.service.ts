@@ -2,12 +2,12 @@ import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@n
 import { generateOtp } from '@ulmax/server-shared';
 import { addMinutes, format } from 'date-fns';
 import { v4 } from 'uuid';
-import { AuthorizeRequest, AuthorizeResponse } from '../controllers/typecast';
-import { AccessLevel, Authorization } from '../models/author.entity';
-import { Login } from '../models/login.entity';
-import { AuthorService } from './author.service';
+import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { AuthorService } from '../../data-layer/author/author.service';
+import { Login } from '../../data-layer/login/login.entity';
+import { LoginService } from '../../data-layer/login/login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
-import { LoginService } from './login.service';
+import { AuthorizeRequest, AuthorizeResponse } from './typecast';
 
 const { Institution, SuperAdmin, Users } = AccessLevel;
 
@@ -107,7 +107,6 @@ export class AuthorizeRequestService {
   otpExpires(access: AccessLevel) {
     return access < Institution ? 3 : 10;
   }
-
 
 }
 
