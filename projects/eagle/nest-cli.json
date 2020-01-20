@@ -50,6 +50,10 @@
     "lota": {
       "root": "libs/lota",
       "sourceRoot": "libs/lota/src"
+    },
+    "cardnode": {
+      "root": "libs/cardnode",
+      "sourceRoot": "libs/cardnode/src"
     }
   },
   "compilerOptions": {

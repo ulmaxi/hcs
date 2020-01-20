@@ -82,6 +82,12 @@
       ],
       "@ulmax/lota/*": [
         "libs/lota/src/*"
+      ],
+      "@ulmax/cardnode": [
+        "libs/cardnode/src"
+      ],
+      "@ulmax/cardnode/*": [
+        "libs/cardnode/src/*"
       ]
     }
   },
