@@ -1,13 +1,13 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsBoolean, IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 /**
  * the data structure for patient admission
  */
 @Entity()
-export class Admission extends BaseModel {
+export class Admission implements BaseModel {
     /**
      * the uniqueID for each admission
      */
@@ -47,4 +47,10 @@ export class Admission extends BaseModel {
     @Column('boolean')
     @ApiModelProperty()
     isDischarged: boolean;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

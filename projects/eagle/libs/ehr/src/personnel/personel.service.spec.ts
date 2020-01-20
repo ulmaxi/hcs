@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { microServiceToken } from '@eagle/server-shared';
 import { ClientProxy } from '@nestjs/microservices';
-import { PersonnelService, noStaffWithPhoneNoError, noPersonnelError } from './personel.service';
-import { StaffService } from '../data-layer/staff/staff.service';
-import { staffFactory, serviceFactoryMock } from '@eagle/testing';
+import { Test, TestingModule } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { serviceFactoryMock, staffFactory } from '@ulmax/testing';
 import { of } from 'rxjs';
+import { StaffService } from '../data-layer/staff/staff.service';
+import { noPersonnelError, noStaffWithPhoneNoError, PersonnelService } from './personel.service';
 
 describe('PersonnelService', () => {
     let svc: PersonnelService;

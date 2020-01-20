@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PostService } from './posts.service';
-import { CommentService } from './comment.service';
-import { Post } from '../models/posts.entity';
-import { Comment } from '../models/comment.entity';
-import { FindQueryParams, FindResponse } from '@eagle/server-shared';
+import { FindQueryParams, FindResponse } from '@ulmax/server-shared';
 import { FindManyOptions } from 'typeorm';
+import { Comment } from '../models/comment.entity';
+import { Post } from '../models/posts.entity';
+import { CommentService } from './comment.service';
+import { PostService } from './posts.service';
 
 const DefaultQueryParams = FindQueryParams.fromJson({
   limit: 10,

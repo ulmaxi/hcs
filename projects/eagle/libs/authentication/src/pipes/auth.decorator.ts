@@ -2,11 +2,7 @@ import { createParamDecorator, UnauthorizedException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { Request } from 'express';
 import { KeyVerification } from '../controllers/typecast';
-
-export enum AuthHeaderKeys {
-  JWT = 'ULMAX_MPI_JWT_KEY'.toLowerCase() as any,
-  APIKEY = 'ULMAX_MPI_APIKEY_KEY'.toLowerCase() as any,
-}
+import { AuthHeaderKeys } from './constants';
 
 /* istanbul ignore next */
 /**

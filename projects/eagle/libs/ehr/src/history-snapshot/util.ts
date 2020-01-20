@@ -1,6 +1,6 @@
 // tslint:disable: max-classes-per-file
-import { BaseModel, List } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel, List } from '@ulmax/server-shared';
 import { Admission } from '../data-layer/admission/admission.entity';
 import { Consultation } from '../data-layer/consultation/consultation.entity';
 import { Institution } from '../data-layer/institution/institution.entity';

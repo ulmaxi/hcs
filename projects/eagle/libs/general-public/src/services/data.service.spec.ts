@@ -1,7 +1,7 @@
-import { microServiceToken } from '@eagle/server-shared';
-import { emergencyFactory, institutionFactory } from '@eagle/testing';
 import { ClientProxy } from '@nestjs/microservices';
 import { Test, TestingModule } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { emergencyFactory, institutionFactory } from '@ulmax/testing';
 import { omit } from 'lodash';
 import { of } from 'rxjs';
 import { Emergency } from '../models/emergency.entity';

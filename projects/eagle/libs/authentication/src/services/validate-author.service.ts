@@ -1,11 +1,11 @@
-import { AuthorService } from './author.service';
-import { LoginService } from './login.service';
-import { Authorization } from '../models/author.entity';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { OTPValidationError } from '@ulmax/server-shared';
 import { classToPlain } from 'class-transformer';
-import { OTPValidationError } from '@eagle/server-shared';
-import { ValidateAuthorizationReq, SecurityKeys } from '../controllers/typecast';
+import { SecurityKeys, ValidateAuthorizationReq } from '../controllers/typecast';
+import { Authorization } from '../models/author.entity';
+import { AuthorService } from './author.service';
+import { LoginService } from './login.service';
 
 /**
  * validates the authorized otp and the Authorization details

@@ -1,8 +1,8 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { microServiceToken } from '@eagle/server-shared';
+import { Authorization } from '@ulmax/authentication';
+import { microServiceToken } from '@ulmax/server-shared';
 import { StaffService } from '../data-layer/staff/staff.service';
-import { Authorization } from '@eagle/authentication';
 
 @Injectable()
 export class PersonnelService {

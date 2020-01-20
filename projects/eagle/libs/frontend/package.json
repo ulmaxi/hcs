@@ -1,0 +1,11 @@
+{
+  "name": "@ulmax/frontend",
+  "version": "0.0.1",
+  "main": "dist/frontend/src/index.js",
+  "typings": "dist/frontend/src/index.d.ts",
+  "module": "dist/frontend/src/index.js",
+  "peerDependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0"
+  }
+}

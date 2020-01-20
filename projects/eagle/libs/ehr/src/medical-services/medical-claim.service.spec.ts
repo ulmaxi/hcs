@@ -1,6 +1,6 @@
 // tslint:disable: no-empty
-import { admissionFactory, consultationFactory, labTestFactory, prescriptionFactory, reviewFactory } from '@eagle/testing';
 import { Test, TestingModule } from '@nestjs/testing';
+import { admissionFactory, consultationFactory, labTestFactory, prescriptionFactory, reviewFactory } from '@ulmax/testing';
 import { PersonnelService } from '../personnel/personel.service';
 import { MedicalCarePlan, TrackedMedicalCarePlan } from '../util';
 import { ClaimUploadStore } from './claim-upload-store';

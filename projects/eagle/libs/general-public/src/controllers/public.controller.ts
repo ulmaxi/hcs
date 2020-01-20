@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
-import { PublicDataService } from '../services/data.service';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Institution } from '@ulmax/ehr';
 import { Emergency } from '../models/emergency.entity';
-import { Institution } from '@eagle/ehr';
+import { PublicDataService } from '../services/data.service';
 
 @Controller('public')
 export class PublicAccessController {

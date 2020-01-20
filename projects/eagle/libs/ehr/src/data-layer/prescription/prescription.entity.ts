@@ -1,13 +1,13 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 /**
  * the prescription structural representation
  */
 @Entity()
-export class Prescription extends BaseModel {
+export class Prescription implements BaseModel {
     /**
      * the unique id store for each prescription
      * which is stored in the consulations prescriptions list.
@@ -39,4 +39,10 @@ export class Prescription extends BaseModel {
     @ApiModelProperty()
     @Column()
     time: string;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

@@ -1,4 +1,4 @@
-import { ehr_data_preload } from '@eagle/testing';
+import { ehr_data_preload } from '@ulmax/testing';
 import { FieldProcessorOperator } from '../subfields/field-processor';
 import { FilterOptions, MiniConsultantDetails } from '../util';
 import { HistoryGraphSnapshot, SubFieldMap } from './history-graph-snapshot';

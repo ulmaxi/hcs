@@ -1,10 +1,10 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Emergency extends BaseModel {
+export class Emergency implements BaseModel {
 
     /**
      * primary uniqueId for each emergency case
@@ -52,4 +52,10 @@ export class Emergency extends BaseModel {
     @IsDefined()
     @ApiModelProperty()
     hospital: string;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

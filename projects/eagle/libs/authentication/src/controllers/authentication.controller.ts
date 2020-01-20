@@ -1,7 +1,7 @@
-import { AuthenticationMessage } from '@eagle/server-shared';
 import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedException } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { AuthenticationMessage } from '@ulmax/server-shared';
 import { AccessLevel } from '../models/author.entity';
 import { AuthorizeRequestService } from '../services/authorize-req.service';
 import { ValidateAuthorizedService } from '../services/validate-author.service';

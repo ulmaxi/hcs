@@ -1,6 +1,6 @@
-import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microServiceToken } from '@ulmax/server-shared';
 import { EHRDataServiceModule } from '../data-layer/ehr-data.module';
 import { ConsultationShapshotService } from './consultation-snapshot.service';
 import { FieldSnaphotService } from './subfields/fields-snapshot.service';

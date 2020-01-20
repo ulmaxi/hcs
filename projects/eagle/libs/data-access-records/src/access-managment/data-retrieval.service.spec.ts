@@ -1,7 +1,7 @@
-import { Test } from '@nestjs/testing';
-import { DataRetrievalService } from './data-retrieval.service';
-import { microServiceToken } from '@eagle/server-shared';
 import { ClientProxy } from '@nestjs/microservices';
+import { Test } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { DataRetrievalService } from './data-retrieval.service';
 
 const clientMock = {
   send: jest.fn,

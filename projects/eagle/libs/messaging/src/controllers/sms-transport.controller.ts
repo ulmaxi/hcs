@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
-import { SendSMSEvent, MessageEvents } from '@eagle/server-shared';
 import { EventPattern } from '@nestjs/microservices';
+import { MessageEvents, SendSMSEvent } from '@ulmax/server-shared';
 
 /**
  * TODO: 

@@ -1,20 +1,12 @@
-import { TestingModule, Test } from '@nestjs/testing';
-import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { admissionFactory, consultationFactory, labTestFactory, prescriptionFactory, reviewFactory, serviceFactoryMock, staffFactory } from '@ulmax/testing';
 import { AdmissionService } from '../data-layer/admission/admission.service';
-import {
-    serviceFactoryMock,
-    admissionFactory,
-    labTestFactory,
-    prescriptionFactory,
-    reviewFactory,
-    staffFactory,
-    consultationFactory,
-} from '@eagle/testing';
+import { ConsultationService } from '../data-layer/consultation/consultation.service';
 import { LabTestService } from '../data-layer/labtest/labtest.service';
 import { PrescriptionService } from '../data-layer/prescription/prescription.service';
 import { ReviewService } from '../data-layer/review/review.service';
 import { StaffService } from '../data-layer/staff/staff.service';
-import { ConsultationService } from '../data-layer/consultation/consultation.service';
+import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
 
 describe('RevokeMedicalClaimService', () => {
     let module: TestingModule;

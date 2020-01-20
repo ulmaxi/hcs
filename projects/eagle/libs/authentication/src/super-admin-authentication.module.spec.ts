@@ -1,6 +1,6 @@
-import { authorizationFactory } from '@eagle/testing';
 import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { authorizationFactory } from '@ulmax/testing';
 import { SuperAdminAuthorizeService } from './services/super-admin.service';
 import { SuperAdminAuthenticationModule } from './super-admin-authentication.module';
 

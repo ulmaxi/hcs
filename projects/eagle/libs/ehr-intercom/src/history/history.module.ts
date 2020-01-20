@@ -1,6 +1,6 @@
-import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microServiceToken } from '@ulmax/server-shared';
 import { HistoryController } from './history.controller';
 import { HistorySnaphotService } from './snapshot.service';
 

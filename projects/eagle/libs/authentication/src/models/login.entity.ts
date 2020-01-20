@@ -1,10 +1,10 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsNumber, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Login extends BaseModel {
+export class Login implements BaseModel {
   @ApiModelProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -23,4 +23,10 @@ export class Login extends BaseModel {
   @IsString()
   @Column()
   trackingId: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

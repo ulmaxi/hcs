@@ -42,9 +42,19 @@
     "testing": {
       "root": "libs/testing",
       "sourceRoot": "libs/testing/src"
+    },
+    "frontend": {
+      "root": "libs/frontend",
+      "sourceRoot": "libs/frontend/src"
+    },
+    "lota": {
+      "root": "libs/lota",
+      "sourceRoot": "libs/lota/src"
     }
   },
   "compilerOptions": {
-    "plugins": ["@nestjs/swagger/plugin"]
+    "plugins": [
+      "@nestjs/swagger/plugin"
+    ]
   }
 }

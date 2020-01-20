@@ -1,9 +1,9 @@
-import { BaseModel } from '@eagle/server-shared';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsNumber } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class AccessLogs extends BaseModel {
+export class AccessLogs implements BaseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,4 +23,10 @@ export class AccessLogs extends BaseModel {
   @IsDefined()
   @Column()
   institution: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

@@ -1,7 +1,7 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsOptional } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { hcsIdentifer } from './indentier.decorator';
 
 /** Access level for operations across the whole system */
@@ -16,7 +16,7 @@ export enum AccessLevel {
  * Entity for the storage of Authorization Logins
  */
 @Entity()
-export class Authorization extends BaseModel {
+export class Authorization implements BaseModel {
   @IsDefined()
   // @Column({ type: 'integer', enum: AccessLevel })
   @Column({ type: 'int' })
@@ -41,4 +41,10 @@ export class Authorization extends BaseModel {
   @ApiModelProperty()
   @PrimaryGeneratedColumn('uuid')
   trackId: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

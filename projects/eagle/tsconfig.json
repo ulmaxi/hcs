@@ -11,65 +11,77 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@eagle/server-shared": [
+      "@ulmax/server-shared": [
         "libs/server-shared/src"
       ],
-      "@eagle/server-shared/*": [
+      "@ulmax/server-shared/*": [
         "libs/server-shared/src/*"
       ],
-      "@eagle/authentication": [
+      "@ulmax/authentication": [
         "libs/authentication/src"
       ],
-      "@eagle/authentication/*": [
+      "@ulmax/authentication/*": [
         "libs/authentication/src/*"
       ],
-      "@eagle/users-admininistration": [
+      "@ulmax/users-admininistration": [
         "libs/users-admininistration/src"
       ],
-      "@eagle/users-admininistration/*": [
+      "@ulmax/users-admininistration/*": [
         "libs/users-admininistration/src/*"
       ],
-      "@eagle/data-access-records": [
+      "@ulmax/data-access-records": [
         "libs/data-access-records/src"
       ],
-      "@eagle/data-access-records/*": [
+      "@ulmax/data-access-records/*": [
         "libs/data-access-records/src/*"
       ],
-      "@eagle/messaging": [
+      "@ulmax/messaging": [
         "libs/messaging/src"
       ],
-      "@eagle/messaging/*": [
+      "@ulmax/messaging/*": [
         "libs/messaging/src/*"
       ],
-      "@eagle/sip": [
+      "@ulmax/sip": [
         "libs/sip/src"
       ],
-      "@eagle/sip/*": [
+      "@ulmax/sip/*": [
         "libs/sip/src/*"
       ],
-      "@eagle/ehr": [
+      "@ulmax/ehr": [
         "libs/ehr/src"
       ],
-      "@eagle/ehr/*": [
+      "@ulmax/ehr/*": [
         "libs/ehr/src/*"
       ],
-      "@eagle/general-public": [
+      "@ulmax/general-public": [
         "libs/general-public/src"
       ],
-      "@eagle/general-public/*": [
+      "@ulmax/general-public/*": [
         "libs/general-public/src/*"
       ],
-      "@eagle/ehr-intercom": [
+      "@ulmax/ehr-intercom": [
         "libs/ehr-intercom/src"
       ],
-      "@eagle/ehr-intercom/*": [
+      "@ulmax/ehr-intercom/*": [
         "libs/ehr-intercom/src/*"
       ],
-      "@eagle/testing": [
+      "@ulmax/testing": [
         "libs/testing/src"
       ],
-      "@eagle/testing/*": [
+      "@ulmax/testing/*": [
         "libs/testing/src/*"
+      ],
+      "@ulmax/frontend": [
+        "libs/frontend/src"
+      ],
+      "@ulmax/frontend/*": [
+        "libs/frontend/src/*"
+      ],
+      "@ulmax/lota": [
+        "libs/lota/src"
+      ],
+      "@ulmax/lota/*": [
+        "libs/lota/src/*"
       ]
     }
   },

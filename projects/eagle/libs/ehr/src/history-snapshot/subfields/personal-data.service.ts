@@ -1,8 +1,8 @@
-import { Authorization } from '@eagle/authentication';
-import { microServiceToken } from '@eagle/server-shared';
-import { PersonalBiodata } from '@eagle/users-admininistration';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { Authorization } from '@ulmax/authentication';
+import { microServiceToken } from '@ulmax/server-shared';
+import { PersonalBiodata } from '@ulmax/users-admininistration';
 import { StaffService } from '../../data-layer/staff/staff.service';
 import { MiniConsultantDetails } from '../util';
 

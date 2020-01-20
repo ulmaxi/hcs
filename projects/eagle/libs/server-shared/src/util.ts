@@ -25,7 +25,7 @@ export const OTPValidationError = new BadRequestException(
  * generates a six digit otp for the users
  */
 export function generateOtp() {
-  return new chance().integer({ max: 999999, min: 100000 });
+  return new chance().integer({ max: 99999, min: 10000 });
 }
 
 /**

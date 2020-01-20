@@ -1,9 +1,9 @@
-import { Test } from '@nestjs/testing';
-import { StaffManagmentService, staffAlreadyRegisteredError, staffNeverRegisteredError } from './staff-management.service';
 import { UnprocessableEntityException } from '@nestjs/common';
-import { PersonnelService, noStaffWithPhoneNoError } from './personel.service';
+import { Test } from '@nestjs/testing';
+import { serviceFactoryMock, staffFactory } from '@ulmax/testing';
 import { StaffService } from '../data-layer/staff/staff.service';
-import { serviceFactoryMock, staffFactory } from '@eagle/testing';
+import { noStaffWithPhoneNoError, PersonnelService } from './personel.service';
+import { staffAlreadyRegisteredError, StaffManagmentService, staffNeverRegisteredError } from './staff-management.service';
 
 describe('StaffManagmentService', () => {
     let svc: StaffManagmentService;

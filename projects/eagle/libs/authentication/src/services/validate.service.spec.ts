@@ -1,6 +1,6 @@
-import { OTPValidationError } from '@eagle/server-shared';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
+import { OTPValidationError } from '@ulmax/server-shared';
 import { plainToClass } from 'class-transformer';
 import { SecurityKeys } from '../controllers/typecast';
 import { Authorization } from '../models/author.entity';

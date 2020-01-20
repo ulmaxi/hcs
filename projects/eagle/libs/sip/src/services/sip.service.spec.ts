@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SipService, MinimalFeedProps } from './sip.service';
-import { PostService } from './posts.service';
-import { CommentService } from './comment.service';
-import { FindQueryParams, FindResponse } from '@eagle/server-shared';
+import { FindQueryParams, FindResponse } from '@ulmax/server-shared';
 import { classToPlain } from 'class-transformer';
 import { Post } from '../models/posts.entity';
+import { CommentService } from './comment.service';
+import { PostService } from './posts.service';
+import { MinimalFeedProps, SipService } from './sip.service';
 
 describe('SipService', () => {
   let service: SipService;

@@ -1,9 +1,9 @@
-import { microServiceToken } from '@eagle/server-shared';
 import { Logger, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { microServiceToken } from '@ulmax/server-shared';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { Authorization } from './models/author.entity';
 import { Login } from './models/login.entity';

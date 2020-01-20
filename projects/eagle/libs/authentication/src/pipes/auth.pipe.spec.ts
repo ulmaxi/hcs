@@ -1,6 +1,6 @@
-import { microServiceToken } from '@eagle/server-shared';
-import { authorizationFactory } from '@eagle/testing';
 import { Test } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { authorizationFactory } from '@ulmax/testing';
 import { of } from 'rxjs';
 import { AuthorizedPipe } from './auth.pipe';
 

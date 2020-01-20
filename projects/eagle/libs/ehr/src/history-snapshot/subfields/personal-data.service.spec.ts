@@ -1,6 +1,6 @@
-import { microServiceToken } from '@eagle/server-shared';
-import { ehr_data_preload } from '@eagle/testing';
 import { Test } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { ehr_data_preload } from '@ulmax/testing';
 import { of } from 'rxjs';
 import { StaffService } from '../../data-layer/staff/staff.service';
 import { MiniConsultantDetails } from '../util';

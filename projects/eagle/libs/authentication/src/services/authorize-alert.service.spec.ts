@@ -1,15 +1,10 @@
-import { Test } from '@nestjs/testing';
-import { AuthorizeAlertService } from './authorize-alert.service';
 import { ClientProxy } from '@nestjs/microservices';
-import {
-  microServiceToken,
-  MessageEvents,
-  SendSMSEvent,
-  SendEmailEvent,
-} from '@eagle/server-shared';
-import { Authorization, AccessLevel } from '../models/author.entity';
-import { Login } from '../models/login.entity';
+import { Test } from '@nestjs/testing';
+import { MessageEvents, microServiceToken, SendEmailEvent, SendSMSEvent } from '@ulmax/server-shared';
 import { addMinutes, format } from 'date-fns';
+import { AccessLevel, Authorization } from '../models/author.entity';
+import { Login } from '../models/login.entity';
+import { AuthorizeAlertService } from './authorize-alert.service';
 
 const authorizeBase: Partial<Authorization> = {
   accessLevel: AccessLevel.Staff,

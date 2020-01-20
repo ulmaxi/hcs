@@ -1,5 +1,5 @@
-import { BaseModel } from '@eagle/server-shared';
 import { Injectable } from '@nestjs/common';
+import { BaseModel } from '@ulmax/server-shared';
 import { format } from 'date-fns';
 import { Consultation } from '../data-layer/consultation/consultation.entity';
 import { ConsultationService } from '../data-layer/consultation/consultation.service';

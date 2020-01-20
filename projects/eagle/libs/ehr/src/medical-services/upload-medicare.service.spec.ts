@@ -1,25 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { admissionFactory, consultationFactory, labTestFactory, prescriptionFactory, reviewFactory, serviceFactoryMock, staffFactory } from '@ulmax/testing';
 import { AdmissionService } from '../data-layer/admission/admission.service';
+import { ConsultationService } from '../data-layer/consultation/consultation.service';
 import { LabTestService } from '../data-layer/labtest/labtest.service';
 import { PrescriptionService } from '../data-layer/prescription/prescription.service';
 import { ReviewService } from '../data-layer/review/review.service';
 import { StaffService } from '../data-layer/staff/staff.service';
-import { ConsultationService } from '../data-layer/consultation/consultation.service';
-import {
-    UploadMedicalCareService,
-    CreateAdmission,
-    CreateReview,
-    FormatTrackedPlanToConsultation,
-} from './upload-medicare.service';
-import {
-    admissionFactory,
-    labTestFactory,
-    prescriptionFactory,
-    reviewFactory,
-    staffFactory,
-    consultationFactory,
-    serviceFactoryMock,
-} from '@eagle/testing';
+import { CreateAdmission, CreateReview, FormatTrackedPlanToConsultation } from './interface';
+import { UploadMedicalCareService } from './upload-medicare.service';
 
 const mockedTrackedPlanBase: FormatTrackedPlanToConsultation = {
     consultation: consultationFactory.build(),
@@ -53,7 +41,6 @@ describe('UploadMedicalService', () => {
 
         svc = module.get<UploadMedicalCareService>(UploadMedicalCareService);
     });
-
 
     describe('createAdmission', () => {
         it('should return undefined', async () => {

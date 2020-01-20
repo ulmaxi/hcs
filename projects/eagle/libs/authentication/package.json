@@ -1,5 +1,5 @@
 {
-  "name": "@eagle/authentication",
+  "name": "@ulmax/authentication",
   "version": "0.0.1",
   "description": "Authentication library for client",
   "keywords": [

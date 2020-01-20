@@ -1,9 +1,9 @@
-import { BaseModel } from '@eagle/server-shared';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsEmail, IsOptional } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class PersonalBiodata extends BaseModel {
+export class PersonalBiodata implements BaseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,9 +24,9 @@ export class PersonalBiodata extends BaseModel {
   @Column('text')
   address: string;
 
-  @Column('float')
+  @Column('date')
   @IsDefined()
-  dob: number;
+  dob: Date;
 
   @IsDefined()
   @Column()
@@ -40,4 +40,9 @@ export class PersonalBiodata extends BaseModel {
   @Column({ length: 244 })
   trackId: string;
 
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

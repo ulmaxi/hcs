@@ -1,9 +1,9 @@
-import { BaseModel } from '@eagle/server-shared';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsOptional } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class CommunalData extends BaseModel {
+export class CommunalData implements BaseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,11 +29,11 @@ export class CommunalData extends BaseModel {
 
   @IsDefined()
   @Column({ length: 244 })
-  lgaorigin: string;
+  lga: string;
 
   @IsDefined()
   @Column({ length: 244 })
-  stateoforigin: string;
+  state: string;
 
   @IsOptional()
   @Column({ length: 244 })
@@ -41,6 +41,11 @@ export class CommunalData extends BaseModel {
 
   @IsOptional()
   @Column({ length: 244 })
-  employerAddress: string;
+  employer: string;
 
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

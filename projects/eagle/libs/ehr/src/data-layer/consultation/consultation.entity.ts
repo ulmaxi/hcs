@@ -1,13 +1,13 @@
-import { BaseModel, List } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel, List } from '@ulmax/server-shared';
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 /**
  * the datastructure to represent patient cosultation
  */
 @Entity()
-export class Consultation extends BaseModel {
+export class Consultation implements BaseModel {
   /**
    * the unique id for each consutation which must be generated.
    */
@@ -101,4 +101,10 @@ export class Consultation extends BaseModel {
   @ApiModelPropertyOptional()
   @Column()
   admissionId: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

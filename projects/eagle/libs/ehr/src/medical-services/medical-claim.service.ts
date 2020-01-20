@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { MedicalCarePlan, TrackedMedicalCarePlan } from '../util';
-import { UploadMedicalCareService } from './upload-medicare.service';
-import { ClaimUploadStore } from './claim-upload-store';
-import { awaitTo } from '@eagle/server-shared';
+import { awaitTo } from '@ulmax/server-shared';
 import * as uuid from 'uuid/v4';
-import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
 import { PersonnelService } from '../personnel/personel.service';
+import { MedicalCarePlan, TrackedMedicalCarePlan } from '../util';
+import { ClaimUploadStore } from './claim-upload-store';
+import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
+import { UploadMedicalCareService } from './upload-medicare.service';
 
 /**
  * Medical claim service responsible for saving complex

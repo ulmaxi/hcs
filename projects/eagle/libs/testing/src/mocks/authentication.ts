@@ -1,6 +1,6 @@
-import * as Factory from 'factory.ts';
+import { AccessLevel, Authorization } from '@ulmax/authentication';
 import * as Chance from 'chance';
-import { Authorization, AccessLevel } from '@eagle/authentication';
+import * as Factory from 'factory.ts';
 import * as uuid from 'uuid/v4';
 
 const chance = new Chance();

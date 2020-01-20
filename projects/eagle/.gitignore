@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+dist
 
 # Logs
 logs
@@ -34,3 +35,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 test.ts
 libs/generated
+
+demo.ts

@@ -1,8 +1,8 @@
-import { AuthorizedPipe } from '@eagle/authentication';
-import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorizedPipe } from '@ulmax/authentication';
+import { microServiceToken } from '@ulmax/server-shared';
 import { CommentController } from './controllers/comment.controller';
 import { PostContoller } from './controllers/post.controller';
 import { SipController } from './controllers/sip.controller';

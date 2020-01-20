@@ -1,13 +1,13 @@
-import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
-import { Authorization, AccessLevel } from '../models/author.entity';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { generateOtp } from '@ulmax/server-shared';
 import { addMinutes, format } from 'date-fns';
-import { AuthorService } from './author.service';
-import { LoginService } from './login.service';
-import { AuthorizeAlertService } from './authorize-alert.service';
 import { v4 } from 'uuid';
-import { Login } from '../models/login.entity';
-import { generateOtp } from '@eagle/server-shared';
 import { AuthorizeRequest, AuthorizeResponse } from '../controllers/typecast';
+import { AccessLevel, Authorization } from '../models/author.entity';
+import { Login } from '../models/login.entity';
+import { AuthorService } from './author.service';
+import { AuthorizeAlertService } from './authorize-alert.service';
+import { LoginService } from './login.service';
 
 const { Institution, SuperAdmin, Users } = AccessLevel;
 

@@ -1,5 +1,5 @@
-import { FilterOptions } from '@eagle/ehr';
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { FilterOptions } from '@ulmax/ehr';
 import { HistorySnaphotService } from './snapshot.service';
 
 export const defaultFilterOptions: FilterOptions = {

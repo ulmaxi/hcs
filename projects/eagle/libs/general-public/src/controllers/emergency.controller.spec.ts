@@ -1,4 +1,4 @@
-import { EntityTestController } from '@eagle/testing';
+import { EntityTestController } from '@ulmax/testing';
 import { EmergencyService } from '../services/emergency.service';
 import { EmergencyController } from './emergency.controller';
 
