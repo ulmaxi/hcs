@@ -6,6 +6,7 @@ import { Authorization } from '../../data-layer/author/author.entity';
 import { AuthorService } from '../../data-layer/author/author.service';
 import { LoginService } from '../../data-layer/login/login.service';
 import { SecurityKeys, ValidateAuthorizationReq } from '../authorizer/typecast';
+import { AuthorizedEventService } from './authorized-events.service';
 
 /**
  * validates the authorized otp and the Authorization details
@@ -16,20 +17,23 @@ export class ValidateAuthorizedService {
     private login: LoginService,
     private author: AuthorService,
     private jwt: JwtService,
+    private event: AuthorizedEventService,
   ) { }
 
   /**
    * validates the otp and sends the entity details
    */
-  async validate({ id, otp }: ValidateAuthorizationReq) {
+  public async validate({ id, otp, registering }: ValidateAuthorizationReq) {
     const login = await this.login.findOne({
       id,
       otp: parseInt(otp.toString(), 10),
     });
     if (login) {
-      return await this.author.findOne({
+      const author = await this.author.findOne({
         trackId: login.trackingId,
       } as Partial<Authorization>);
+      this.event.trigger(author, registering);
+      return author;
     }
     throw OTPValidationError;
   }
@@ -37,7 +41,7 @@ export class ValidateAuthorizedService {
   /**
    * generates a json web token and also sends the apikeys for appropiate
    */
-  async securedKeys(data: Authorization) {
+  public async securedKeys(data: Authorization) {
     const keys = new SecurityKeys();
     keys.apiKey = data.apiKey;
     keys.jwt = await this.jwt.signAsync(classToPlain(data));
@@ -47,7 +51,7 @@ export class ValidateAuthorizedService {
   /**
    * verifies the type of key if it's valid
    */
-  async verifyKeys(keyFormat: string, key: string) {
+  public async verifyKeys(keyFormat: string, key: string) {
     if (keyFormat.toLowerCase() === 'apikey') {
       return await this.author.findOne({ apiKey: key });
     }

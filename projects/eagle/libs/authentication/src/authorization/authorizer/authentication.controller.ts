@@ -22,17 +22,20 @@ export class AuthenticationController {
   constructor(
     private authorizer: AuthorizeRequestService,
     private validator: ValidateAuthorizedService,
-  ) { }
+  ) {}
 
   @ApiOkResponse({
     description: `Successfull created authorization details of the institution`,
   })
   @Post('institution/signup')
   async createInsitution(@Body() loginReq: AuthorizeRequest) {
-    return await this.authorizer.authorize({
-      ...loginReq,
-      accessLevel: AccessLevel.Institution,
-    }, true);
+    return await this.authorizer.authorize(
+      {
+        ...loginReq,
+        accessLevel: AccessLevel.Institution,
+      },
+      true,
+    );
   }
 
   @ApiOkResponse({
@@ -40,11 +43,17 @@ export class AuthenticationController {
   })
   @Post('institution/login')
   async authorizeInsitution(@Body() loginReq: AuthorizeRequest) {
-    const accessLevel = (loginReq.identification.indexOf('@') > 0) ? AccessLevel.Institution : AccessLevel.Staff;
-    return await this.authorizer.authorize({
-      ...loginReq,
-      accessLevel,
-    }, false);
+    const accessLevel =
+      loginReq.identification.indexOf('@') > 0
+        ? AccessLevel.Institution
+        : AccessLevel.Staff;
+    return await this.authorizer.authorize(
+      {
+        ...loginReq,
+        accessLevel,
+      },
+      false,
+    );
   }
 
   @ApiOkResponse({
@@ -52,10 +61,13 @@ export class AuthenticationController {
   })
   @Post('client/login')
   async authorize(@Body() loginReq: AuthorizeRequest) {
-    return await this.authorizer.authorize({
-      ...loginReq,
-      accessLevel: AccessLevel.Users,
-    }, false);
+    return await this.authorizer.authorize(
+      {
+        ...loginReq,
+        accessLevel: AccessLevel.Users,
+      },
+      false,
+    );
   }
 
   @ApiOkResponse({
@@ -63,10 +75,13 @@ export class AuthenticationController {
   })
   @Post('client/signup')
   async registerUser(@Body() loginReq: AuthorizeRequest) {
-    return await this.authorizer.authorize({
-      ...loginReq,
-      accessLevel: AccessLevel.Users,
-    }, true);
+    return await this.authorizer.authorize(
+      {
+        ...loginReq,
+        accessLevel: AccessLevel.Users,
+      },
+      true,
+    );
   }
 
   @ApiOkResponse({ description: `Successfull validates the otp code sent` })

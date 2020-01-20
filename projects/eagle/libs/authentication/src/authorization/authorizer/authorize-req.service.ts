@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { generateOtp } from '@ulmax/server-shared';
 import { addMinutes, format } from 'date-fns';
 import { v4 } from 'uuid';
@@ -20,33 +20,33 @@ export class AuthorizeRequestService {
     private author: AuthorService,
     private login: LoginService,
     private alert: AuthorizeAlertService,
-  ) { }
+  ) {}
 
   /**
    * authorizes the request either new or recent for send validation
    */
-  async authorize({ accessLevel, identification }: AuthorizeRequest, regiserIfNotFound = false) {
+  async authorize(
+    { accessLevel, identification }: AuthorizeRequest,
+    regiserIfNotFound = false,
+  ) {
     try {
-      const author = await this.createOrRetrieve({
-        accessLevel,
-        identification,
-      }, regiserIfNotFound);
-      if (author) {
-        return this.authorizeResponse(author);
-      }
-      throw InvalidAuthCredentialsError;
-    } catch (error) {
-      throw new HttpException(
-        (error as Error).message,
-        HttpStatus.EXPECTATION_FAILED,
+      const author = await this.createOrRetrieve(
+        {
+          accessLevel,
+          identification,
+        },
+        regiserIfNotFound,
       );
+      return this.authorizeResponse(author);
+    } catch (error) {
+      throw new UnauthorizedException((error as Error).message);
     }
   }
 
   /**
    * formats and creates a authorize response to the client requesting authorization.
    */
-  async authorizeResponse(author: Authorization) {
+  private async authorizeResponse(author: Authorization) {
     const login = await this.registerlogin(author);
     this.alert.send(author, login);
     return {
@@ -58,7 +58,10 @@ export class AuthorizeRequestService {
   /**
    * creates a new authorization or retrieves the intial one
    */
-  async createOrRetrieve({ accessLevel, identification }: AuthorizeRequest, regiserIfNotFound: boolean) {
+  private async createOrRetrieve(
+    { accessLevel, identification }: AuthorizeRequest,
+    regiserIfNotFound: boolean,
+  ) {
     let author = await this.author.findOne({ identification } as Partial<
       Authorization
     >);
@@ -67,13 +70,16 @@ export class AuthorizeRequestService {
         this.createDataRemap({ accessLevel, identification }),
       );
     }
-    return author;
+    if (author) {
+      return author;
+    }
+    throw InvalidAuthCredentialsError;
   }
 
   /**
    * maps the data to a certain format and access level
    */
-  createDataRemap({
+  private createDataRemap({
     accessLevel,
     identification,
   }: AuthorizeRequest): Partial<Authorization> {
@@ -90,7 +96,7 @@ export class AuthorizeRequestService {
   /**
    * creates a record of the login which is used for validation
    */
-  registerlogin({ trackId, accessLevel }: Authorization) {
+  private registerlogin({ trackId, accessLevel }: Authorization) {
     const login = new Login();
     login.id = v4();
     login.otp = generateOtp();
@@ -104,13 +110,14 @@ export class AuthorizeRequestService {
   /**
    * added time in minutes before otp expires
    */
-  otpExpires(access: AccessLevel) {
+  public otpExpires(access: AccessLevel) {
     return access < Institution ? 3 : 10;
   }
-
 }
 
 /**
  * error when the user authorization is not found for the user.
  */
-export const InvalidAuthCredentialsError = new UnauthorizedException('Invalid authorization credientials provided, reconfirm!');
+export const InvalidAuthCredentialsError = new UnauthorizedException(
+  'Invalid authorization credientials provided, reconfirm!',
+);

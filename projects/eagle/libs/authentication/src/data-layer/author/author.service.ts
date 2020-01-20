@@ -9,8 +9,10 @@ import { Authorization } from './author.entity';
  */
 @Injectable()
 export class AuthorService extends TypeOrmCrudService<Authorization> {
-  constructor(@InjectRepository(Authorization) public repository: Repository<Authorization>) {
+  constructor(
+    @InjectRepository(Authorization)
+    public repository: Repository<Authorization>,
+  ) {
     super(repository);
   }
-
 }

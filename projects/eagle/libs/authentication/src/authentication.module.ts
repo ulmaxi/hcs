@@ -7,6 +7,7 @@ import { microServiceToken } from '@ulmax/server-shared';
 import { AuthenticationController } from './authorization/authorizer/authentication.controller';
 import { AuthorizeAlertService } from './authorization/authorizer/authorize-alert.service';
 import { AuthorizeRequestService } from './authorization/authorizer/authorize-req.service';
+import { AuthorizedEventService } from './authorization/validator/authorized-events.service';
 import { ValidateAuthorizedService } from './authorization/validator/validate-author.service';
 import { Authorization } from './data-layer/author/author.entity';
 import { AuthorService } from './data-layer/author/author.service';
@@ -39,9 +40,10 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
     AuthorizeRequestService,
     ValidateAuthorizedService,
     Logger,
+    AuthorizedEventService,
   ],
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {
-  constructor() { }
+  constructor() {}
 }

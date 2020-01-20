@@ -1,161 +1,84 @@
-import { HttpException } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
-import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { Test, TestingModule } from '@nestjs/testing';
+import { authorizationFactory, loginFactory, RepoMock } from '@ulmax/testing';
+import { AccessLevel } from '../../data-layer/author/author.entity';
 import { AuthorService } from '../../data-layer/author/author.service';
-import { Login } from '../../data-layer/login/login.entity';
 import { LoginService } from '../../data-layer/login/login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
 import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
-import { AuthorizeResponse } from './typecast';
-
 describe('AuthorizeReqController', () => {
-  let authorReqSvc: AuthorizeRequestService;
-  let authSvc: AuthorService;
-  let loginSvc: LoginService;
-  let alertSvc: AuthorizeAlertService;
-
-  const baseAuthor = new Authorization();
-  baseAuthor.accessLevel = AccessLevel.Users;
-  baseAuthor.identification = '0321386311';
-  baseAuthor.trackId = 'randomuniqueid';
-  const baseLogin = new Login();
-  baseLogin.expires = 137139871;
-  baseLogin.id = 'randomiloginid';
-  baseLogin.trackingId = baseAuthor.trackId;
-  baseLogin.otp = 123456;
+  let module: TestingModule;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       providers: [
         AuthorizeRequestService,
         {
           provide: AuthorService,
-          useValue: { findOne: () => { }, repository: { save: jest.fn } },
+          useValue: { findOne: () => {}, repository: new RepoMock() },
         },
-        { provide: LoginService, useValue: { repository: { save: jest.fn } } },
+        { provide: LoginService, useValue: { repository: new RepoMock() } },
         { provide: AuthorizeAlertService, useValue: { send: jest.fn } },
       ],
     }).compile();
-
-    authorReqSvc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
-    loginSvc = module.get<LoginService>(LoginService);
-    alertSvc = module.get<AuthorizeAlertService>(AuthorizeAlertService);
-    authSvc = module.get<AuthorService>(AuthorService);
   });
 
+  authorizedTest(module);
+  otpExpiresTest(module);
+});
+
+function authorizedTest(module: TestingModule) {
+  const baseAuthor = authorizationFactory.build({
+    accessLevel: AccessLevel.Users,
+    identification: '0321386311',
+  });
+  const baseLogin = loginFactory.build({
+    trackingId: baseAuthor.trackId,
+    expires: 2,
+  });
+
+  const svc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
+  const authorSvc = module.get<AuthorService>(AuthorService);
+  const loginSvc = module.get<LoginService>(LoginService);
+
   describe('authorize', () => {
-    it('should authorize the request and send the otp', async () => {
+    it('should register the author if not found', async () => {
+      jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(null);
       jest
-        .spyOn(authorReqSvc, 'createOrRetrieve')
-        .mockResolvedValue(baseAuthor);
-      const { expires, id } = baseLogin;
-      const formatSpy = jest.spyOn(authorReqSvc, 'authorizeResponse').mockResolvedValue({ expires, loginId: id });
-      const rep = await authorReqSvc.authorize(baseAuthor);
-      expect(formatSpy).toHaveBeenCalled();
-      expect(rep).toEqual({ expires, loginId: id } as AuthorizeResponse);
+        .spyOn(authorSvc.repository, 'save')
+        .mockResolvedValueOnce(baseAuthor);
+      jest.spyOn(loginSvc.repository, 'save').mockResolvedValueOnce(baseLogin);
+      const rep = await svc.authorize(baseAuthor, true);
+      expect(rep.loginId).toStrictEqual(baseLogin.id);
     });
 
-    it('should throw unauthorized execption for invalid authorization', async () => {
+    it('should throw unauthorized if user is not found', async () => {
       try {
-        jest
-          .spyOn(authorReqSvc, 'createOrRetrieve')
-          .mockResolvedValue(null);
-        const rep = await authorReqSvc.authorize(baseAuthor);
+        jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(null);
+        await svc.authorize(baseAuthor);
       } catch (error) {
         expect(error).toEqual(InvalidAuthCredentialsError);
       }
     });
 
-    it('should thrown an http execption for any error occuring', async () => {
-      try {
-        const errorMgs = `Error thrown while attempting something`;
-        jest
-          .spyOn(authorReqSvc, 'createOrRetrieve')
-          .mockRejectedValue(errorMgs);
-        await authorReqSvc.authorize(baseAuthor);
-      } catch (error) {
-        expect(error).toBeInstanceOf(HttpException);
-      }
+    it('should return the user if it exits', async () => {
+      jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(baseAuthor);
+      jest.spyOn(loginSvc.repository, 'save').mockResolvedValueOnce(baseLogin);
+      const rep = await svc.authorize(baseAuthor);
+      expect(rep.loginId).toStrictEqual(baseLogin.id);
     });
   });
+}
 
-  describe('authorizeResponse', () => {
-    it('should alert and authorize the request', async () => {
-      const { expires, id } = baseLogin;
-      jest.spyOn(authorReqSvc, 'registerlogin').mockResolvedValue(baseLogin);
-      const alertSpy = jest.spyOn(alertSvc, 'send');
-      const res = await authorReqSvc.authorizeResponse(baseAuthor);
-      expect(res).toEqual({ expires, loginId: id });
-      expect(alertSpy).toHaveBeenCalledWith(baseAuthor, baseLogin);
-    });
-  });
-
-  describe('createOrRetrieve', () => {
-    it('should return already saved one without remapping to save', async () => {
-      jest.spyOn(authSvc, 'findOne').mockResolvedValue(baseAuthor);
-      const { identification, accessLevel } = baseAuthor;
-      expect(
-        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, true),
-      ).toEqual(baseAuthor);
-    });
-
-    it('should create by remapping to save if regiserIfNotFound is true', async () => {
-      jest.spyOn(authSvc, 'findOne').mockResolvedValue(null);
-      jest.spyOn(authSvc.repository, 'save').mockResolvedValue(baseAuthor);
-      const { identification, accessLevel } = baseAuthor;
-      expect(
-        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, true),
-      ).toEqual(baseAuthor);
-    });
-
-    it('should return null if regiserIfNotFound is false', async () => {
-      jest.spyOn(authSvc, 'findOne').mockResolvedValue(null);
-      const { identification, accessLevel } = baseAuthor;
-      expect(
-        await authorReqSvc.createOrRetrieve({ identification, accessLevel }, false),
-      ).toEqual(null);
-    });
-  });
-
-  describe('createDataRemap', () => {
-    it('should remap access level if its missing', () => {
-      const newAuthor = authorReqSvc.createDataRemap({
-        accessLevel: undefined,
-        identification: 'random',
-      });
-      expect(newAuthor.accessLevel).toEqual(AccessLevel.Users);
-      expect(newAuthor).toBeInstanceOf(Authorization);
-    });
-    it('should remap access level if its requested as a superadmin', () => {
-      const newAuthor = authorReqSvc.createDataRemap({
-        accessLevel: AccessLevel.SuperAdmin,
-        identification: 'random',
-      });
-      expect(newAuthor).toBeInstanceOf(Authorization);
-      expect(newAuthor.accessLevel).toEqual(AccessLevel.Users);
-    });
-  });
-
-  describe('registerlogin', () => {
-    it('should save a generated login into the database', async () => {
-      const saveSpy = jest
-        .spyOn(loginSvc.repository, 'save')
-        .mockImplementation(async login => (await login) as Login);
-      const login = await authorReqSvc.registerlogin(baseAuthor);
-      expect(saveSpy).toHaveBeenCalled();
-      expect(login.trackingId).toEqual(baseAuthor.trackId);
-      expect(typeof login.expires).toEqual('number');
-    });
-  });
-
+function otpExpiresTest(module: TestingModule) {
+  const svc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
   describe('otpExpires', () => {
     it('should return 3 for users and staffs', () => {
-      expect(authorReqSvc.otpExpires(AccessLevel.Users)).toEqual(3);
-      expect(authorReqSvc.otpExpires(AccessLevel.Staff)).toEqual(3);
+      expect(svc.otpExpires(AccessLevel.Users)).toEqual(3);
+      expect(svc.otpExpires(AccessLevel.Staff)).toEqual(3);
     });
     it('should return 10 for instutions and super users', () => {
-      expect(authorReqSvc.otpExpires(AccessLevel.Institution)).toEqual(10);
-      expect(authorReqSvc.otpExpires(AccessLevel.SuperAdmin)).toEqual(10);
+      expect(svc.otpExpires(AccessLevel.Institution)).toEqual(10);
+      expect(svc.otpExpires(AccessLevel.SuperAdmin)).toEqual(10);
     });
   });
-});
+}

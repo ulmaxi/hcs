@@ -12,9 +12,13 @@ import { AuthHeaderKeys } from './constants';
  */
 export const Authorized = createParamDecorator((data, { headers }: Request) => {
   const { APIKEY, JWT } = AuthHeaderKeys;
-  const format: string = headers[APIKEY] ? APIKEY : headers[JWT] ? JWT : null as any;
+  const format: string = headers[APIKEY]
+    ? APIKEY
+    : headers[JWT]
+    ? JWT
+    : (null as any);
   if (format) {
-    return  plainToClass(KeyVerification, {
+    return plainToClass(KeyVerification, {
       format,
       key: headers[format] as string,
     });

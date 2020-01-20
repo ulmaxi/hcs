@@ -12,12 +12,17 @@ describe('Controller', () => {
     const module = await Test.createTestingModule({
       controllers: [SuperAdminAuthorizationController],
       providers: [
-        { provide: SuperAdminAuthorizeService, useValue: { signupAdmin: jest.fn().mockResolvedValue(null)  } },
+        {
+          provide: SuperAdminAuthorizeService,
+          useValue: { signupAdmin: jest.fn().mockResolvedValue(null) },
+        },
       ],
     }).compile();
 
     svc = module.get<SuperAdminAuthorizeService>(SuperAdminAuthorizeService);
-    ctrl = module.get<SuperAdminAuthorizationController>(SuperAdminAuthorizationController);
+    ctrl = module.get<SuperAdminAuthorizationController>(
+      SuperAdminAuthorizationController,
+    );
   });
 
   describe('createAdmin', () => {

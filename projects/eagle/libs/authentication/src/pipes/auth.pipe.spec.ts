@@ -25,8 +25,8 @@ describe('AuthorizedPipe', () => {
   });
 
   it('should return the authorization', async () => {
-    expect(await svc.transform({} as any, {} as any))
-      .toStrictEqual(authorization);
+    expect(await svc.transform({} as any, {} as any)).toStrictEqual(
+      authorization,
+    );
   });
-
 });

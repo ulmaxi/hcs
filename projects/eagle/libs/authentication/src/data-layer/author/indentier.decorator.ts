@@ -1,9 +1,4 @@
-import {
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
-  registerDecorator,
-  Validator,
-} from 'class-validator';
+import { registerDecorator, Validator, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 
 /**
  * HcsIdentiferConstraint
@@ -13,7 +8,10 @@ import {
 export class HcsIdentiferConstraint implements ValidatorConstraintInterface {
   validate(identifer: string) {
     const validator = new Validator();
-    return validator.isMobilePhone(identifer, 'en-NG') || validator.isEmail(identifer);
+    return (
+      validator.isMobilePhone(identifer, 'en-NG') ||
+      validator.isEmail(identifer)
+    );
   }
 
   defaultMessage() {

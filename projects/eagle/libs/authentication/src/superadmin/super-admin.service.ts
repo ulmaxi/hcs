@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { AuthorizeRequest } from '../authorization/authorizer/typecast';
 import { AccessLevel, Authorization } from '../data-layer/author/author.entity';
@@ -11,17 +11,15 @@ const { SuperAdmin } = AccessLevel;
  */
 @Injectable()
 export class SuperAdminAuthorizeService {
-  constructor(
-    private author: AuthorService,
-  ) { }
+  constructor(private author: AuthorService) {}
 
   /**
    * Creates an intialadmin if none exists
    */
-  async createInitalAdmin() {
+  public async createInitalAdmin() {
     let superAdmin = await this.author.findOne({ accessLevel: SuperAdmin });
     if (!superAdmin) {
-      superAdmin = await this.createAdmin(`rootadmin@hcseagle.com`);
+      superAdmin = await this.createAdmin(`rootadmin@ulmax.tech`);
     }
     return superAdmin;
   }
@@ -29,7 +27,7 @@ export class SuperAdminAuthorizeService {
   /**
    * instantiaes and create a new super admin
    */
-  async createAdmin(identification: string) {
+  private async createAdmin(identification: string) {
     const superAdmin = new Authorization();
     superAdmin.accessLevel = SuperAdmin;
     superAdmin.apiKey = v4();
@@ -42,7 +40,7 @@ export class SuperAdminAuthorizeService {
   /**
    * singup another admin by a previously registered admin
    */
-  async signupAdmin(apiKey: string, newAdmin: AuthorizeRequest) {
+  public async signupAdmin(apiKey: string, newAdmin: AuthorizeRequest) {
     const oldAdmin = await this.author.findOne({ apiKey });
     if (oldAdmin && oldAdmin.accessLevel === SuperAdmin) {
       return await this.findOrCreateAdmin(newAdmin);
@@ -53,7 +51,7 @@ export class SuperAdminAuthorizeService {
   /**
    * finds or create an admin or update a existing entity to superAdmin
    */
-  async findOrCreateAdmin({ identification }: AuthorizeRequest) {
+  private async findOrCreateAdmin({ identification }: AuthorizeRequest) {
     let superAdmin = await this.author.findOne({ identification });
     if (!superAdmin) {
       superAdmin = await this.createAdmin(identification);
@@ -65,6 +63,6 @@ export class SuperAdminAuthorizeService {
 }
 
 /** The error thrown when the requirement to signup a new admin is not meet */
-export const SuperAdminSignupError = new Error(
+export const SuperAdminSignupError = new UnauthorizedException(
   `The requirement for admin signup is not fullfied`,
 );

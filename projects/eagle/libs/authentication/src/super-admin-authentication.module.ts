@@ -2,6 +2,7 @@ import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { microServiceToken } from '@ulmax/server-shared';
+import { AuthorizedEventService } from './authorization/validator/authorized-events.service';
 import { AuthorController } from './data-layer/author/author.controller';
 import { Authorization } from './data-layer/author/author.entity';
 import { AuthorService } from './data-layer/author/author.service';
@@ -25,7 +26,13 @@ import { SuperAdminAuthorizeService } from './superadmin/super-admin.service';
       },
     ]),
   ],
-  providers: [AuthorService, LoginService, SuperAdminAuthorizeService, Logger],
+  providers: [
+    AuthorService,
+    AuthorizedEventService,
+    LoginService,
+    SuperAdminAuthorizeService,
+    Logger,
+  ],
   controllers: [
     SuperAdminAuthorizationController,
     LoginController,
@@ -36,7 +43,7 @@ export class SuperAdminAuthenticationModule implements OnModuleInit {
   constructor(
     private admin: SuperAdminAuthorizeService,
     private logger: Logger,
-  ) {}
+  ) { }
 
   async onModuleInit() {
     const newAdmin = await this.admin.createInitalAdmin();

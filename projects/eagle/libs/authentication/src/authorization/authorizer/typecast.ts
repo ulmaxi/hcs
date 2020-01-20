@@ -17,8 +17,7 @@ export class AuthorizeRequest {
   public identification: string;
 }
 
-export class ValidateAuthorizationReq
-  implements ValidateAuthorizationReq {
+export class ValidateAuthorizationReq {
   @IsDefined()
   @ApiModelProperty({
     required: true,
@@ -32,11 +31,17 @@ export class ValidateAuthorizationReq
     description: `The OTP code sent to the user for confirmation`,
   })
   public otp: number;
+
+  @IsDefined()
+  @ApiModelProperty({
+    required: false,
+    description: `Confirms if the user is just registering`,
+  })
+  public registering: boolean = false;
 }
 
 /** The keys for security means */
 export class SecurityKeys {
-
   /** jwt for the authorized authentication which encrypts the Authorization */
   public jwt: string;
 
@@ -57,7 +62,7 @@ export class AuthorizedEntity {
   public keys = new SecurityKeys();
 }
 
-export class KeyVerfication  {
+export class KeyVerfication {
   @ApiModelProperty({
     required: true,
     enum: ['apikey', 'jwt'],
@@ -78,7 +83,6 @@ export class KeyVerfication  {
  * an to be verifed through otp or email
  */
 export class AuthorizeResponse {
-
   /** the id for login request to be matched with the otp */
   public loginId: string;
 
@@ -88,7 +92,6 @@ export class AuthorizeResponse {
 
 /** format structure of key to send for keys verification */
 export class KeyVerification {
-
   /** the format can either be JWT or APIKEY */
   public format: string;
 

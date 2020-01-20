@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as chance from 'chance';
 import { validate } from 'class-validator';
 
@@ -17,7 +17,7 @@ export const microServiceToken = 'Micro_Service_Token';
 /**
  * error throw due to otp mismatch
  */
-export const OTPValidationError = new BadRequestException(
+export const OTPValidationError = new UnauthorizedException(
   `otp validation error, recheck or resend the otp`,
 );
 
