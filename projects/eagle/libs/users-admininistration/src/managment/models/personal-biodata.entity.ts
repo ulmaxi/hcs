@@ -38,7 +38,7 @@ export class PersonalBiodata implements BaseModel {
 
   @IsDefined()
   @Column({ length: 244 })
-  trackId: string;
+  cardnode: string;
 
   @CreateDateColumn()
   createdAt?: Date;

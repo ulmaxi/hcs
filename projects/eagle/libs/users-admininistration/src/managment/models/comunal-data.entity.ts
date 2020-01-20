@@ -9,7 +9,7 @@ export class CommunalData implements BaseModel {
 
   @IsDefined()
   @Column({ length: 244 })
-  trackId: string;
+  cardnode: string;
 
   @IsDefined()
   @Column({ length: 244 })
