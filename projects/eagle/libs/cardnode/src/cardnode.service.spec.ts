@@ -1,18 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CardnodeService } from './cardnode.service';
+import { microServiceToken } from '@ulmax/server-shared';
+import { cardNodeFactory, communalBiodataFactory, personalBiodataFactory, RepoMock } from '@ulmax/testing';
+import { CardMemberService } from './cardnode.service';
+import { UlmaxCardService } from './data-layer/card/card.service';
 
-describe('CardnodeService', () => {
-  let service: CardnodeService;
+describe('CardMemberService', () => {
+  let svc: CardMemberService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CardnodeService],
+      providers: [
+        CardMemberService,
+        { provide: UlmaxCardService, useValue: { repository: new RepoMock() } },
+        { provide: microServiceToken, useValue: { send: jest.fn(), emit: jest.fn() } },
+      ],
     }).compile();
 
-    service = module.get<CardnodeService>(CardnodeService);
+    svc = module.get<CardMemberService>(CardMemberService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('addMember', () => {
+    const biodata = personalBiodataFactory.build({});
+    const communaldata = communalBiodataFactory.build({ });
+    it('should return the card for the member', async () => {
+      const card = cardNodeFactory.build({  });
+      expect(await svc.addMember(card.cardNo, { communaldata, biodata })).toStrictEqual(card);
+    });
   });
+
 });

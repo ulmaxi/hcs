@@ -1,17 +1,19 @@
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Authorization } from '@ulmax/authentication';
+import { Institution } from '@ulmax/ehr';
+import { Authorization, UlmaxCard } from '@ulmax/frontend';
 import { generateOtp, MessageEvents, microServiceToken, SendSMSEvent } from '@ulmax/server-shared';
 import { addMonths } from 'date-fns';
+import { combineLatest, of } from 'rxjs';
+import { exhaustMap, map } from 'rxjs/operators';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
 import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
-import { DataRetrievalService } from './data-retrieval.service';
 
 /**
  * Alert OTP address information interface
  */
 export interface OTPAddress {
-  clientName: string;
+  cardNo: string;
   clientPhoneNo: string;
   institutionName: string;
   institutionId: string;
@@ -32,57 +34,130 @@ export interface AlertOtp extends OTPAddress {
 export class PermissionCreatorService {
   constructor(
     private permSvc: PermissionRecordService,
-    private transport: DataRetrievalService,
-    @Inject(microServiceToken) private readonly client: ClientProxy,
-  ) { }
+    @Inject(microServiceToken) private readonly transport: ClientProxy,
+  ) {}
 
-    /**
-     * creates a new permission for a client to allow
-     * an organization to access their __own data__
-     * TODO: change instution to its appropiate data format
-     */
-  async create(institution: string, clientIdentification: string) {
-    const institutionData = await this.transport.retrieveInstitution({
-      trackId: institution,
+  /**
+   * creates a new permission for a client to allow
+   * an organization to access their __own data__
+   * TODO: change instution to its appropiate data format
+   */
+  public async create(institution: string, identification: string) {
+    const [institutionData, auth, card] = await this.retriveInParrallel(
+      institution,
+      identification,
+    ).toPromise();
+    return await this.saveAndAlertRequest(card.id, {
+      cardNo: card.cardNo,
+      clientPhoneNo: auth.identification,
+      institutionId: institution,
+      institutionName: institutionData.name,
     });
-    const clientAuth = await this.transport.retrieveAuth({
-      identification: clientIdentification,
-    });
-    const biodata = await this.retrieveBiodata(clientAuth);
-    if (institution && clientAuth && biodata) {
-      return await this.saveAndAlertRequest({
-        clientName: `${biodata.firstname} ${biodata.lastname}`,
-        clientPhoneNo: clientIdentification,
-        institutionId: institution,
-        institutionName: institutionData.name,
-      });
-    }
-    throw permissionRequestDetailError;
   }
 
   /**
+   * retrieves the client and instution details in parallel
+   */
+  private retriveInParrallel(institution: string, identification: string) {
+    // retrieve institutionData
+    const institutionData$ = this.retriveInstitution({ trackId: institution });
+    // retrieve clientAuthData
+    const authAndCard$ = this.retriveAuthorizationAndCard(identification);
+    return combineLatest(institutionData$, authAndCard$).pipe(
+      map(
+        ([instituiton, [auth, card]]) =>
+          [instituiton, auth, card] as [Institution, Authorization, UlmaxCard],
+      ),
+    );
+  }
+
+  /**
+   * retrieves the institution throw micro service
+   */
+  private retriveInstitution(query: Partial<Institution>) {
+    return this.transport
+      .send<Institution>('', query)
+      .pipe(
+        map(instituiton =>
+          this.nullThrowError(instituiton, institutionRequestError),
+        ),
+      );
+  }
+
+  /**
+   * throws error if that is invalid else returns it
+   */
+  private nullThrowError<T>(data: T, error: HttpException) {
+    if (!data) {
+      throw authRequestError;
+    }
+    return data;
+  }
+
+  /**
+   * retrieves both the authorization and card of the
+   * user.
+   */
+  private retriveAuthorizationAndCard(identification: string) {
+    // validate phoneNoHere
+    const isPhoneNo = true;
+    return isPhoneNo
+      ? this.retriveBiodatawithPhoneNo(identification)
+      : this.retriveAuthWithCardNo(identification);
+  }
+
+  /**
+   * retrieves both but used the to retrieve the card
+   */
+  private retriveBiodatawithPhoneNo(identification: string) {
+    return this.retrieveAuth({ identification }).pipe(
+      exhaustMap(auth => {
+        return combineLatest(
+          of(auth),
+          this.retrieveCardNode({ trackId: auth.trackId }),
+        );
+      }),
+    );
+  }
+
+  /**
+   * retrieves the card with the phoneNo and also the Auth info
+   */
+  private retriveAuthWithCardNo(cardNo: string) {
+    return this.retrieveCardNode({ cardNo })
+      .pipe(
+        exhaustMap(card => {
+          return combineLatest(
+            of(card),
+            this.retrieveAuth({ trackId: card.trackId }),
+          );
+        }),
+      )
+      .pipe(map(([card, auth]) => [auth, card]));
+  }
+
+  /**
+   * retrieves the auth with microservice
+   */
+  private retrieveAuth(query: Partial<Authorization>) {
+    return this.transport
+      .send<Authorization>('', query)
+      .pipe(map(auth => this.nullThrowError(auth, authRequestError)));
+  }
+  /**
    * retrieves th client biodata throws an execption if it doesn't exist
    */
-  async retrieveBiodata(clientAuth: Authorization) {
-    if (clientAuth && clientAuth.trackId) {
-      const biodata = await this.transport.retrievePersonalBiodata({
-        trackId: clientAuth.trackId,
-      });
-      if (biodata) {
-        return biodata;
-      }
-    }
-    throw permissionRequestUserError;
+  private retrieveCardNode(query: Partial<UlmaxCard>) {
+    return this.transport
+      .send<UlmaxCard>('', query)
+      .pipe(map(card => this.nullThrowError(card, cardNodeRequestError)));
   }
 
   /**
    * saves and alert the
    */
-  async saveAndAlertRequest(otpReq: OTPAddress) {
-    const perm = await this.saveNewPermission(
-      otpReq.institutionId,
-      otpReq.clientPhoneNo,
-    );
+  private async saveAndAlertRequest(cardId: string, otpReq: OTPAddress) {
+    const perm = await this.saveNewPermission(otpReq.institutionId, cardId);
     this.alertOtp({ ...otpReq, code: perm.code });
     return perm;
   }
@@ -90,18 +165,18 @@ export class PermissionCreatorService {
   /**
    * saves the newly generated service to database
    */
-  saveNewPermission(institution: string, clientIdentification: string) {
+  private saveNewPermission(institution: string, cardId: string) {
     return this.permSvc.repository.save(
-      this.generateNewPermission(institution, clientIdentification),
+      this.generateNewPermission(institution, cardId),
     );
   }
 
   /**
    * a factory function to create a new permission.
    */
-  generateNewPermission(institution: string, clientId: string) {
+  private generateNewPermission(institution: string, cardId: string) {
     const perm = new PermissionRecord();
-    perm.clientId = clientId;
+    perm.clientId = cardId;
     perm.code = generateOtp();
     perm.institution = institution;
     perm.expires = addMonths(new Date(), 3);
@@ -112,43 +187,33 @@ export class PermissionCreatorService {
    * sends the authorization code to the client to allow
    * institution to have access to their records
    */
-  alertOtp({ clientName, clientPhoneNo, code, institutionName }: AlertOtp) {
-    const message = `${clientName}, ${institutionName} is requesting access to your health records,
+  private alertOtp({ cardNo, clientPhoneNo, code, institutionName }: AlertOtp) {
+    const message = `${institutionName} is requesting access to your health card ${cardNo},
     confirm with ${code}. Thank you.`;
-    this.client.emit(
+    this.transport.emit(
       MessageEvents.SMS,
       new SendSMSEvent(clientPhoneNo, message),
     );
   }
-
-  /**
-   * authorize the institution with otp to access clientData
-   */
-  async authorize(permissionId: string, code: number) {
-    const perm = await this.permSvc.findOne({ id: permissionId, code });
-    if (perm) {
-      perm.authorized = true;
-      return await this.permSvc.repository.save(perm);
-    }
-    throw permissionRequestAuthorizationError;
-  }
 }
 
-/** error thrown when requesting permission and required datas are incomplete */
-export const permissionRequestDetailError = new BadRequestException(
-  `invalid data was sent, probably check client identification`,
+/**
+ * error throw when user doesn't exist in the system
+ */
+export const institutionRequestError = new BadRequestException(
+  `The instution with this permission doesn't exist [data-access-record]`,
 );
 
 /**
  * error throw when user doesn't exist in the system
  */
-export const permissionRequestUserError = new BadRequestException(
-  `The client requesting permission for doesn't exist on the system register first`,
+export const authRequestError = new BadRequestException(
+  `The client requesting permission for doesn't exist on the system register first [data-access-record]`,
 );
 
 /**
- * error throw when institution once to verify authorization to the system
+ * error throw when Ulmax doesn't exist in the system
  */
-export const permissionRequestAuthorizationError = new UnauthorizedException(
-  `The permission failed, probably due to incorrect otp code or trying to validate a wrong permission`,
+export const cardNodeRequestError = new BadRequestException(
+  `The ulmax card node doesn't exit [data-access-record]`,
 );

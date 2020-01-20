@@ -11,6 +11,7 @@ module.exports = {
     '^@ulmax/testing': '<rootDir>/libs/testing/src/index.ts',
     '^@ulmax/ehr': '<rootDir>/libs/ehr/src/index.ts',
     '^@ulmax/general-public': '<rootDir>/libs/general-public/src/index.ts',
+    '^@ulmax/cardnode': '<rootDir>/libs/cardnode/src/index.ts',
   },
   // until Sip module until it's plugged back in
   coveragePathIgnorePatterns: ['<rootDir>/libs/testing', '<rootDir>/libs/sip']

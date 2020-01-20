@@ -7,6 +7,9 @@ import { AuthorizeAlertService } from './authorize-alert.service';
 import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
 describe('AuthorizeReqController', () => {
   let module: TestingModule;
+  let svc: AuthorizeRequestService;
+  let authorSvc: AuthorService;
+  let loginSvc: LoginService;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
@@ -20,27 +23,20 @@ describe('AuthorizeReqController', () => {
         { provide: AuthorizeAlertService, useValue: { send: jest.fn } },
       ],
     }).compile();
+    svc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
+    authorSvc = module.get<AuthorService>(AuthorService);
+    loginSvc = module.get<LoginService>(LoginService);
   });
-
-  authorizedTest(module);
-  otpExpiresTest(module);
-});
-
-function authorizedTest(module: TestingModule) {
-  const baseAuthor = authorizationFactory.build({
-    accessLevel: AccessLevel.Users,
-    identification: '0321386311',
-  });
-  const baseLogin = loginFactory.build({
-    trackingId: baseAuthor.trackId,
-    expires: 2,
-  });
-
-  const svc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
-  const authorSvc = module.get<AuthorService>(AuthorService);
-  const loginSvc = module.get<LoginService>(LoginService);
 
   describe('authorize', () => {
+    const baseAuthor = authorizationFactory.build({
+      accessLevel: AccessLevel.Users,
+      identification: '0321386311',
+    });
+    const baseLogin = loginFactory.build({
+      trackingId: baseAuthor.trackId,
+      expires: 2,
+    });
     it('should register the author if not found', async () => {
       jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(null);
       jest
@@ -67,11 +63,8 @@ function authorizedTest(module: TestingModule) {
       expect(rep.loginId).toStrictEqual(baseLogin.id);
     });
   });
-}
 
-function otpExpiresTest(module: TestingModule) {
-  const svc = module.get<AuthorizeRequestService>(AuthorizeRequestService);
-  describe('otpExpires', () => {
+  describe('otp', () => {
     it('should return 3 for users and staffs', () => {
       expect(svc.otpExpires(AccessLevel.Users)).toEqual(3);
       expect(svc.otpExpires(AccessLevel.Staff)).toEqual(3);
@@ -81,4 +74,4 @@ function otpExpiresTest(module: TestingModule) {
       expect(svc.otpExpires(AccessLevel.SuperAdmin)).toEqual(10);
     });
   });
-}
+});

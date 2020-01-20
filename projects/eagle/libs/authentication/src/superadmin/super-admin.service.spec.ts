@@ -5,33 +5,31 @@ import { AuthorService } from '../data-layer/author/author.service';
 import { SuperAdminAuthorizeService, SuperAdminSignupError } from './super-admin.service';
 
 describe('SuperAdminAuthorizeService', () => {
-  let module: TestingModule;
+  let app: TestingModule;
+  let svc: SuperAdminAuthorizeService;
+  let authorSvc: AuthorService;
+
   const authServicMock = {
     findOne: jest.fn(),
     repository: new RepoMock(),
   };
 
   beforeEach(async () => {
-    module = await Test.createTestingModule({
+    app = await Test.createTestingModule({
       providers: [
         SuperAdminAuthorizeService,
         { provide: AuthorService, useValue: authServicMock },
       ],
     }).compile();
+    svc = app.get(SuperAdminAuthorizeService);
+    authorSvc = app.get(AuthorService);
   });
 
-  createIntialAdminTest(module);
-  signupAdminTest(module);
-});
-
-function createIntialAdminTest(module: TestingModule) {
-  const authorSvc = module.get(AuthorService);
-  const admin = authorizationFactory.build({
-    accessLevel: AccessLevel.SuperAdmin,
-    identification: 'rootadmin@ulmax.tech',
-  });
-  const svc = module.get(SuperAdminAuthorizeService);
   describe('createInitalAdmin', () => {
+    const admin = authorizationFactory.build({
+      accessLevel: AccessLevel.SuperAdmin,
+      identification: 'rootadmin@ulmax.tech',
+    });
     it('should return an older admin if it exists', async () => {
       jest.spyOn(authorSvc, 'findOne').mockResolvedValue(admin);
       expect(await svc.createInitalAdmin()).toEqual(admin);
@@ -43,34 +41,35 @@ function createIntialAdminTest(module: TestingModule) {
       expect(await svc.createInitalAdmin()).toEqual(admin);
     });
   });
-}
 
-function signupAdminTest(module: TestingModule) {
-  const authorSvc = module.get(AuthorService);
-  const oldAdmin = authorizationFactory.build({
-    accessLevel: AccessLevel.SuperAdmin,
-    identification: 'demo@ulmax.tech',
-  });
-  const newAdmin = authorizationFactory.build({
-    accessLevel: AccessLevel.SuperAdmin,
-    identification: 'rootadmin@ulmax.tech',
-  });
-  const svc = module.get(SuperAdminAuthorizeService);
   describe('signupAdmin', () => {
-    it(`should throw error if old or current admin apikey doesn't exist`, async () => {
-      jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(null);
-      expect(svc.signupAdmin(oldAdmin.apiKey, newAdmin)).rejects.toThrowError(
-        SuperAdminSignupError,
-      );
+    const oldAdmin = authorizationFactory.build({
+      accessLevel: AccessLevel.SuperAdmin,
+      identification: 'demo@ulmax.tech',
+    });
+    const newAdmin = authorizationFactory.build({
+      accessLevel: AccessLevel.SuperAdmin,
+      identification: 'rootadmin@ulmax.tech',
     });
 
-    it('should should throw error if oldAdmin is not a superadmin', () => {
+    it(`should throw error if old or current admin apikey doesn't exist`, async () => {
+      jest.spyOn(authorSvc, 'findOne').mockResolvedValueOnce(null);
+      try {
+        await svc.signupAdmin(oldAdmin.apiKey, newAdmin);
+      } catch (error) {
+        expect(error).toEqual(SuperAdminSignupError);
+      }
+    });
+
+    it('should should throw error if oldAdmin is not a superadmin', async () => {
       jest
         .spyOn(authorSvc, 'findOne')
         .mockResolvedValueOnce({ ...oldAdmin, accessLevel: AccessLevel.Users });
-      expect(svc.signupAdmin(oldAdmin.apiKey, newAdmin)).rejects.toThrowError(
-        SuperAdminSignupError,
-      );
+      try {
+        await svc.signupAdmin(oldAdmin.apiKey, newAdmin);
+      } catch (error) {
+        expect(error).toEqual(SuperAdminSignupError);
+      }
     });
 
     it('should create newAdmin', async () => {
@@ -80,4 +79,4 @@ function signupAdminTest(module: TestingModule) {
       expect(res).toEqual(newAdmin);
     });
   });
-}
+});

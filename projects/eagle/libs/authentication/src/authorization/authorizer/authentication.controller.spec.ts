@@ -90,10 +90,10 @@ describe('AuthenticationController', () => {
       req.accessLevel = AccessLevel.SuperAdmin;
       req.identification = 'example@test.com';
       await authCtrl.registerUser(req);
-      expect(spy).toHaveBeenCalledWith([
+      expect(spy).toHaveBeenCalledWith(
         { ...req, accessLevel: AccessLevel.Users },
         true,
-      ]);
+      );
     });
   });
 

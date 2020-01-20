@@ -41,10 +41,10 @@ export class PersonalDataSnaphotService {
   /**
    * retrieves the phoneNo of the person from their trackingId
    */
-  private async authorization(trackIds: string[]) {
+  private async authorization(cardNodes: string[]) {
     const map = new Map<string, string>();
     const res = await this.client
-      .send<Authorization[]>('authorization', trackIds)
+      .send<Authorization[]>('authorization', cardNodes)
       .toPromise();
     for (const author of res) {
       map.set(author.trackId, author.identification);
@@ -53,15 +53,15 @@ export class PersonalDataSnaphotService {
   }
 
   /**
-   * retrieves personal biodatas with the trackIds.
+   * retrieves personal biodatas with the cardNodes.
    */
-  private async personalBiodata(trackIds: string[]) {
+  private async personalBiodata(cardNodes: string[]) {
     const res = await this.client
-      .send<Array<PersonalBiodata & { id: string }>>('personal', trackIds)
+      .send<Array<PersonalBiodata & { id: string }>>('personal', cardNodes)
       .toPromise();
     const map = new Map<string, PersonalBiodata>();
     for (const person of res) {
-      map.set(person.trackId, person);
+      map.set(person.cardnode, person);
     }
     return map;
   }

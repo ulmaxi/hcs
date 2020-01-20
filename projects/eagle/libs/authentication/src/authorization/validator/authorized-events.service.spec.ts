@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { AuthorizedEventService } from './authorized-events.service';
 
-describe('AuthorizedEventService', () => {
+xdescribe('AuthorizedEventService', () => {
   let svc: AuthorizedEventService;
 
   beforeEach(async () => {

@@ -12,6 +12,10 @@ import { ValidateAuthorizedService } from './validate-author.service';
 
 describe('ValidateAuthorizedService', () => {
   let module: TestingModule;
+  let loginSvc: LoginService;
+  let authorSvc: AuthorService;
+  let svc: ValidateAuthorizedService;
+  let jwtSvc: JwtService;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
@@ -19,7 +23,10 @@ describe('ValidateAuthorizedService', () => {
         ValidateAuthorizedService,
         { provide: LoginService, useValue: { findOne: jest.fn } },
         { provide: AuthorService, useValue: { findOne: jest.fn } },
-        { provide: JwtService, useValue: { signAsync: jest.fn, decode: jest.fn } },
+        {
+          provide: JwtService,
+          useValue: { signAsync: jest.fn, decode: jest.fn },
+        },
         {
           provide: AuthorizedEventService,
           useValue: {
@@ -28,44 +35,45 @@ describe('ValidateAuthorizedService', () => {
         },
       ],
     }).compile();
+    loginSvc = module.get(LoginService);
+    authorSvc = module.get(AuthorService);
+    svc = module.get(ValidateAuthorizedService);
+    jwtSvc = module.get(JwtService);
   });
 
-  validateTest(module);
-  securedKeysTest(module);
-  verifyKeysTest(module);
-});
-
-function validateTest(module: TestingModule) {
-  const author = authorizationFactory.build({});
-  const login = loginFactory.build({ trackingId: author.trackId });
-  const loginSvc = module.get(LoginService);
-  const authorSvc = module.get(AuthorService);
-  const svc = module.get(ValidateAuthorizedService);
   describe('validate', () => {
+    const author = authorizationFactory.build({});
+    const login = loginFactory.build({ trackingId: author.trackId });
     it('should return author and trigger events', async () => {
       jest.spyOn(loginSvc, 'findOne').mockResolvedValue(login);
       jest.spyOn(authorSvc, 'findOne').mockResolvedValue(author);
-      const eventSpy = jest.spyOn(module.get(AuthorizedEventService), 'trigger');
-      const res = await svc.validate({ id: login.id, otp: login.otp, registering: false });
+      const eventSpy = jest.spyOn(
+        module.get(AuthorizedEventService),
+        'trigger',
+      );
+      const res = await svc.validate({
+        id: login.id,
+        otp: login.otp,
+        registering: false,
+      });
       expect(res).toEqual(author);
-      expect(eventSpy).toHaveBeenCalledWith([author, false]);
+      expect(eventSpy).toHaveBeenCalledWith(author, false);
     });
 
     it(`should throw error if login doesn't exist`, async () => {
       try {
         jest.spyOn(loginSvc, 'findOne').mockResolvedValue(null);
-        const res = await svc.validate({ id: login.id, otp: login.otp, registering: false });
+        const res = await svc.validate({
+          id: login.id,
+          otp: login.otp,
+          registering: false,
+        });
       } catch (error) {
         expect(error).toEqual(OTPValidationError);
       }
     });
   });
 
-}
-
-function securedKeysTest(module: TestingModule) {
-  const svc = module.get(ValidateAuthorizedService);
-  const jwtSvc = module.get(JwtService);
   describe('securedKeys', () => {
     it('should sign with JWT and return securedKeys', async () => {
       const author = new Authorization();
@@ -76,12 +84,7 @@ function securedKeysTest(module: TestingModule) {
       expect(await svc.securedKeys(author)).toEqual(keys);
     });
   });
-}
 
-function verifyKeysTest(module: TestingModule) {
-  const svc = module.get(ValidateAuthorizedService);
-  const jwtSvc = module.get(JwtService);
-  const authorSvc = module.get(AuthorService);
   describe('verifyKeys', () => {
     it('should retrieve the author with the apikey directly', () => {
       const authorSpy = jest.spyOn(authorSvc, 'findOne');
@@ -97,4 +100,4 @@ function verifyKeysTest(module: TestingModule) {
       expect(jwtSpy).toBeCalledWith(jwtToken);
     });
   });
-}
+});
