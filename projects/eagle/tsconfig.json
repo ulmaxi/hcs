@@ -88,6 +88,12 @@
       ],
       "@ulmax/cardnode/*": [
         "libs/cardnode/src/*"
+      ],
+      "@ulmax/microservice": [
+        "libs/microservice/src"
+      ],
+      "@ulmax/microservice/*": [
+        "libs/microservice/src/*"
       ]
     }
   },

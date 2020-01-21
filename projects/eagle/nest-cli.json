@@ -54,6 +54,10 @@
     "cardnode": {
       "root": "libs/cardnode",
       "sourceRoot": "libs/cardnode/src"
+    },
+    "microservice": {
+      "root": "libs/microservice",
+      "sourceRoot": "libs/microservice/src"
     }
   },
   "compilerOptions": {
