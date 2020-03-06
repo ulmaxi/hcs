@@ -11,12 +11,6 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@eagle/generated": [
-        "libs/generated"
-      ],
-      "@eagle/generated/*": [
-        "libs/generated/*"
-      ],
       "@eagle/server-shared": [
         "libs/server-shared/src"
       ],
@@ -52,6 +46,30 @@
       ],
       "@eagle/sip/*": [
         "libs/sip/src/*"
+      ],
+      "@eagle/ehr": [
+        "libs/ehr/src"
+      ],
+      "@eagle/ehr/*": [
+        "libs/ehr/src/*"
+      ],
+      "@eagle/general-public": [
+        "libs/general-public/src"
+      ],
+      "@eagle/general-public/*": [
+        "libs/general-public/src/*"
+      ],
+      "@eagle/ehr-intercom": [
+        "libs/ehr-intercom/src"
+      ],
+      "@eagle/ehr-intercom/*": [
+        "libs/ehr-intercom/src/*"
+      ],
+      "@eagle/testing": [
+        "libs/testing/src"
+      ],
+      "@eagle/testing/*": [
+        "libs/testing/src/*"
       ]
     }
   },

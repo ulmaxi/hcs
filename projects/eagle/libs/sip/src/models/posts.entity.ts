@@ -1,7 +1,7 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
-import { IsDefined } from 'class-validator';
 import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsDefined } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * Posts model for SIP
@@ -20,7 +20,7 @@ export class Post extends BaseModel {
    * The title for the post
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   title: string;
 
@@ -28,7 +28,7 @@ export class Post extends BaseModel {
    * A brief summary of the post
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   subtitle: string;
 
@@ -36,7 +36,7 @@ export class Post extends BaseModel {
    * The iage displayed like a billboard for the post
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   image: string;
 
@@ -44,7 +44,7 @@ export class Post extends BaseModel {
    * The post actual full text
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   text: string;
 
@@ -52,7 +52,7 @@ export class Post extends BaseModel {
    * The author's trackingId
    */
   @IsDefined()
-  @Column('varchar')
+  @Column()
   @ApiModelProperty()
   authorId: string;
 }

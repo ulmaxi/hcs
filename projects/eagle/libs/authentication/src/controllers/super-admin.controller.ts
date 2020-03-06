@@ -1,13 +1,14 @@
-import { SuperAdminAuthorizeService } from '../services/super-admin.service';
-import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common';
-import { AuthorizeRequest } from './typecast';
-import { Authorized, AuthorizedPipe } from '@eagle/server-shared';
-import { Authorization } from '../models/author.entity';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { Authorization } from '../models/author.entity';
+import { Authorized } from '../pipes/auth.decorator';
+import { SuperAdminAuthorizeService } from '../services/super-admin.service';
+import { AuthorizeRequest } from './typecast';
 
 /**
  * Responsible for authenticating and creating super admins
  */
+@ApiUseTags('auth')
 @Controller('superadmin')
 export class SuperAdminAuthorizationController {
   constructor(private adminAuth: SuperAdminAuthorizeService) {}
@@ -16,10 +17,9 @@ export class SuperAdminAuthorizationController {
    * signup and create a new user with superadmin right
    */
   @ApiOkResponse({ description: `Successfull creates other super admin` })
-  @ApiUseTags('superadmin', 'createAdmin' , 'authorization')
   @Post('create')
   @HttpCode(201)
-  @UsePipes(AuthorizedPipe)
+  // @UsePipes(AuthorizedPipe)
   createAdmin(
     @Authorized() auth: Authorization,
     @Body() body: AuthorizeRequest,

@@ -1,14 +1,13 @@
-import { Test } from '@nestjs/testing';
+import { OTPValidationError } from '@eagle/server-shared';
 import { JwtService } from '@nestjs/jwt';
-import {
-  ValidateAuthorizedService,
-} from './validate-author.service';
+import { Test } from '@nestjs/testing';
+import { plainToClass } from 'class-transformer';
+import { SecurityKeys } from '../controllers/typecast';
+import { Authorization } from '../models/author.entity';
+import { Login } from '../models/login.entity';
 import { AuthorService } from './author.service';
 import { LoginService } from './login.service';
-import { Login } from '../models/login.entity';
-import { Authorization } from '../models/author.entity';
-import { SecurityKeys } from '@eagle/generated';
-import { OTPValidationError } from '@eagle/server-shared';
+import { ValidateAuthorizedService } from './validate-author.service';
 
 describe('ValidateAuthorizedService', () => {
   let validateSvc: ValidateAuthorizedService;
@@ -61,7 +60,7 @@ describe('ValidateAuthorizedService', () => {
       const author = new Authorization();
       author.apiKey = 'randomApikey';
       const jwt = 'jwtstring';
-      const keys = new SecurityKeys({ apiKey: author.apiKey, jwt });
+      const keys = plainToClass(SecurityKeys, { apiKey: author.apiKey, jwt });
       jest.spyOn(jwtSvc, 'signAsync').mockResolvedValue(jwt);
       expect(await validateSvc.securedKeys(author)).toEqual(keys);
     });
@@ -74,7 +73,7 @@ describe('ValidateAuthorizedService', () => {
       validateSvc.verifyKeys('apikey', apiKey);
       expect(authorSpy).toBeCalledWith({ apiKey });
     });
-    
+
     it('should decode the token if the format is missing', () => {
       const jwtSpy = jest.spyOn(jwtSvc, 'decode');
       const jwtToken = 'random-apikey';

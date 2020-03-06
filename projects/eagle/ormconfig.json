@@ -1,11 +1,11 @@
 {
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5433,
-   "username": "postgres",
-   "password": "root",
-   "database": "eagle",
-   "synchronize": true,
-   "entities": ["**/*.entity{.ts,.js}"],
-   "logging": false
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "root",
+  "database": "eagle",
+  "synchronize": true,
+  "entities": ["**/*.entity{.ts,.js}"],
+  "logging": false
 }

@@ -9,9 +9,9 @@ import {
   AuthorizeRequest,
   ValidateAuthorizationReq,
   AuthorizedEntity,
+  SecurityKeys,
 } from './typecast';
-import { AccessLevel, SecurityKeys } from '@eagle/generated';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
 
 describe('AuthenticationController', () => {
   let authCtrl: AuthenticationController;
@@ -44,6 +44,21 @@ describe('AuthenticationController', () => {
     authCtrl = module.get<AuthenticationController>(AuthenticationController);
   });
 
+  describe('createInsitution', () => {
+    it('should create a new institution with the accesslevel', async () => {
+      const spy = jest
+        .spyOn(authorReqSvc, 'authorize')
+        .mockResolvedValueOnce(null);
+      const req = new AuthorizeRequest();
+      req.accessLevel = AccessLevel.Users;
+      req.identification = 'example@test.com';
+      await authCtrl.createInsitution(req);
+      const authorizedParam = req;
+      authorizedParam.accessLevel = AccessLevel.Institution;
+      expect(spy).toBeCalledWith(authorizedParam, true);
+    });
+  });
+
   describe('authorizeInsitution', () => {
     it('should authorize with institution accesslevel', async () => {
       const spy = jest
@@ -55,7 +70,7 @@ describe('AuthenticationController', () => {
       await authCtrl.authorizeInsitution(req);
       const authorizedParam = req;
       authorizedParam.accessLevel = AccessLevel.Institution;
-      expect(spy).toBeCalledWith(authorizedParam);
+      expect(spy).toBeCalledWith(authorizedParam, false);
     });
   });
 
@@ -70,7 +85,7 @@ describe('AuthenticationController', () => {
       await authCtrl.authorize(req);
       const authorizedParam = req;
       authorizedParam.accessLevel = AccessLevel.Users;
-      expect(spy).toBeCalledWith(authorizedParam);
+      expect(spy).toBeCalledWith(authorizedParam, true);
     });
   });
 
@@ -78,7 +93,9 @@ describe('AuthenticationController', () => {
     it('should return an authorized entity', async () => {
       const xptdAuthorizedEntity = new AuthorizedEntity();
       xptdAuthorizedEntity.data = new Authorization();
-      xptdAuthorizedEntity.keys = new SecurityKeys({ jwt: 'jwtbase64key' });
+      const keys = new SecurityKeys();
+      keys.jwt = 'jwtbase64key';
+      xptdAuthorizedEntity.keys = keys;
       const confirmOTP = new ValidateAuthorizationReq();
       confirmOTP.id = 'randomId';
       confirmOTP.otp = 123456;

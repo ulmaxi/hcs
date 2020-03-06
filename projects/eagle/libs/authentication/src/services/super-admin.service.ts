@@ -1,8 +1,8 @@
 import { AuthorService } from './author.service';
-import { AccessLevel, AuthorizeRequest } from '@eagle/generated';
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { Authorization } from '../models/author.entity';
+import { Authorization, AccessLevel } from '../models/author.entity';
+import { AuthorizeRequest } from '../controllers/typecast';
 
 const { SuperAdmin } = AccessLevel;
 
@@ -13,7 +13,7 @@ const { SuperAdmin } = AccessLevel;
 export class SuperAdminAuthorizeService {
   constructor(
     private author: AuthorService
-  ) {}
+  ) { }
 
   /**
    * Creates an intialadmin if none exists

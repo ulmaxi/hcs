@@ -1,27 +1,14 @@
+import { AuthenticationMessage } from '@eagle/server-shared';
+import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedException } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { AccessLevel } from '../models/author.entity';
 import { AuthorizeRequestService } from '../services/authorize-req.service';
 import { ValidateAuthorizedService } from '../services/validate-author.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Query,
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { AccessLevel } from '@eagle/generated';
-import {
-  AuthorizeRequest,
-  ValidateAuthorizationReq,
-  AuthorizedEntity,
-  KeyVerfication,
-} from './typecast';
-import { AuthenticationMessage } from '@eagle/server-shared';
-import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { AuthorizedEntity, AuthorizeRequest, KeyVerfication, ValidateAuthorizationReq } from './typecast';
 
 export const authenticateValidateError = new BadRequestException(
-  `the parameters for otp validation is missing, 
+  `the parameters for otp validation is missing,
   check your query params either to contain the otp and id sent previously`,
 );
 
@@ -29,39 +16,49 @@ export const keyVerificationError = new UnauthorizedException(`
 The key and format is unauthorize request a new key or revalidate
 `);
 
+@ApiUseTags('auth')
 @Controller('auth')
 export class AuthenticationController {
   constructor(
     private authorizer: AuthorizeRequestService,
     private validator: ValidateAuthorizedService,
-  ) {}
+  ) { }
+
+  @ApiOkResponse({
+    description: `Successfull created authorization details of the institution`,
+  })
+  @Post('institution/signup')
+  async createInsitution(@Body() loginReq: AuthorizeRequest) {
+    return await this.authorizer.authorize({
+      ...loginReq,
+      accessLevel: AccessLevel.Institution,
+    }, true);
+  }
 
   @ApiOkResponse({
     description: `Successfull authorization details of the institution`,
   })
-  @ApiUseTags('auth', 'institution', 'authorization')
-  @Post('institution')
+  @Post('institution/login')
   async authorizeInsitution(@Body() loginReq: AuthorizeRequest) {
+    const accessLevel = (loginReq.identification.indexOf('@') > 0) ? AccessLevel.Institution : AccessLevel.Staff;
     return await this.authorizer.authorize({
       ...loginReq,
-      accessLevel: AccessLevel.Institution,
-    });
+      accessLevel,
+    }, false);
   }
 
   @ApiOkResponse({
     description: `Successfull authorization details of the client`,
   })
-  @ApiUseTags('auth', 'client', 'authorization')
   @Post('client')
   async authorize(@Body() loginReq: AuthorizeRequest) {
     return await this.authorizer.authorize({
       ...loginReq,
       accessLevel: AccessLevel.Users,
-    });
+    }, true);
   }
 
   @ApiOkResponse({ description: `Successfull validates the otp code sent` })
-  @ApiUseTags('auth', 'otp', 'validate', 'authorization')
   @Get('otpvalidate')
   async validate(@Query() otpLogin: ValidateAuthorizationReq) {
     const entity = new AuthorizedEntity();
@@ -73,7 +70,6 @@ export class AuthenticationController {
   @ApiOkResponse({
     description: `Successfull verifies the key and format sent for authorization`,
   })
-  @ApiUseTags('auth', 'verify', 'authorization')
   @MessagePattern(AuthenticationMessage.validate)
   @Get('verify')
   async verify(@Query() { format, key }: KeyVerfication) {

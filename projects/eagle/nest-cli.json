@@ -26,6 +26,25 @@
     "sip": {
       "root": "libs/sip",
       "sourceRoot": "libs/sip/src"
+    },
+    "institutions": {
+      "root": "libs/institutions",
+      "sourceRoot": "libs/institutions/src"
+    },
+    "general-public": {
+      "root": "libs/general-public",
+      "sourceRoot": "libs/general-public/src"
+    },
+    "ehr-intercom": {
+      "root": "libs/ehr-intercom",
+      "sourceRoot": "libs/ehr-intercom/src"
+    },
+    "testing": {
+      "root": "libs/testing",
+      "sourceRoot": "libs/testing/src"
     }
+  },
+  "compilerOptions": {
+    "plugins": ["@nestjs/swagger/plugin"]
   }
 }
