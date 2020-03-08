@@ -1,12 +1,8 @@
 import { createParamDecorator, UnauthorizedException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { Request } from 'express';
-import { KeyVerification } from '../controllers/typecast';
-
-export enum AuthHeaderKeys {
-  JWT = 'ULMAX_MPI_JWT_KEY'.toLowerCase() as any,
-  APIKEY = 'ULMAX_MPI_APIKEY_KEY'.toLowerCase() as any,
-}
+import { KeyVerification } from '../authorization/authorizer/typecast';
+import { AuthHeaderKeys } from './constants';
 
 /* istanbul ignore next */
 /**
@@ -16,9 +12,13 @@ export enum AuthHeaderKeys {
  */
 export const Authorized = createParamDecorator((data, { headers }: Request) => {
   const { APIKEY, JWT } = AuthHeaderKeys;
-  const format: string = headers[APIKEY] ? APIKEY : headers[JWT] ? JWT : null as any;
+  const format: string = headers[APIKEY]
+    ? APIKEY
+    : headers[JWT]
+    ? JWT
+    : (null as any);
   if (format) {
-    return  plainToClass(KeyVerification, {
+    return plainToClass(KeyVerification, {
       format,
       key: headers[format] as string,
     });

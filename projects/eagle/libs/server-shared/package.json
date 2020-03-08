@@ -1,5 +1,5 @@
 {
-  "name": "@eagle/server-shared",
+  "name": "@ulmax/server-shared",
   "version": "0.0.1",
   "description": "Server side utily modules or reused cross functional components",
   "keywords": [
@@ -7,7 +7,7 @@
   ],
   "author": {
    "email": "hcsfounders@gmail.com",
-   "name": "HCS Nigeria" 
+   "name": "HCS Nigeria"
   },
   "license": "ISC",
   "main": "src/index.js",

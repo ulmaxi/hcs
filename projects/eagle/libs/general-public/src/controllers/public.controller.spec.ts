@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
-import { PublicAccessController } from './public.controller';
-import { PublicDataService } from '../services/data.service';
+import { Institution } from '@ulmax/ehr';
+import { emergencyFactory } from '@ulmax/testing';
 import { empty } from 'rxjs';
-import { emergencyFactory } from '@eagle/testing';
-import { Institution } from '@eagle/ehr';
+import { PublicDataService } from '../services/data.service';
+import { PublicAccessController } from './public.controller';
 
 describe('PublicAccessController', () => {
     let controller: PublicAccessController;

@@ -1,6 +1,6 @@
 // tslint:disable: no-empty
-import { admissionFactory, consultationFactory, labTestFactory, prescriptionFactory, reviewFactory } from '@eagle/testing';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as testing from '@ulmax/testing';
 import { PersonnelService } from '../personnel/personel.service';
 import { MedicalCarePlan, TrackedMedicalCarePlan } from '../util';
 import { ClaimUploadStore } from './claim-upload-store';
@@ -71,11 +71,11 @@ describe('MedicalClaimService', () => {
     it('should save the claim', async () => {
       const personnel = module.get<PersonnelService>(PersonnelService);
       const uploader = module.get<UploadMedicalCareService>(UploadMedicalCareService);
-      const consultation = consultationFactory.build();
-      const admission = admissionFactory.build({ consulationTrackId: consultation.trackId });
-      const labTest = labTestFactory.buildList(3);
-      const prescriptions = prescriptionFactory.buildList(3);
-      const review = reviewFactory.build({ consulationTrackId: consultation.trackId });
+      const consultation = testing.consultationFactory.build();
+      const admission = testing.admissionFactory.build({ consulationTrackId: consultation.trackId });
+      const labTest = testing.labTestFactory.buildList(3);
+      const prescriptions = testing.prescriptionFactory.buildList(3);
+      const review = testing.reviewFactory.build({ consulationTrackId: consultation.trackId });
 
       jest.spyOn(personnel, 'retriveStaffID')
         .mockResolvedValue(consultation.consultantId);

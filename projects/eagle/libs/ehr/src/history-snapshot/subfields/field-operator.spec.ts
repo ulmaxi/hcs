@@ -1,5 +1,5 @@
+import { consultationFactory } from '@ulmax/testing';
 import { filterOperator } from './field-operator';
-import { consultationFactory } from '@eagle/testing';
 
 describe('filterOperator', () => {
   it('should process all the consulations', () => {

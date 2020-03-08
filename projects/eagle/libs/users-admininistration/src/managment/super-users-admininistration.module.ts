@@ -1,8 +1,8 @@
-import { AuthorizedPipe } from '@eagle/authentication';
-import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorizedPipe } from '@ulmax/authentication';
+import { microServiceToken } from '@ulmax/server-shared';
 import { CommunalDataController } from './controllers/communal-data.controller';
 import { PersonalBiodataController } from './controllers/personal-biodata.controller';
 import { CommunalData } from './models/comunal-data.entity';

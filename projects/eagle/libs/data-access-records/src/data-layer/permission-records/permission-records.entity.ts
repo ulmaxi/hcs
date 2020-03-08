@@ -1,9 +1,9 @@
-import { BaseModel } from '@eagle/server-shared';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsBoolean, IsDefined, IsNumber } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class PermissionRecord extends BaseModel {
+export class PermissionRecord implements BaseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,4 +27,10 @@ export class PermissionRecord extends BaseModel {
   @IsDefined()
   @Column()
   clientId: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

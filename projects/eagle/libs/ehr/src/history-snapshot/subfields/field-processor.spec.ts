@@ -1,5 +1,5 @@
+import { consultationFactory } from '@ulmax/testing';
 import { FieldProcessorOperator } from './field-processor';
-import { consultationFactory } from '@eagle/testing';
 
 describe('FieldProcessorOperator', () => {
 

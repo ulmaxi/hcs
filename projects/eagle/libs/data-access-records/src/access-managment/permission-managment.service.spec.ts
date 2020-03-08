@@ -1,15 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  permssionVerificationError, PermissionManagmentService,
-} from './permission-managment.service';
-import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
-import { subMonths, addMonths } from 'date-fns';
-import {
-  microServiceToken,
-} from '@eagle/server-shared';
-import { DataRetrievalService } from './data-retrieval.service';
-import { PermissionCreatorService } from './permission-creator.service';
+import { microServiceToken } from '@ulmax/server-shared';
+import { addMonths } from 'date-fns';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
+import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
+import { PermissionCreatorService } from './permission-creator.service';
+import { PermissionManagmentService, permissionRequestAuthorizationError, permssionVerificationError } from './permission-managment.service';
 
 const mockPermSvc = {
   find: jest.fn,
@@ -33,70 +28,48 @@ const validPermssion: PermissionRecord = {
 };
 
 describe('PermissionManagmentService', () => {
-  let svc: PermissionManagmentService;
   let app: TestingModule;
+  let svc: PermissionManagmentService;
+  let permissionSvc: PermissionRecordService;
 
   beforeEach(async () => {
     app = await Test.createTestingModule({
       controllers: [],
       providers: [
         PermissionManagmentService,
-        DataRetrievalService,
         { provide: PermissionRecordService, useValue: mockPermSvc },
         { provide: PermissionCreatorService, useValue: { create: () => null } },
         { provide: microServiceToken, useValue: { emit: () => null } },
       ],
     }).compile();
-
     svc = app.get<PermissionManagmentService>(PermissionManagmentService);
+    permissionSvc = app.get<PermissionRecordService>(PermissionRecordService);
   });
 
-  describe('verify', () => {
+  describe('verifyTest', () => {
     it('should throw error if novalid permssion', async () => {
-      const permissionSvc = app.get<PermissionRecordService>(PermissionRecordService);
       try {
-        jest.spyOn(permissionSvc, 'find').mockResolvedValue([]);
+        jest.spyOn(permissionSvc, 'find').mockResolvedValueOnce([]);
         const { institution, clientId } = validPermssion;
         await svc.verify(institution, clientId);
       } catch (error) {
         expect(error).toEqual(permssionVerificationError);
       }
     });
-    
+
     it('should return valid permission if verified', async () => {
-      const permissionSvc = app.get<PermissionRecordService>(PermissionRecordService);
-      jest.spyOn(permissionSvc, 'find').mockResolvedValue([validPermssion]);
+      jest.spyOn(permissionSvc, 'find').mockResolvedValueOnce([validPermssion]);
       const { institution, clientId } = validPermssion;
-      expect(await svc.verify(institution, clientId)).toEqual(
-        validPermssion,
-      );
+      expect(await svc.verify(institution, clientId)).toEqual(validPermssion);
     });
   });
 
-  describe('filterAuthorizedPermission', () => {
-    it('should return a valid permission if among the permissions', () => {
-      expect(svc.filterAuthorizedPermission([validPermssion])).toEqual(
-        validPermssion,
-      );
-    });
-
-    it('should return null if all are invalid permission', () => {
-      const invalid1 = validPermssion;
-      invalid1.createdAt = subMonths(today, 10);
-      invalid1.expires = subMonths(today, 8);
-      const invalid2 = validPermssion;
-      invalid1.createdAt = subMonths(today, 3);
-      invalid1.expires = subMonths(today, 1);
-      expect(
-        svc.filterAuthorizedPermission([invalid1, invalid2]),
-      ).toBeUndefined();
-    });
-  });
-
-  describe('request', () => {
+  describe('requestTest', () => {
     it('should call the PermissionCreatorService.creator', async () => {
-      const creatorSvc = app.get<PermissionCreatorService>(PermissionCreatorService);
-      const spy = jest.spyOn(creatorSvc, 'create').mockReturnValue(null);
+      const creatorSvc = app.get<PermissionCreatorService>(
+        PermissionCreatorService,
+      );
+      const spy = jest.spyOn(creatorSvc, 'create').mockReturnValueOnce(null);
       const instituiton = 'institution';
       const clientId = '31533i313';
       await svc.request(instituiton, clientId);
@@ -104,4 +77,25 @@ describe('PermissionManagmentService', () => {
     });
   });
 
+  describe('authorizeTest', () => {
+    it(`should throw error if permission doesn't exist`, async () => {
+      try {
+        jest.spyOn(permissionSvc, 'findOne').mockResolvedValueOnce(null);
+        await svc.authorize(validPermssion.id, 23333);
+      } catch (error) {
+        expect(error).toEqual(permissionRequestAuthorizationError);
+      }
+    });
+
+    it('should return authorized permission', async () => {
+      const invalidPerm = validPermssion;
+      invalidPerm.authorized = false;
+      jest.spyOn(permissionSvc, 'findOne').mockResolvedValueOnce(invalidPerm);
+      jest
+        .spyOn(permissionSvc.repository, 'save')
+        .mockImplementation(arg => Promise.resolve(arg as PermissionRecord));
+      const perm = await svc.authorize(invalidPerm.id, invalidPerm.code);
+      expect(perm).toEqual(validPermssion);
+    });
+  });
 });

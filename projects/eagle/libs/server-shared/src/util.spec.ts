@@ -1,7 +1,7 @@
-import * as validator from 'class-validator';
-import * as utils from './util';
-import { ValidationError } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
+import * as validator from 'class-validator';
+import { ValidationError } from 'class-validator';
+import * as utils from './util';
 
 const { generateOtp, classValidationError, requestError } = utils;
 
@@ -9,7 +9,7 @@ describe('Utilities', () => {
   describe('generateOtp', () => {
     it('should generate a 6 digit number', () => {
       const otp = generateOtp();
-      expect(otp.toString()).toHaveLength(6);
+      expect(otp.toString()).toHaveLength(5);
     });
   });
 
@@ -21,7 +21,7 @@ describe('Utilities', () => {
 
     it('should remap the errors to a message', async () => {
       const target = {};
-      const errors: Partial<ValidationError>[] = [
+      const errors: Array<Partial<ValidationError>> = [
         {
           target,
           property: 'otp',
@@ -57,12 +57,12 @@ describe('Utilities', () => {
   });
 
   describe('awaitTo', () => {
-    it('should return a tupple of [undefined, Error]', async () => {
+    it('should return a tuple of [undefined, Error]', async () => {
       const error: Error = new Error('test_error');
       expect(await utils.awaitTo(Promise.reject(error))).toEqual([undefined, error]);
     });
 
-    it('should return a tupple of [Value, undefined]', async () => {
+    it('should return a tuple of [Value, undefined]', async () => {
       const value = 'random_value';
       expect(await utils.awaitTo(Promise.resolve(value))).toEqual([value, undefined]);
     });

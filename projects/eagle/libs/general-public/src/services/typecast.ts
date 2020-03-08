@@ -1,5 +1,5 @@
-import { Institution } from '@eagle/ehr';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { Institution } from '@ulmax/ehr';
 import { Emergency } from '../models/emergency.entity';
 
 /**

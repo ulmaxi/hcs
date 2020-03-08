@@ -1,12 +1,18 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseModel } from '@ulmax/server-shared';
+import { CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Referral extends BaseModel {
+export class Referral implements BaseModel {
 
   @PrimaryGeneratedColumn('uuid')
   @ApiModelProperty()
   id: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 
 }

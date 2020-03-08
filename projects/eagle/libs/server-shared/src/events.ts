@@ -23,7 +23,6 @@ export class SendEmailEvent {
   constructor(public readonly email: string, public readonly message: string) {}
 }
 
-
 export enum AuthenticationMessage {
-  validate = '[Authentication]__validate__key'
+  validate = '[Authentication]__validate__key',
 }

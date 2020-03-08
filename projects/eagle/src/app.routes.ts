@@ -1,10 +1,11 @@
-import { AuthenticationModule, SuperAdminAuthenticationModule } from '@eagle/authentication';
-import { DataAccessRecordsModule } from '@eagle/data-access-records';
-import { EHRDataControllerModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@eagle/ehr';
-import { EHRHistoryModule, ReferralDataLayerModule } from '@eagle/ehr-intercom';
-import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@eagle/general-public';
-import { MessagingModule } from '@eagle/messaging';
-import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@eagle/users-admininistration';
+import { AuthenticationModule, SuperAdminAuthenticationModule } from '@ulmax/authentication';
+import { CardnodeModule, UlmaxCardInternalModule } from '@ulmax/cardnode';
+import { DataAccessRecordsModule } from '@ulmax/data-access-records';
+import { EHRDataControllerModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@ulmax/ehr';
+import { EHRHistoryModule, ReferralDataLayerModule } from '@ulmax/ehr-intercom';
+import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@ulmax/general-public';
+import { MessagingModule } from '@ulmax/messaging';
+import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@ulmax/users-admininistration';
 import { Routes } from 'nest-router';
 
 export const internalRoutes: Routes = [
@@ -32,12 +33,17 @@ export const internalRoutes: Routes = [
     path: 'referral',
     module: ReferralDataLayerModule,
   },
+  {
+    path: 'cardnode',
+    module: UlmaxCardInternalModule,
+  },
 ];
 
 // { path: 'sip', module: SipModule },
 export const externalRoutes: Routes = [
   {
-    path: 'ehr', children: [
+    path: 'ehr',
+    children: [
       { path: 'medicalclaims', module: EHRMedicalClaimModule },
       { path: 'history', module: EHRHistoryModule },
       // { path: 'intercomm', module: SipModule },
@@ -45,6 +51,7 @@ export const externalRoutes: Routes = [
     ],
   },
   { path: 'generalpublic', module: GeneralPublicModule },
+  { path: 'cardnode', module: CardnodeModule },
 ];
 
 export const routes: Routes = [

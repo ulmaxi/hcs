@@ -1,5 +1,5 @@
-import { FilterOptions } from '@eagle/ehr';
 import { Test } from '@nestjs/testing';
+import { FilterOptions } from '@ulmax/ehr';
 import { HistoryController } from './history.controller';
 import { HistorySnaphotService } from './snapshot.service';
 

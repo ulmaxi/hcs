@@ -1,8 +1,8 @@
 // tslint:disable: max-classes-per-file
-import { FindManyOptions, FindConditions, ObjectLiteral } from 'typeorm';
-import { omit } from 'lodash';
-import { isArray } from 'util';
 import * as Factory from 'factory.ts';
+import { omit } from 'lodash';
+import { FindConditions, FindManyOptions, ObjectLiteral } from 'typeorm';
+import { isArray } from 'util';
 import * as uuid from 'uuid/v4';
 
 export class RepoMock<Entity> {
@@ -83,6 +83,9 @@ export class RepoMock<Entity> {
 
 }
 
+/**
+ * use for automatic provider tests
+ */
 export class TypeService<Entity> {
     public repository = new RepoMock<Entity>();
 
@@ -100,6 +103,9 @@ export interface ServiceFactoryMock<T> {
     factory: Factory.Sync.Factory<T, keyof T>;
 }
 
+/**
+ * generated a preloaded service mock
+ */
 export function serviceFactoryMock<T>(config: ServiceFactoryMock<T>) {
     const mock =  new TypeService<T>();
     if (typeof config.preload === 'number') {

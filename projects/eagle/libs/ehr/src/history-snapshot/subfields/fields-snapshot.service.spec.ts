@@ -1,5 +1,5 @@
-import { ehr_data_preload } from '@eagle/testing';
 import { Test } from '@nestjs/testing';
+import { ehr_data_preload } from '@ulmax/testing';
 import { AdmissionService } from '../../data-layer/admission/admission.service';
 import { InstitutionService } from '../../data-layer/institution/institution.service';
 import { LabTestService } from '../../data-layer/labtest/labtest.service';

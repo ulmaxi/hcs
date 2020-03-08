@@ -1,7 +1,7 @@
-import { ConsulationGraphSnaphot, Consultation, FilterOptions } from '@eagle/ehr';
-import { microServiceToken } from '@eagle/server-shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { ConsulationGraphSnaphot, Consultation, FilterOptions } from '@ulmax/ehr';
+import { microServiceToken } from '@ulmax/server-shared';
 
 @Injectable()
 export class HistorySnaphotService {

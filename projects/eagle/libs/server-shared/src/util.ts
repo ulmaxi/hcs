@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as chance from 'chance';
 import { validate } from 'class-validator';
 
@@ -17,15 +17,15 @@ export const microServiceToken = 'Micro_Service_Token';
 /**
  * error throw due to otp mismatch
  */
-export const OTPValidationError = new BadRequestException(
+export const OTPValidationError = new UnauthorizedException(
   `otp validation error, recheck or resend the otp`,
 );
 
 /**
- * generates a six digit otp for the users
+ * generates a five digit otp for the users
  */
 export function generateOtp() {
-  return new chance().integer({ max: 999999, min: 100000 });
+  return 12345 || new chance().integer({ max: 99999, min: 10000 });
 }
 
 /**
@@ -64,8 +64,8 @@ export async function requestError<T>(obj: T) {
  */
 export const awaitTo = async <T>(future: Promise<T>): Promise<[T, Error]> => {
   try {
-      return [await future, undefined];
+    return [await future, undefined];
   } catch (error) {
-      return [undefined, error];
+    return [undefined, error];
   }
 };

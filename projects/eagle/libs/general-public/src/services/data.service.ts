@@ -1,7 +1,7 @@
-import { Institution } from '@eagle/ehr';
-import { microServiceToken } from '@eagle/server-shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { Institution } from '@ulmax/ehr';
+import { microServiceToken } from '@ulmax/server-shared';
 import { plainToClass } from 'class-transformer';
 import { omit } from 'lodash';
 import { Emergency } from '../models/emergency.entity';

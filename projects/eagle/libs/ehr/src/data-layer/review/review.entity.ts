@@ -1,14 +1,14 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 /**
  * datastructure for review, which doctors do on
  * admitted patients
  */
 @Entity()
-export class Review extends BaseModel {
+export class Review implements BaseModel {
     /**
      * the uniqueId for each ward review
      */
@@ -56,4 +56,10 @@ export class Review extends BaseModel {
     @Column({  nullable: false })
     @ApiModelProperty()
     note: string;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

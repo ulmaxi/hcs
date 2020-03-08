@@ -13,7 +13,7 @@ import { AppModule } from './app.module';
 import { setupSwagger } from './swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const microservice = app.connectMicroservice({
     transport: Transport.TCP,
   });
@@ -23,7 +23,7 @@ async function bootstrap() {
   microservice.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.startAllMicroservicesAsync();
-  const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
+  const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 4000;
   await app.listen(port);
 }
 bootstrap();

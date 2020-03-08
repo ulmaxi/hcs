@@ -1,5 +1,5 @@
-import { Authorization, Authorized } from '@eagle/authentication';
 import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Authorization, Authorized } from '@ulmax/authentication';
 import { MedicalCarePlan } from '../util';
 import { MedicalClaimService } from './medical-claim.service';
 

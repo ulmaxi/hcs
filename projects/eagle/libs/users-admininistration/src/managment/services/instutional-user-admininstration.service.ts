@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionRecord } from '@eagle/data-access-records';
-import { PersonalBiodataService } from './person-biodata.service';
-import { CommunalDataService } from './communal-data.service';
-import { PersonalBiodata } from '../models/personal-biodata.entity';
+import { PermissionRecord } from '@ulmax/data-access-records';
 import { CommunalData } from '../models/comunal-data.entity';
+import { PersonalBiodata } from '../models/personal-biodata.entity';
+import { CommunalDataService } from './communal-data.service';
+import { PersonalBiodataService } from './person-biodata.service';
 
 /**
  * service responsible for retrieval and update of user information by health institutions.

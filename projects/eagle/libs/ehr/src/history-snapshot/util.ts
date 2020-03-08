@@ -1,6 +1,6 @@
 // tslint:disable: max-classes-per-file
-import { BaseModel, List } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel, List } from '@ulmax/server-shared';
 import { Admission } from '../data-layer/admission/admission.entity';
 import { Consultation } from '../data-layer/consultation/consultation.entity';
 import { Institution } from '../data-layer/institution/institution.entity';
@@ -32,7 +32,7 @@ export class MiniConsultantDetails {
   department: string;
 }
 
-export class ConsultationSnapshot extends BaseModel {
+export class ConsultationSnapshot implements BaseModel {
   /**
    * the unique id for each consutation which must be generated.
    */
@@ -95,6 +95,12 @@ export class ConsultationSnapshot extends BaseModel {
    */
   @ApiModelPropertyOptional()
   admission?: Admission;
+
+  @ApiModelPropertyOptional()
+  createdAt?: Date;
+
+  @ApiModelPropertyOptional()
+  updatedAt?: Date;
 }
 
 export class FilterOptions {

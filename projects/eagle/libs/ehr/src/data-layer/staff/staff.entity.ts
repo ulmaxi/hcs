@@ -1,11 +1,11 @@
-import { BaseModel } from '@eagle/server-shared';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { BaseModel } from '@ulmax/server-shared';
 import { Exclude } from 'class-transformer';
 import { IsDefined } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Staff extends BaseModel {
+export class Staff implements BaseModel {
 
   @PrimaryGeneratedColumn('uuid')
   @IsDefined()
@@ -41,4 +41,10 @@ export class Staff extends BaseModel {
   @ApiModelProperty({ description: `The unique id for the institution` })
   @Column({ nullable: false })
   institution: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

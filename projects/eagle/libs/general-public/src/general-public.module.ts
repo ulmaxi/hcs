@@ -1,8 +1,8 @@
 // tslint:disable: max-classes-per-file
-import { microServiceToken } from '@eagle/server-shared';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { microServiceToken } from '@ulmax/server-shared';
 import { EmergencyController } from './controllers/emergency.controller';
 import { PublicAccessController } from './controllers/public.controller';
 import { Emergency } from './models/emergency.entity';

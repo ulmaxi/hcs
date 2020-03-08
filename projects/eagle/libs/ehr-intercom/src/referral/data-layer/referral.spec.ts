@@ -1,4 +1,4 @@
-import { ControllerConfig, EntityTestController, EntityTestProvider } from '@eagle/testing';
+import { ControllerConfig, EntityTestController, EntityTestProvider } from '@ulmax/testing';
 import { ReferralController } from './referral.controller';
 import { Referral } from './referral.entity';
 import { ReferralService } from './referral.service';

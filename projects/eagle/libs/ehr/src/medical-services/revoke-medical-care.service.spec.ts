@@ -1,20 +1,12 @@
-import { TestingModule, Test } from '@nestjs/testing';
-import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import * as testing from '@ulmax/testing';
 import { AdmissionService } from '../data-layer/admission/admission.service';
-import {
-    serviceFactoryMock,
-    admissionFactory,
-    labTestFactory,
-    prescriptionFactory,
-    reviewFactory,
-    staffFactory,
-    consultationFactory,
-} from '@eagle/testing';
+import { ConsultationService } from '../data-layer/consultation/consultation.service';
 import { LabTestService } from '../data-layer/labtest/labtest.service';
 import { PrescriptionService } from '../data-layer/prescription/prescription.service';
 import { ReviewService } from '../data-layer/review/review.service';
 import { StaffService } from '../data-layer/staff/staff.service';
-import { ConsultationService } from '../data-layer/consultation/consultation.service';
+import { RevokeMedicalCarePlanService } from './revoke-medical-care.service';
 
 describe('RevokeMedicalClaimService', () => {
     let module: TestingModule;
@@ -24,12 +16,12 @@ describe('RevokeMedicalClaimService', () => {
         module = await Test.createTestingModule({
             providers: [
                 RevokeMedicalCarePlanService,
-                { provide: AdmissionService, useValue: serviceFactoryMock({ factory: admissionFactory, preload: 5 }) },
-                { provide: LabTestService, useValue: serviceFactoryMock({ factory: labTestFactory, preload: 5 }) },
-                { provide: PrescriptionService, useValue: serviceFactoryMock({ factory: prescriptionFactory, preload: 5 }) },
-                { provide: ReviewService, useValue: serviceFactoryMock({ factory: reviewFactory, preload: 5 }) },
-                { provide: StaffService, useValue: serviceFactoryMock({ factory: staffFactory, preload: 5 }) },
-                { provide: ConsultationService, useValue: serviceFactoryMock({ factory: consultationFactory, preload: 5 }) },
+                { provide: AdmissionService, useValue: testing.serviceFactoryMock({ factory: testing.admissionFactory, preload: 5 }) },
+                { provide: LabTestService, useValue: testing.serviceFactoryMock({ factory: testing.labTestFactory, preload: 5 }) },
+                { provide: PrescriptionService, useValue: testing.serviceFactoryMock({ factory: testing.prescriptionFactory, preload: 5 }) },
+                { provide: ReviewService, useValue: testing.serviceFactoryMock({ factory: testing.reviewFactory, preload: 5 }) },
+                { provide: StaffService, useValue: testing.serviceFactoryMock({ factory: testing.staffFactory, preload: 5 }) },
+                { provide: ConsultationService, useValue: testing.serviceFactoryMock({ factory: testing.consultationFactory, preload: 5 }) },
             ],
         }).compile();
 
@@ -43,7 +35,7 @@ describe('RevokeMedicalClaimService', () => {
 
         it('should return the deleted admission', async () => {
             const admission = await module.get<AdmissionService>(AdmissionService)
-                .repository.save(admissionFactory.build());
+                .repository.save(testing.admissionFactory.build());
             expect(await svc.deleteAdmission(admission.id)).toStrictEqual(admission);
         });
     });
@@ -54,7 +46,7 @@ describe('RevokeMedicalClaimService', () => {
 
         it('should return the deleted labtests', async () => {
             const saved = await Promise.all(
-                labTestFactory.buildList(5)
+                testing.labTestFactory.buildList(5)
                     .map(async (t) => await module.get<LabTestService>(LabTestService)
                         .repository.save(t)),
             );
@@ -68,7 +60,7 @@ describe('RevokeMedicalClaimService', () => {
 
         it('should return the deleted prescriptions', async () => {
             const saved = await Promise.all(
-                prescriptionFactory.buildList(5)
+                testing.prescriptionFactory.buildList(5)
                     .map(async (t) => await module.get<PrescriptionService>(PrescriptionService)
                         .repository.save(t)),
             );
@@ -81,7 +73,7 @@ describe('RevokeMedicalClaimService', () => {
         });
 
         it('should return the deleted review', async () => {
-            const review = reviewFactory.build();
+            const review = testing.reviewFactory.build();
             module.get<ReviewService>(ReviewService).repository.save(review);
             expect(await svc.deleteReview(review.id)).toStrictEqual(review);
         });
@@ -93,7 +85,7 @@ describe('RevokeMedicalClaimService', () => {
         });
 
         it('should return the deleted review', async () => {
-            const consultation = consultationFactory.build();
+            const consultation = testing.consultationFactory.build();
             module.get<ConsultationService>(ConsultationService).repository.save(consultation);
             expect(await svc.deleteConsultation(consultation.id)).toStrictEqual(consultation);
         });

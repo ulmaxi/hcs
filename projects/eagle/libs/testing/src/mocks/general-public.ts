@@ -1,7 +1,7 @@
-import * as Factory from 'factory.ts';
+import { Emergency } from '@ulmax/general-public';
 import * as Chance from 'chance';
 import { format } from 'date-fns';
-import { Emergency } from '@eagle/general-public';
+import * as Factory from 'factory.ts';
 
 const chance = new Chance();
 

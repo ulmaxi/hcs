@@ -1,7 +1,7 @@
-import { microServiceToken } from '@eagle/server-shared';
-import { consultationFactory } from '@eagle/testing';
 import { ClientProxy } from '@nestjs/microservices';
 import { Test } from '@nestjs/testing';
+import { microServiceToken } from '@ulmax/server-shared';
+import { consultationFactory } from '@ulmax/testing';
 import { of } from 'rxjs';
 import { HistorySnaphotService } from './snapshot.service';
 

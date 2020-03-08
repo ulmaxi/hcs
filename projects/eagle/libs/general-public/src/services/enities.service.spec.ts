@@ -1,4 +1,4 @@
-import { ProviderConfig, EntityTestProvider } from '@eagle/testing';
+import { EntityTestProvider, ProviderConfig } from '@ulmax/testing';
 import { Emergency } from '../models/emergency.entity';
 import { EmergencyService } from './emergency.service';
 

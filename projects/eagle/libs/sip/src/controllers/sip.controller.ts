@@ -1,7 +1,7 @@
-import { Authorization, Authorized, AuthorizedPipe } from '@eagle/authentication';
-import { FindQueryParams, SearchQueryParams } from '@eagle/server-shared';
 import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
+import { Authorization, Authorized, AuthorizedPipe } from '@ulmax/authentication';
+import { FindQueryParams, SearchQueryParams } from '@ulmax/server-shared';
 import { SipService } from '../services/sip.service';
 
 @Controller('stream')

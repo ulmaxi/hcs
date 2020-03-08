@@ -1,5 +1,5 @@
-import { Authorization, Authorized } from '@eagle/authentication';
 import { Body, Controller } from '@nestjs/common';
+import { Authorization, Authorized } from '@ulmax/authentication';
 import { RegisterStaffDetails } from './register-staff';
 import { StaffManagmentService } from './staff-management.service';
 
