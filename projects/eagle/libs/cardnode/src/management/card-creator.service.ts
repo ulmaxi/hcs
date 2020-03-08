@@ -4,9 +4,9 @@ import { AccessLevel, Authorization } from '@ulmax/authentication';
 import { microServiceToken } from '@ulmax/server-shared';
 import { CommunalData, PersonalBiodata } from '@ulmax/users-admininistration';
 import { combineLatest } from 'rxjs';
-import { UlmaxCardLevel } from '../data-layer/card/card.entity';
 import { UlmaxCardService } from '../data-layer/card/card.service';
-import { CardMemberRequest, UlmaxFullCard } from '../typecast';
+import { UlmaxCardLevel } from '../data-layer/card/constants';
+import { CardMemberRequest, UlmaxFullCard } from './typecast';
 
 interface MemberRequest extends CardMemberRequest {
   cardNo: string;

@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { Authorization } from '../../data-layer/author/author.entity';
+import { AccessLevel } from '../../data-layer/author/constants';
 import { ValidateAuthorizedService } from '../validator/validate-author.service';
 import { AuthenticationController, keyVerificationError } from './authentication.controller';
 import { AuthorizeRequestService } from './authorize-req.service';

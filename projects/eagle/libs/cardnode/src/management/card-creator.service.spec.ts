@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { microServiceToken } from '@ulmax/server-shared';
 import { authorizationFactory, cardNodeFactory, communalBiodataFactory, personalBiodataFactory, TypeService } from '@ulmax/testing';
-import { UlmaxCardLevel } from '../data-layer/card/card.entity';
 import { UlmaxCardService } from '../data-layer/card/card.service';
-import { UlmaxFullCard } from '../typecast';
+import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardCreatorService } from './card-creator.service';
+import { UlmaxFullCard } from './typecast';
 
 describe('CardCreatorService', () => {
   let svc: CardCreatorService;

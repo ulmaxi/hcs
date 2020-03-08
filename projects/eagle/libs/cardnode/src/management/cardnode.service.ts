@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { UlmaxCardLevel } from './data-layer/card/card.entity';
-import { UlmaxCardService } from './data-layer/card/card.service';
-import { CardCreatorService } from './management/card-creator.service';
-import { CardFieldRetrivalService } from './management/card-field-retrival.service';
+import { UlmaxCardService } from '../data-layer/card/card.service';
+import { UlmaxCardLevel } from '../data-layer/card/constants';
+import { CardCreatorService } from './card-creator.service';
+import { CardFieldRetrivalService } from './card-field-retrival.service';
 import { CardMemberRequest } from './typecast';
 
 @Injectable()
@@ -38,8 +38,11 @@ export class CardMemberService {
     });
     const cardToDelete = await this.cardSvc.findOne(cardIdToRemove);
     if (card && cardToDelete) {
-      if (card.cardNo === cardToDelete.cardNo) {
-        return this.cardSvc.repository.remove(cardToDelete).then(d => true);
+      if (
+        card.cardNo === cardToDelete.cardNo &&
+        card.trackId !== cardToDelete.trackId
+      ) {
+        return this.cardSvc.repository.remove(cardToDelete).then(() => true);
       }
       throw cardOperationUnAuthorized;
     }

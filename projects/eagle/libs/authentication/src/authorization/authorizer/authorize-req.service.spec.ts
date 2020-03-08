@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { authorizationFactory, loginFactory, RepoMock } from '@ulmax/testing';
-import { AccessLevel } from '../../data-layer/author/author.entity';
 import { AuthorService } from '../../data-layer/author/author.service';
+import { AccessLevel } from '../../data-layer/author/constants';
 import { LoginService } from '../../data-layer/login/login.service';
 import { AuthorizeAlertService } from './authorize-alert.service';
 import { AuthorizeRequestService, InvalidAuthCredentialsError } from './authorize-req.service';
+
 describe('AuthorizeReqController', () => {
   let module: TestingModule;
   let svc: AuthorizeRequestService;

@@ -1,1 +1,2 @@
-export * from './database-utils';
+export type { BaseModel, UnsavedModel } from './database/basemodel';
+

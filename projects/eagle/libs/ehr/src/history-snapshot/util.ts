@@ -32,7 +32,7 @@ export class MiniConsultantDetails {
   department: string;
 }
 
-export class ConsultationSnapshot extends BaseModel {
+export class ConsultationSnapshot implements BaseModel {
   /**
    * the unique id for each consutation which must be generated.
    */
@@ -95,6 +95,12 @@ export class ConsultationSnapshot extends BaseModel {
    */
   @ApiModelPropertyOptional()
   admission?: Admission;
+
+  @ApiModelPropertyOptional()
+  createdAt?: Date;
+
+  @ApiModelPropertyOptional()
+  updatedAt?: Date;
 }
 
 export class FilterOptions {

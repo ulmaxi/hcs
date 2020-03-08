@@ -1,8 +1,10 @@
 import { Logger, Module } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MicroserviceModule, ModelMicroService } from '@ulmax/microservice';
 import { microServiceToken } from '@ulmax/server-shared';
 import { AuthenticationController } from './authorization/authorizer/authentication.controller';
 import { AuthorizeAlertService } from './authorization/authorizer/authorize-alert.service';
@@ -32,6 +34,7 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
     ClientsModule.register([
       { name: microServiceToken, transport: Transport.TCP },
     ]),
+    MicroserviceModule,
   ],
   providers: [
     AuthorService,
@@ -45,5 +48,8 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {
-  constructor() {}
+  constructor(private MRC: ModelMicroService, private moduleRf: ModuleRef) {
+    // console.log(moduleRf.get(AuthorService));
+    this.MRC.register(Authorization, this.moduleRf.get(AuthorService).repository);
+  }
 }

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Authorization } from '@ulmax/frontend';
 import { microServiceToken } from '@ulmax/server-shared';
+import { Authorization } from '../../data-layer/author/author.entity';
 
 @Injectable()
 export class AuthorizedEventService {

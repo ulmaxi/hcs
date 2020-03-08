@@ -1,3 +1,3 @@
-export * from './managment/models/comunal-data.entity';
-export * from './managment/models/personal-biodata.entity';
+export type { CommunalData } from './managment/models/comunal-data.entity';
+export type { PersonalBiodata } from './managment/models/personal-biodata.entity';
 

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { microServiceToken } from '@ulmax/server-shared';
 import { cardNodeFactory, communalBiodataFactory, personalBiodataFactory, RepoMock } from '@ulmax/testing';
+import { UlmaxCardService } from '../data-layer/card/card.service';
 import { CardMemberService } from './cardnode.service';
-import { UlmaxCardService } from './data-layer/card/card.service';
 
 describe('CardMemberService', () => {
   let svc: CardMemberService;

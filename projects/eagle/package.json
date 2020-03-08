@@ -65,7 +65,7 @@
     "tsconfig-paths": "3.8.0",
     "typeorm": "^0.2.18",
     "typeorm-aurora-data-api-driver": "^1.1.8",
-    "typescript": "^3.5.3",
+    "typescript": "^3.8.1-rc",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

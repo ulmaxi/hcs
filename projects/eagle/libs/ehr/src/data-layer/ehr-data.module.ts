@@ -1,6 +1,8 @@
 // tslint:disable: max-classes-per-file
 import { Module } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MicroserviceModule, ModelMicroService } from '@ulmax/microservice';
 import { AdmissionController } from './admission/admission.controller';
 import { Admission } from './admission/admission.entity';
 import { AdmissionService } from './admission/admission.service';
@@ -24,41 +26,63 @@ import { Staff } from './staff/staff.entity';
 import { StaffService } from './staff/staff.service';
 
 const configs = [
-  { controller: AdmissionController, provider: AdmissionService },
-  { controller: ConsultationController, provider: ConsultationService },
-  { controller: InstitutionController, provider: InstitutionService },
-  { controller: LabTestController, provider: LabTestService },
-  { controller: PrescriptionController, provider: PrescriptionService },
-  { controller: ReviewController, provider: ReviewService },
-  { controller: StaffController, provider: StaffService },
+  {
+    controller: AdmissionController,
+    provider: AdmissionService,
+    model: Admission,
+  },
+  {
+    controller: ConsultationController,
+    provider: ConsultationService,
+    model: Consultation,
+  },
+  {
+    controller: InstitutionController,
+    provider: InstitutionService,
+    model: Institution,
+  },
+  { controller: LabTestController, provider: LabTestService, model: LabTest },
+  {
+    controller: PrescriptionController,
+    provider: PrescriptionService,
+    model: Prescription,
+  },
+  { controller: ReviewController, provider: ReviewService, model: Review },
+  { controller: StaffController, provider: StaffService, model: Staff },
+];
+
+const models = [
+  Admission,
+  Consultation,
+  Institution,
+  LabTest,
+  Prescription,
+  Review,
+  Staff,
 ];
 
 /**
  * The database service module for the application
  */
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    Admission,
-    Consultation,
-    Institution,
-    LabTest,
-    Prescription,
-    Review,
-    Staff,
-  ])],
+  imports: [TypeOrmModule.forFeature(models), MicroserviceModule],
   providers: [...configs.map(c => c.provider)],
-  exports: [ ...configs.map(c => c.provider) ],
+  exports: [...configs.map(c => c.provider)],
 })
-export class EHRDataServiceModule { }
+export class EHRDataServiceModule {
+  constructor(private MRPC: ModelMicroService, private moduleRf: ModuleRef) {
+    configs.forEach(({ model, provider }) =>
+      this.MRPC.register(model, this.moduleRf.get(provider as any).repository),
+    );
+  }
+}
 
 /**
  * the EHR database controller auto generated
  */
 @Module({
   imports: [EHRDataServiceModule],
-  controllers:
-    [...configs.map(c => c.controller)]
-  ,
+  controllers: [...configs.map(c => c.controller)],
   providers: [],
 })
-export class EHRDataControllerModule { }
+export class EHRDataControllerModule {}

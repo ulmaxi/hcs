@@ -2,15 +2,8 @@ import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsOptional } from 'class-validator';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { AccessLevel } from './constants';
 import { hcsIdentifer } from './indentier.decorator';
-
-/** Access level for operations across the whole system */
-export enum AccessLevel {
-  Users = 0,
-  Staff = 1,
-  Institution = 2,
-  SuperAdmin = 3,
-}
 
 /**
  * Entity for the storage of Authorization Logins

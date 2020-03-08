@@ -1,7 +1,8 @@
 // tslint:disable: max-classes-per-file
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsDefined, IsOptional } from 'class-validator';
-import { AccessLevel, Authorization } from '../../data-layer/author/author.entity';
+import { Authorization } from '../../data-layer/author/author.entity';
+import { AccessLevel } from '../../data-layer/author/constants';
 
 export class AuthorizeRequest {
   @IsOptional()

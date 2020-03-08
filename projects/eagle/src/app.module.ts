@@ -3,11 +3,13 @@ import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthenticationModule, AuthorizedPipe, SuperAdminAuthenticationModule } from '@ulmax/authentication';
+import { CardnodeModule } from '@ulmax/cardnode';
 import { DataAccessRecordsModule } from '@ulmax/data-access-records';
 import { EHRDataControllerModule, EHRHistorySnaphotModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@ulmax/ehr';
 import { EHRHistoryModule } from '@ulmax/ehr-intercom';
 import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@ulmax/general-public';
 import { MessagingModule } from '@ulmax/messaging';
+import { MicroserviceModule } from '@ulmax/microservice';
 import { MessageEvents, microServiceToken, SendSMSEvent } from '@ulmax/server-shared';
 import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@ulmax/users-admininistration';
 import { RouterModule } from 'nest-router';
@@ -29,6 +31,7 @@ import { configDatabase } from './db-config';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    MicroserviceModule,
     // SipModule,
     // SipAdminModule,
     AuthenticationModule,
@@ -46,6 +49,7 @@ import { configDatabase } from './db-config';
     GeneralPublicModule,
     TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
     RouterModule.forRoutes(routes),
+    CardnodeModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger, AuthorizedPipe],

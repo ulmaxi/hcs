@@ -1,14 +1,7 @@
 import { BaseModel } from '@ulmax/server-shared';
 import { IsOptional, IsString } from 'class-validator';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-
-/**
- * The level on the ulmax card
- */
-export enum UlmaxCardLevel {
-  Admin = 'principal',
-  Minor = 'Minor',
-}
+import { UlmaxCardLevel } from './constants';
 
 @Entity()
 export class UlmaxCard implements BaseModel {

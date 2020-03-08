@@ -1,7 +1,7 @@
 // tslint:disable: max-classes-per-file
 import { UnsavedModel } from '@ulmax/server-shared';
 import { CommunalData, PersonalBiodata } from '@ulmax/users-admininistration';
-import { UlmaxCard } from './data-layer/card/card.entity';
+import { UlmaxCard } from '../data-layer/card/card.entity';
 
 /**
  * Request format to add a new member to a card

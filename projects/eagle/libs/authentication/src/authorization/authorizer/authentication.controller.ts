@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedEx
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 import { AuthenticationMessage } from '@ulmax/server-shared';
-import { AccessLevel } from '../../data-layer/author/author.entity';
+import { AccessLevel } from '../../data-layer/author/constants';
 import { ValidateAuthorizedService } from '../validator/validate-author.service';
 import { AuthorizeRequestService } from './authorize-req.service';
 import { AuthorizedEntity, AuthorizeRequest, KeyVerfication, ValidateAuthorizationReq } from './typecast';

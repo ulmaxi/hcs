@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { AuthorizeRequest } from '../authorization/authorizer/typecast';
-import { AccessLevel, Authorization } from '../data-layer/author/author.entity';
+import { Authorization } from '../data-layer/author/author.entity';
 import { AuthorService } from '../data-layer/author/author.service';
+import { AccessLevel } from '../data-layer/author/constants';
 
 const { SuperAdmin } = AccessLevel;
 

@@ -4,7 +4,7 @@ import { CommunalData, PersonalBiodata } from '@ulmax/frontend';
 import { microServiceToken } from '@ulmax/server-shared';
 import { combineLatest } from 'rxjs';
 import { UlmaxCard } from '../data-layer/card/card.entity';
-import { UlmaxFullCard } from '../typecast';
+import { UlmaxFullCard } from './typecast';
 
 @Injectable()
 export class CardFieldRetrivalService {

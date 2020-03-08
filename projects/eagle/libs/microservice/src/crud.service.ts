@@ -1,6 +1,8 @@
+// tslint:disable: ban-types
 import { Injectable } from '@nestjs/common';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ModelEventActionStructure, RPCModel } from './util';
+import { ModelEventActionStructure } from './util';
 
 /**
  * abstraction over crud activties to send the
@@ -8,12 +10,13 @@ import { ModelEventActionStructure, RPCModel } from './util';
  */
 @Injectable()
 export class ModelMicroService {
+  constructor() {}
   private store = new Map<string, Repository<any>>();
 
   /**
    * registers the model on the actions
    */
-  register(model: RPCModel, repo: Repository<any>) {
+  register(model: Function, repo: Repository<any>) {
     this.store.set(model.toString(), repo);
   }
 
@@ -21,7 +24,7 @@ export class ModelMicroService {
    * executes the actions remotely
    */
   execute({ args, method, model }: ModelEventActionStructure) {
-    const repo = this.store.get(model);
+    const repo = this.store.get(getRepositoryToken(model));
     return (repo[method] as FunctionConstructor).call(repo, args);
   }
 }

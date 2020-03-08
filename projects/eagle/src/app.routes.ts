@@ -1,4 +1,5 @@
 import { AuthenticationModule, SuperAdminAuthenticationModule } from '@ulmax/authentication';
+import { CardnodeModule, UlmaxCardInternalModule } from '@ulmax/cardnode';
 import { DataAccessRecordsModule } from '@ulmax/data-access-records';
 import { EHRDataControllerModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@ulmax/ehr';
 import { EHRHistoryModule, ReferralDataLayerModule } from '@ulmax/ehr-intercom';
@@ -32,12 +33,17 @@ export const internalRoutes: Routes = [
     path: 'referral',
     module: ReferralDataLayerModule,
   },
+  {
+    path: 'cardnode',
+    module: UlmaxCardInternalModule,
+  },
 ];
 
 // { path: 'sip', module: SipModule },
 export const externalRoutes: Routes = [
   {
-    path: 'ehr', children: [
+    path: 'ehr',
+    children: [
       { path: 'medicalclaims', module: EHRMedicalClaimModule },
       { path: 'history', module: EHRHistoryModule },
       // { path: 'intercomm', module: SipModule },
@@ -45,6 +51,7 @@ export const externalRoutes: Routes = [
     ],
   },
   { path: 'generalpublic', module: GeneralPublicModule },
+  { path: 'cardnode', module: CardnodeModule },
 ];
 
 export const routes: Routes = [

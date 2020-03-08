@@ -1,2 +1,4 @@
+export * from './crud.service';
 export * from './microservice.module';
-export * from './microservice.service';
+export * from './util';
+
