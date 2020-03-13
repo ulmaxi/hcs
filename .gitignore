@@ -37,3 +37,6 @@ test.ts
 libs/generated
 
 demo.ts
+
+# am tried of merge conflict
+yarn.lock

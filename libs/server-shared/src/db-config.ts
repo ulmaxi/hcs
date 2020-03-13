@@ -2,6 +2,10 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
+/**
+ * uses the enviroment to select the desired
+ * database drivers
+ */
 export function configDatabase(env: string): TypeOrmModuleOptions {
   if (env === 'production') {
     return {

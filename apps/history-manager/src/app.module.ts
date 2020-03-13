@@ -7,8 +7,6 @@ import { EHRHistoryModule } from '@ulmax/ehr-intercom';
     EHRMedicalClaimModule,
     EHRHistorySnaphotModule,
     EHRHistoryModule
-  ],
-  controllers: [],
-  providers: [],
+  ]
 })
 export class EHRMedicalHistoryAppModule {}

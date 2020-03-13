@@ -15,7 +15,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { routes } from './app.routes';
 import { AppService } from './app.service';
-import { configDatabase } from './db-config';
+import { configDatabase } from '@ulmax/server-shared';
 
 @Module({
   imports: [

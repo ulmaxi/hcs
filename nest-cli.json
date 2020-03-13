@@ -131,19 +131,19 @@
         "tsConfigPath": "apps/history-manager/tsconfig.app.json"
       }
     },
-    "massage-bird": {
+    "message-bird": {
       "type": "application",
-      "root": "apps/massage-bird",
+      "root": "apps/message-bird",
       "entryFile": "main",
-      "sourceRoot": "apps/massage-bird/src",
+      "sourceRoot": "apps/message-bird/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/massage-bird/tsconfig.app.json"
+        "tsConfigPath": "apps/message-bird/tsconfig.app.json"
       }
     }
   },
   "compilerOptions": {
     "plugins": [
-      "@nestjs/swagger/plugin"
+     
     ],
     "webpack": true,
     "tsConfigPath": "apps/eagle/tsconfig.app.json"

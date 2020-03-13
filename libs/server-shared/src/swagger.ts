@@ -2,6 +2,11 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
 
 /**
+ * nest-swagger -plguin
+ *  "@nestjs/swagger/plugin"
+ */
+
+/**
  * setups the the swagger doc, by adding it to the current
  * express instance
  */
