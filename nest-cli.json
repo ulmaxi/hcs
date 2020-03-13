@@ -1,0 +1,153 @@
+{
+  "language": "ts",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/eagle/src",
+  "projects": {
+    "server-shared": {
+      "root": "libs/server-shared",
+      "sourceRoot": "libs/server-shared/src"
+    },
+    "authentication": {
+      "root": "libs/authentication",
+      "sourceRoot": "libs/authentication/src"
+    },
+    "users-admininistration": {
+      "root": "libs/users-admininistration",
+      "sourceRoot": "libs/users-admininistration/src"
+    },
+    "data-access-records": {
+      "root": "libs/data-access-records",
+      "sourceRoot": "libs/data-access-records/src"
+    },
+    "messaging": {
+      "root": "libs/messaging",
+      "sourceRoot": "libs/messaging/src"
+    },
+    "sip": {
+      "root": "libs/sip",
+      "sourceRoot": "libs/sip/src"
+    },
+    "institutions": {
+      "root": "libs/institutions",
+      "sourceRoot": "libs/institutions/src"
+    },
+    "general-public": {
+      "root": "libs/general-public",
+      "sourceRoot": "libs/general-public/src"
+    },
+    "ehr-intercom": {
+      "root": "libs/ehr-intercom",
+      "sourceRoot": "libs/ehr-intercom/src"
+    },
+    "testing": {
+      "root": "libs/testing",
+      "sourceRoot": "libs/testing/src"
+    },
+    "frontend": {
+      "root": "libs/frontend",
+      "sourceRoot": "libs/frontend/src"
+    },
+    "lota": {
+      "root": "libs/lota",
+      "sourceRoot": "libs/lota/src"
+    },
+    "cardnode": {
+      "root": "libs/cardnode",
+      "sourceRoot": "libs/cardnode/src"
+    },
+    "microservice": {
+      "root": "libs/microservice",
+      "sourceRoot": "libs/microservice/src"
+    },
+    "eagle": {
+      "type": "application",
+      "root": "apps/eagle",
+      "entryFile": "main",
+      "sourceRoot": "apps/eagle/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/eagle/tsconfig.app.json"
+      }
+    },
+    "authorization": {
+      "type": "application",
+      "root": "apps/authorization",
+      "entryFile": "main",
+      "sourceRoot": "apps/authorization/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/authorization/tsconfig.app.json"
+      }
+    },
+    "ucardnode": {
+      "type": "application",
+      "root": "apps/ucardnode",
+      "entryFile": "main",
+      "sourceRoot": "apps/ucardnode/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/ucardnode/tsconfig.app.json"
+      }
+    },
+    "access-wall": {
+      "type": "application",
+      "root": "apps/access-wall",
+      "entryFile": "main",
+      "sourceRoot": "apps/access-wall/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/access-wall/tsconfig.app.json"
+      }
+    },
+    "public": {
+      "type": "application",
+      "root": "apps/public",
+      "entryFile": "main",
+      "sourceRoot": "apps/public/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/public/tsconfig.app.json"
+      }
+    },
+    "users": {
+      "type": "application",
+      "root": "apps/users",
+      "entryFile": "main",
+      "sourceRoot": "apps/users/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/users/tsconfig.app.json"
+      }
+    },
+    "personnel-manager": {
+      "type": "application",
+      "root": "apps/personnel-manager",
+      "entryFile": "main",
+      "sourceRoot": "apps/personnel-manager/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/personnel-manager/tsconfig.app.json"
+      }
+    },
+    "history-manager": {
+      "type": "application",
+      "root": "apps/history-manager",
+      "entryFile": "main",
+      "sourceRoot": "apps/history-manager/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/history-manager/tsconfig.app.json"
+      }
+    },
+    "massage-bird": {
+      "type": "application",
+      "root": "apps/massage-bird",
+      "entryFile": "main",
+      "sourceRoot": "apps/massage-bird/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/massage-bird/tsconfig.app.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "plugins": [
+      "@nestjs/swagger/plugin"
+    ],
+    "webpack": true,
+    "tsConfigPath": "apps/eagle/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/eagle"
+}
