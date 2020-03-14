@@ -12,7 +12,7 @@ import { EmergencyService } from './services/emergency.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Emergency])],
   providers: [EmergencyService],
-  exports: [EmergencyService],
+  exports: [EmergencyService, TypeOrmModule],
 })
 export class GeneralPublicDataServiceModule { }
 

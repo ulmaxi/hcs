@@ -1,0 +1,13 @@
+version: "3"
+services:
+    ulmax-database:
+        image: "mysql:8.0"
+    authentication:
+        build:
+            context: .
+        expose: 
+            - "3000"
+    public-api:
+        build: .
+        expose: 
+            - "3000"

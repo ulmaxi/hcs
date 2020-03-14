@@ -4,7 +4,7 @@
   "port": 3306,
   "username": "root",
   "password": "root",
-  "database": "eagle",
+  "database": "ulmax",
   "synchronize": true,
   "entities": ["**/*.entity{.ts,.js}"],
   "logging": false
