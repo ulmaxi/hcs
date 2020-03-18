@@ -9,8 +9,9 @@ import { Institution } from './institution.entity';
  */
 @Injectable()
 export class InstitutionService extends TypeOrmCrudService<Institution> {
-  constructor(@InjectRepository(Institution) public repository: Repository<Institution>) {
+  constructor(
+    @InjectRepository(Institution) public repository: Repository<Institution>,
+  ) {
     super(repository);
   }
-
 }

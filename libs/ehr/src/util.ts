@@ -1,9 +1,18 @@
 // tslint:disable: max-classes-per-file
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Admission, Consultation, LabTest, Prescription, Review } from '@ulmax/ehr';
+import {
+  Admission,
+  Consultation,
+  LabTest,
+  Prescription,
+  Review,
+} from '@ulmax/ehr';
 import { IsDefined, IsOptional } from 'class-validator';
 
-export type ConsultationClaim = Pick<Consultation, 'complain' | 'diagnosis' | 'planAndProcedure'>;
+export type ConsultationClaim = Pick<
+  Consultation,
+  'complain' | 'diagnosis' | 'planAndProcedure'
+>;
 export type AdmissionClaim = Pick<Admission, 'ward' | 'isDischarged'>;
 export type LabTestClaim = Pick<LabTest, 'type' | 'results' | 'images'>;
 export type PrescriptionClaim = Pick<Prescription, 'name' | 'dosage' | 'time'>;

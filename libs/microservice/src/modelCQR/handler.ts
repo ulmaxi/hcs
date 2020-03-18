@@ -1,70 +1,97 @@
-import { Injectable } from '@nestjs/common';
-import { Repository } from "typeorm";
-import { modelCQREventFactory, DeleteEventQuery, CreateModelItem, UpdateModelItem, RetriveEventQuery, FindEventQuery } from "./cqr-factory";
-import { MessagePattern } from "@nestjs/microservices";
-import { modelCQRActions, ModelCQRActions } from "./events";
+import { Repository } from 'typeorm';
+import {
+  DeleteEventQuery,
+  CreateModelItem,
+  UpdateModelItem,
+  RetriveEventQuery,
+  FindEventQuery,
+} from './cqr-factory';
+import { ModelCQRActions } from './events';
+import { PATTERN_METADATA } from '@nestjs/microservices/constants';
 
 /**
- * base model CQRHandler for microservices crud 
+ * base model CQRHandler for microservices crud
  */
-@Injectable()
 export class BaseModelCQRHandler<T> {
-    constructor(public repo: Repository<T>) {}
+  constructor(public repo: Repository<T>) {}
 
-    /**
-     * saves the item
-     */
-    create({ item }: CreateModelItem<T>) {
-        return this.repo.save(item);
-    }
+  /**
+   * saves the item
+   */
+  create({ item }: CreateModelItem<T>) {
+    return this.repo.save(item);
+  }
 
-    /**
-     * updates the item
-     */
-    update({ filter, update }: UpdateModelItem<T>) {
-        return this.repo.update(filter, update);
-    }
+  /**
+   * updates the item
+   */
+  update({ filter, update }: UpdateModelItem<T>) {
+    return this.repo.update(filter, update);
+  }
 
-    /**
-     * retrieves the item
-     */
-    retrieve({ filter }: RetriveEventQuery<T>) {
-        return (typeof filter === 'string') ?
-        this.repo.findOne(filter) :
-        this.repo.findOne({ where: filter });
-    }
+  /**
+   * retrieves the item
+   */
+  retrieve({ filter }: RetriveEventQuery<T>) {
+    return typeof filter === 'string'
+      ? this.repo.findOne(filter)
+      : this.repo.findOne({ where: filter });
+  }
 
-    /**
-     * finds the item
-     */
-    find({ filter, options }: FindEventQuery<T>) {
-        return this.repo.find({
-            where: filter,
-            take: 1,
-            ...options
-        });
+  /**
+   * finds the item
+   */
+  find({ filter, options }: FindEventQuery<T>) {
+    if (Array.isArray(filter)) {
+      return this.repo.findByIds(filter, options);
     }
+    return this.repo.find({
+      where: filter,
+      ...options,
+    });
+  }
 
-    /**
-     * removes the item
-     */
-    async remove({filter }: DeleteEventQuery<T>) {
-        return this.repo.remove(await this.repo.find({
-            where: filter
-        }));
-    }
+  /**
+   * removes the item
+   */
+  async remove({ filter }: DeleteEventQuery<T>) {
+    return this.repo.remove(
+      await this.repo.find({
+        where: filter,
+      }),
+    );
+  }
 }
 
 /**
  * creates the CQR handler for all commands and queries
  * dynamically
  */
-export function createModelCQRHandler<T>(actions: ModelCQRActions) {
-    const ModelClass = class extends BaseModelCQRHandler<T> {}
-    Object.entries(([method, action]) => {
-        [method]
-        const decorator = MessagePattern(action);
-        decorator(ModelClass.prototype, method, null);
-    })
-    return ModelClass;
+export function createModelCQRHandler<T>(
+  model: string,
+  actions: ModelCQRActions,
+) {
+  const ModelClass = class extends BaseModelCQRHandler<T> {
+    public actions = actions;
+    constructor(public repo: Repository<T>) {
+      super(repo);
+      this.register();
+    }
+
+    /**
+     * registers the decorator on the methods has it's loading
+     */
+    register() {
+      Object.entries(this.actions).forEach(baseMap => {
+        const [method, action] = baseMap;
+        Reflect.defineMetadata(
+          PATTERN_METADATA,
+          `${model}:${action}`,
+          this,
+          method,
+        );
+      });
+    }
+  };
+  return ModelClass;
 }

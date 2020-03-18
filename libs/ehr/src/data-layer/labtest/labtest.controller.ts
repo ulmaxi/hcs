@@ -8,7 +8,7 @@ import { LabTest } from './labtest.entity';
     type: LabTest,
   },
 })
-@Controller('labtest')
+@Controller('internal/data-layer/labtest')
 export class LabTestController {
   constructor(public service: LabTestService) {}
 }

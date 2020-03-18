@@ -1,17 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import type { Authorization } from '@ulmax/authentication';
-import { microServiceToken } from '@ulmax/server-shared';
-import type { PersonalBiodata } from '@ulmax/users-admininistration';
+import { Authorization, AuthorizationCQREvents } from '@ulmax/authentication';
+import {
+  PersonalBiodata,
+  PersonalBiodataCQREvents,
+} from '@ulmax/users-admininistration';
 import { StaffService } from '../../data-layer/staff/staff.service';
 import { MiniConsultantDetails } from '../util';
+import { MicroService } from '@ulmax/microservice/shared';
 
 @Injectable()
 export class PersonalDataSnaphotService {
   constructor(
-      @Inject(microServiceToken) private client: ClientProxy,
-      private staffSvc: StaffService,
-  ) { }
+    @Inject(MicroService.Authorization) private auth: ClientProxy,
+    @Inject(MicroService.Users) private users: ClientProxy,
+    private staffSvc: StaffService,
+  ) {}
 
   /**
    * retrieves a maps of consultant and their IDS
@@ -43,8 +47,9 @@ export class PersonalDataSnaphotService {
    */
   private async authorization(cardNodes: string[]) {
     const map = new Map<string, string>();
-    const res = await this.client
-      .send<Authorization[]>('authorization', cardNodes)
+    const authReq = new AuthorizationCQREvents.FindEventQuery(cardNodes);
+    const res = await this.auth
+      .send<Authorization[]>(authReq.action, authReq)
       .toPromise();
     for (const author of res) {
       map.set(author.trackId, author.identification);
@@ -56,8 +61,12 @@ export class PersonalDataSnaphotService {
    * retrieves personal biodatas with the cardNodes.
    */
   private async personalBiodata(cardNodes: string[]) {
-    const res = await this.client
-      .send<Array<PersonalBiodata & { id: string }>>('personal', cardNodes)
+    const personalReq = new PersonalBiodataCQREvents.FindEventQuery(cardNodes);
+    const res = await this.users
+      .send<Array<PersonalBiodata & { id: string }>>(
+        personalReq.action,
+        personalReq,
+      )
       .toPromise();
     const map = new Map<string, PersonalBiodata>();
     for (const person of res) {
@@ -65,5 +74,4 @@ export class PersonalDataSnaphotService {
     }
     return map;
   }
-
 }

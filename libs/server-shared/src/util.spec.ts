@@ -59,12 +59,18 @@ describe('Utilities', () => {
   describe('awaitTo', () => {
     it('should return a tuple of [undefined, Error]', async () => {
       const error: Error = new Error('test_error');
-      expect(await utils.awaitTo(Promise.reject(error))).toEqual([undefined, error]);
+      expect(await utils.awaitTo(Promise.reject(error))).toEqual([
+        undefined,
+        error,
+      ]);
     });
 
     it('should return a tuple of [Value, undefined]', async () => {
       const value = 'random_value';
-      expect(await utils.awaitTo(Promise.resolve(value))).toEqual([value, undefined]);
+      expect(await utils.awaitTo(Promise.resolve(value))).toEqual([
+        value,
+        undefined,
+      ]);
     });
   });
 });

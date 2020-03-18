@@ -1,13 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ConsulationGraphSnaphot, ConsultationSnapshot, ReqMicroHistorySnapshot } from '@ulmax/ehr';
+import {
+  ConsulationGraphSnaphot,
+  ConsultationSnapshot,
+  ReqMicroHistorySnapshot,
+} from '@ulmax/ehr';
 import { HistorySnapshotEvent } from '@ulmax/ehr/history-snapshot/history-snapshot.controller';
-import { ModelEventActionStructure } from '@ulmax/microservice';
-import { ModelRPC } from '@ulmax/microservice/crud.controller';
-import { FindQueryParams, microServiceToken } from '@ulmax/server-shared';
-import { PersonalBiodata } from '@ulmax/users-admininistration';
+import { FindQueryParams } from '@ulmax/server-shared';
+import {
+  PersonalBiodata,
+  PersonalBiodataCQREvents,
+} from '@ulmax/users-admininistration';
 import { exhaustMap, map } from 'rxjs/operators';
 import { ConsultatedDrug } from './typecast';
+import { MicroService } from '@ulmax/microservice/shared';
 
 interface PrescriptionQuery {
   query: FindQueryParams;
@@ -17,7 +23,10 @@ interface PrescriptionQuery {
 
 @Injectable()
 export class CardPrescriptionService {
-  constructor(@Inject(microServiceToken) private client: ClientProxy) {}
+  constructor(
+    @Inject(MicroService.HistoryManager) private history: ClientProxy,
+    @Inject(MicroService.Users) private users: ClientProxy,
+  ) {}
 
   public async find(cardId: string, query?: FindQueryParams) {
     return this.Ownerprescriptions(cardId, query);
@@ -49,7 +58,7 @@ export class CardPrescriptionService {
       query: { patientId: cardId },
     };
     return (
-      this.client
+      this.history
         .send<ConsulationGraphSnaphot[]>(HistorySnapshotEvent, req)
         // map graph to arrangment
         .pipe(map(g => this.sortGraphToTimeline(g, owner)))
@@ -61,12 +70,10 @@ export class CardPrescriptionService {
    * retrieves the card owner biodata
    */
   private cardOwnerBiodata(cardId: string) {
-    const req: ModelEventActionStructure = {
-      model: PersonalBiodata,
-      args: [{ cardnode: cardId } as Partial<PersonalBiodata>],
-      method: 'findOne',
-    };
-    return this.client.send<PersonalBiodata>(ModelRPC, req);
+    const userReq = new PersonalBiodataCQREvents.RetriveEventQuery({
+      where: { cardnode: cardId },
+    });
+    return this.users.send<PersonalBiodata>(userReq.action, userReq);
   }
 
   /**

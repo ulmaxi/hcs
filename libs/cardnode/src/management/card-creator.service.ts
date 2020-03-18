@@ -1,13 +1,26 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { AccessLevel, Authorization } from '@ulmax/authentication';
-import { microServiceToken } from '@ulmax/server-shared';
-import { CommunalData, PersonalBiodata } from '@ulmax/users-admininistration';
+import {
+  AccessLevel,
+  Authorization,
+  AuthorizationCQREvents,
+} from '@ulmax/authentication';
+import {
+  CommunalData,
+  PersonalBiodata,
+  PersonalBiodataCQREvents,
+  CommunalDataCQREvents,
+} from '@ulmax/users-admininistration';
 import { combineLatest } from 'rxjs';
 import { UlmaxCardService } from '../data-layer/card/card.service';
 import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardMemberRequest, UlmaxFullCard } from './typecast';
+import { MicroService } from '@ulmax/microservice/shared';
 
+/**
+ * inteface map for datas required for
+ * parallel retrivals of the card member data
+ */
 interface MemberRequest extends CardMemberRequest {
   cardNo: string;
   trackId?: string;
@@ -18,7 +31,8 @@ interface MemberRequest extends CardMemberRequest {
 export class CardCreatorService {
   constructor(
     private cardSvc: UlmaxCardService,
-    @Inject(microServiceToken) private client: ClientProxy,
+    @Inject(MicroService.Authorization) private auth: ClientProxy,
+    @Inject(MicroService.Users) private users: ClientProxy,
   ) {}
 
   /**
@@ -38,10 +52,13 @@ export class CardCreatorService {
    * sends an event to create the authorization
    */
   private createAuthorization(identification: string) {
-    return this.client.send<Authorization>('', {
-      identification,
-      accessLevel: AccessLevel.Users,
-    } as Partial<Authorization>);
+    const authReq = new AuthorizationCQREvents.RetriveEventQuery({
+      where: {
+        identification,
+        accessLevel: AccessLevel.Users,
+      },
+    });
+    return this.auth.send<Authorization>(authReq.action, authReq);
   }
 
   /**
@@ -64,8 +81,17 @@ export class CardCreatorService {
    * saves both the communal and personal
    */
   private saveBiodataInParallel(req: MemberRequest) {
-    const personal$ = this.client.send<PersonalBiodata>('', req.biodata);
-    const communal$ = this.client.send<CommunalData>('', req.communaldata);
+    const personal = new PersonalBiodataCQREvents.CreateEventCommand(
+      req.biodata,
+    );
+    const communal = new CommunalDataCQREvents.CreateEventCommand(
+      req.communaldata,
+    );
+    const personal$ = this.users.send<PersonalBiodata>(
+      personal.action,
+      personal,
+    );
+    const communal$ = this.users.send<CommunalData>(communal.action, communal);
     return combineLatest(personal$, communal$);
   }
 }

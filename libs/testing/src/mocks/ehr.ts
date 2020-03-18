@@ -1,4 +1,12 @@
-import { Admission, Consultation, Institution, LabTest, Prescription, Review, Staff } from '@ulmax/ehr';
+import {
+  Admission,
+  Consultation,
+  Institution,
+  LabTest,
+  Prescription,
+  Review,
+  Staff,
+} from '@ulmax/ehr';
 import * as Chance from 'chance';
 import * as Factory from 'factory.ts';
 import { authorizationFactory } from './authentication';

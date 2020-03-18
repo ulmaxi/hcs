@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { authorizationFactory, RepoMock } from '@ulmax/testing';
 import { AuthorService } from '../data-layer/author/author.service';
 import { AccessLevel } from '../data-layer/author/constants';
-import { SuperAdminAuthorizeService, SuperAdminSignupError } from './super-admin.service';
+import {
+  SuperAdminAuthorizeService,
+  SuperAdminSignupError,
+} from './super-admin.service';
 
 describe('SuperAdminAuthorizeService', () => {
   let app: TestingModule;

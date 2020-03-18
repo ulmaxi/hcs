@@ -13,12 +13,16 @@ import { UploadMedicalCareService } from './upload-medicare.service';
  * EHR provider
  */
 @Module({
-  imports: [EHRpersonnelModule, EHRDataServiceModule, ClientsModule.register([
-    {
-      name: microServiceToken,
-      transport: Transport.TCP,
-    },
-  ])],
+  imports: [
+    EHRpersonnelModule,
+    EHRDataServiceModule,
+    ClientsModule.register([
+      {
+        name: microServiceToken,
+        transport: Transport.TCP,
+      },
+    ]),
+  ],
   controllers: [MedicalClaimController],
   providers: [
     MedicalClaimService,
@@ -26,4 +30,4 @@ import { UploadMedicalCareService } from './upload-medicare.service';
     UploadMedicalCareService,
   ],
 })
-export class EHRMedicalClaimModule { }
+export class EHRMedicalClaimModule {}

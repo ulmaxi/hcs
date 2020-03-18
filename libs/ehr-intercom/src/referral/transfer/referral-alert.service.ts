@@ -4,20 +4,11 @@ import { microServiceToken } from '@ulmax/server-shared';
 
 @Injectable()
 export class ReferralAlertService {
-  constructor(
-    @Inject(microServiceToken) private client: ClientProxy,
-  ) { }
+  constructor(@Inject(microServiceToken) private client: ClientProxy) {}
 
-  sent() {
+  sent() {}
 
-  }
+  private sms() {}
 
-  private sms() {
-
-  }
-
-  private email() {
-
-  }
-
+  private email() {}
 }

@@ -12,5 +12,4 @@ export class StaffService extends TypeOrmCrudService<Staff> {
   constructor(@InjectRepository(Staff) public repository: Repository<Staff>) {
     super(repository);
   }
-
 }

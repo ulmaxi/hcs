@@ -4,7 +4,11 @@ import { addMonths } from 'date-fns';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
 import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
 import { PermissionCreatorService } from './permission-creator.service';
-import { PermissionManagmentService, permissionRequestAuthorizationError, permssionVerificationError } from './permission-managment.service';
+import {
+  PermissionManagmentService,
+  permissionRequestAuthorizationError,
+  permssionVerificationError,
+} from './permission-managment.service';
 
 const mockPermSvc = {
   find: jest.fn,

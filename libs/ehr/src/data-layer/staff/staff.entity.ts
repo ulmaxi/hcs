@@ -2,11 +2,16 @@ import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { BaseModel } from '@ulmax/server-shared';
 import { Exclude } from 'class-transformer';
 import { IsDefined } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Staff implements BaseModel {
-
   @PrimaryGeneratedColumn('uuid')
   @IsDefined()
   @ApiModelPropertyOptional()
@@ -33,7 +38,9 @@ export class Staff implements BaseModel {
   field: string;
 
   @IsDefined()
-  @ApiModelPropertyOptional({ description: `The department of the staff in the institution` })
+  @ApiModelPropertyOptional({
+    description: `The department of the staff in the institution`,
+  })
   @Column({ nullable: false })
   department: string;
 

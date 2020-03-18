@@ -4,9 +4,9 @@ import { CommunalData } from '../models/comunal-data.entity';
 import { PersonalBiodata } from '../models/personal-biodata.entity';
 import { PersonalAdminstrationService } from '../services/personal-administration.service';
 
-@Controller('biodata')
+@Controller('internal/data-layer/biodata')
 export class PersonalAdminController {
-  constructor(private pas: PersonalAdminstrationService) { }
+  constructor(private pas: PersonalAdminstrationService) {}
 
   @Get('personal')
   retrievePersonal() {
@@ -15,7 +15,10 @@ export class PersonalAdminController {
 
   @Post('personal')
   updatePersonal(@Body() data: Partial<PersonalBiodata>) {
-    return this.pas.PersonalDataUpdate(null, plainToClass(PersonalBiodata, data));
+    return this.pas.PersonalDataUpdate(
+      null,
+      plainToClass(PersonalBiodata, data),
+    );
   }
 
   @Get('communal')

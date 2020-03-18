@@ -8,9 +8,14 @@ import { FieldSnaphotService } from './fields-snapshot.service';
 
 describe('FieldSnaphotFieldSnaphotService', () => {
   let svc: FieldSnaphotService;
-  const { institutions, admissions, prescriptions, labtests } = ehr_data_preload(2);
+  const {
+    institutions,
+    admissions,
+    prescriptions,
+    labtests,
+  } = ehr_data_preload(2);
 
-  const mocker = (value) => ({
+  const mocker = value => ({
     repository: {
       findByIds: () => Promise.resolve(value),
     },
@@ -31,25 +36,24 @@ describe('FieldSnaphotFieldSnaphotService', () => {
   });
 
   it('should return a map of institutions and their Ids', async () => {
-    const map = await svc.institutions(institutions.map((i) => i.id));
+    const map = await svc.institutions(institutions.map(i => i.id));
     const institution = institutions[0];
     expect(map.get(institution.id)).toStrictEqual(institution);
   });
   it('should return a map of prescriptions and their Ids', async () => {
-    const map = await svc.prescriptions(prescriptions.map((i) => i.id));
+    const map = await svc.prescriptions(prescriptions.map(i => i.id));
     const prescription = prescriptions[0];
     expect(map.get(prescription.id)).toStrictEqual(prescription);
   });
   it('should return a map of labtests and their Ids', async () => {
-    const map = await svc.labtests(labtests.map((i) => i.id));
+    const map = await svc.labtests(labtests.map(i => i.id));
     const labtest = labtests[0];
     expect(map.get(labtest.id)).toStrictEqual(labtest);
   });
 
   it('should return a map of admissions and their Ids', async () => {
-    const map = await svc.admissions(admissions.map((i) => i.id));
+    const map = await svc.admissions(admissions.map(i => i.id));
     const admission = admissions[0];
     expect(map.get(admission.id)).toStrictEqual(admission);
   });
-
 });

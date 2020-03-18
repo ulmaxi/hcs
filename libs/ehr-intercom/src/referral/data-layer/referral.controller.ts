@@ -10,5 +10,5 @@ import { ReferralService } from './referral.service';
 })
 @Controller()
 export class ReferralController {
-  constructor(public service: ReferralService) { }
+  constructor(public service: ReferralService) {}
 }

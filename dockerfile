@@ -1,12 +1,11 @@
 FROM node:12-alpine3.11
 
 ENV NODE_ENV=production
-COPY package.json package.json
-RUN yarn install --production
-COPY . ulmax
-CMD mv node_modules ulmax/node_modules
+RUN npm install ts-node -g
+COPY package.json ulmax/package.json
 WORKDIR /ulmax
-RUN npm install -g @nestjs/cli
+RUN yarn install --production
+COPY . .
 EXPOSE 3000
 ENV NODE_ENV=docker
-ENTRYPOINT ["npx", "nest", "start" ]
+ENTRYPOINT ["ts-node", "-r", "tsconfig-paths/register" ]

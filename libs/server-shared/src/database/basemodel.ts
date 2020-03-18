@@ -21,4 +21,7 @@ export class BaseModel {
 /**
  * filtered database generated fields from models
  */
-export type UnsavedModel<T extends BaseModel> = Omit<T, 'createdAt' | 'updatedAt' | 'id'>;
+export type UnsavedModel<T extends BaseModel> = Omit<
+  T,
+  'createdAt' | 'updatedAt' | 'id'
+>;

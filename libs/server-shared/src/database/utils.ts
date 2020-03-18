@@ -33,7 +33,6 @@ export class SearchQueryParams extends FindQueryParams {
    */
   @ApiModelPropertyOptional()
   search?: string;
-
 }
 
 export interface FindProperties<T> {

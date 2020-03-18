@@ -8,7 +8,7 @@ import { EmergencyService } from '../services/emergency.service';
     type: Emergency,
   },
 })
-@Controller()
+@Controller('internal/data-layer/emergency')
 export class EmergencyController {
   constructor(public service: EmergencyService) {}
 }

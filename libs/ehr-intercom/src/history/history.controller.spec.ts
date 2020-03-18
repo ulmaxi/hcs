@@ -10,12 +10,14 @@ describe('HistoryController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [HistoryController],
-      providers: [{
-        provide: HistorySnaphotService,
-        useValue: {
-          graph: jest.fn().mockResolvedValue([]),
+      providers: [
+        {
+          provide: HistorySnaphotService,
+          useValue: {
+            graph: jest.fn().mockResolvedValue([]),
+          },
         },
-      }],
+      ],
     }).compile();
 
     svc = module.get<HistorySnaphotService>(HistorySnaphotService);
@@ -27,8 +29,10 @@ describe('HistoryController', () => {
       const patientId = 'patientId';
       const query: Partial<FilterOptions> = { depth: 2 };
       await ctrl.client(patientId, query);
-      expect(svc.graph)
-        .toHaveBeenLastCalledWith({ patientId }, { depth: query.depth, skip: 0 });
+      expect(svc.graph).toHaveBeenLastCalledWith(
+        { patientId },
+        { depth: query.depth, skip: 0 },
+      );
     });
   });
 
@@ -37,8 +41,7 @@ describe('HistoryController', () => {
       const consultantId = 'consultantId';
       const query: Partial<FilterOptions> = { depth: 2, skip: 4 };
       await ctrl.consultant(consultantId, query);
-      expect(svc.graph)
-        .toHaveBeenLastCalledWith({ consultantId }, query);
+      expect(svc.graph).toHaveBeenLastCalledWith({ consultantId }, query);
     });
   });
 });

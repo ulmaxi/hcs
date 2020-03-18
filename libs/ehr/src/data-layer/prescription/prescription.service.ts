@@ -9,8 +9,9 @@ import { Repository } from 'typeorm';
  */
 @Injectable()
 export class PrescriptionService extends TypeOrmCrudService<Prescription> {
-  constructor(@InjectRepository(Prescription) public repository: Repository<Prescription>) {
+  constructor(
+    @InjectRepository(Prescription) public repository: Repository<Prescription>,
+  ) {
     super(repository);
   }
-
 }

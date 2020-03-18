@@ -1,6 +1,16 @@
-import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
-import { Authorization, Authorized, AuthorizedPipe } from '@ulmax/authentication';
+import {
+  Authorization,
+  Authorized,
+  AuthorizedPipe,
+} from '@ulmax/authentication';
 import { FindQueryParams, SearchQueryParams } from '@ulmax/server-shared';
 import { SipService } from '../services/sip.service';
 

@@ -8,7 +8,7 @@ import { Prescription } from './prescription.entity';
     type: Prescription,
   },
 })
-@Controller('prescription')
+@Controller('internal/data-layer/prescription')
 export class PrescriptionController {
   constructor(public service: PrescriptionService) {}
 }

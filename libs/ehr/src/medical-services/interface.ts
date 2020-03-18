@@ -1,4 +1,9 @@
-import { AdmissionClaim, ConsultationClaim, ReviewClaim, TrackedMedicalCarePlan } from '../util';
+import {
+  AdmissionClaim,
+  ConsultationClaim,
+  ReviewClaim,
+  TrackedMedicalCarePlan,
+} from '../util';
 
 export interface CreateAdmission {
   consulationTrackId: string;

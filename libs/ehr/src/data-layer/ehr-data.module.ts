@@ -1,8 +1,7 @@
 // tslint:disable: max-classes-per-file
 import { Module } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MicroserviceModule, ModelMicroService } from '@ulmax/microservice';
+import { MicroserviceModule } from '@ulmax/microservice';
 import { AdmissionController } from './admission/admission.controller';
 import { Admission } from './admission/admission.entity';
 import { AdmissionService } from './admission/admission.service';
@@ -24,6 +23,10 @@ import { ReviewService } from './review/review.service';
 import { StaffController } from './staff/staff.controller';
 import { Staff } from './staff/staff.entity';
 import { StaffService } from './staff/staff.service';
+import { StaffCQRService } from './staff/staff.cqr';
+import { InstitutionCQRService } from './institution/institution.cqr';
+import { PrescriptionCQRService } from './prescription/prescription.cqr';
+import { ConsultationCQRService } from './consultation/consultation.cqr';
 
 const configs = [
   {
@@ -66,15 +69,17 @@ const models = [
  */
 @Module({
   imports: [TypeOrmModule.forFeature(models), MicroserviceModule],
-  providers: [...configs.map(c => c.provider)],
+  providers: [
+    ...configs.map(c => c.provider),
+    StaffCQRService,
+    InstitutionCQRService,
+    PrescriptionCQRService,
+    ConsultationCQRService,
+  ],
   exports: [...configs.map(c => c.provider)],
 })
 export class EHRDataServiceModule {
-  constructor(private MRPC: ModelMicroService, private moduleRf: ModuleRef) {
-    configs.forEach(({ model, provider }) =>
-      this.MRPC.register(model, this.moduleRf.get(provider as any).repository),
-    );
-  }
+  constructor() {}
 }
 
 /**

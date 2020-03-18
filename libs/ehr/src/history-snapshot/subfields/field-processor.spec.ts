@@ -2,7 +2,6 @@ import { consultationFactory } from '@ulmax/testing';
 import { FieldProcessorOperator } from './field-processor';
 
 describe('FieldProcessorOperator', () => {
-
   it('should process and update the required fields', () => {
     const processor = new FieldProcessorOperator({ depth: 2, skip: 0 });
     const consultation = consultationFactory.build();
@@ -19,5 +18,4 @@ describe('FieldProcessorOperator', () => {
     }
     expect(processor.trackIds.size).toEqual(2);
   });
-
 });

@@ -8,7 +8,7 @@ import { UlmaxCardService } from './card.service';
     type: UlmaxCard,
   },
 })
-@Controller('ulmaxcard')
+@Controller('internal/data-layer/ulmaxcard')
 export class UlmaxCardController {
   constructor(public service: UlmaxCardService) {}
 }

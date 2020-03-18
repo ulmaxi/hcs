@@ -8,7 +8,7 @@ import { PersonalBiodataService } from '../services/person-biodata.service';
     type: PersonalBiodata,
   },
 })
-@Controller('personal')
+@Controller('internal/data-layer/personal')
 export class PersonalBiodataController {
   constructor(private service: PersonalBiodataService) {}
 }

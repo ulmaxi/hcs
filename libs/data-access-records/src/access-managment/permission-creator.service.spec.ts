@@ -44,7 +44,6 @@ xdescribe('PermissionCreatorService', () => {
       ],
     }).compile();
   });
-
 });
 
 // TODO: i rewrite the test due to changing of the implementation
@@ -63,7 +62,6 @@ function createTest(app: TestingModule) {
   //       expect(error).toEqual(permissionRequestDetailError);
   //     }
   //   });
-
   //   it('should call saveAndAlertRequest with the argument ', async () => {
   //     const otpAddr: OTPAddress = {
   //       clientName: `${clientBase.firstname} ${clientBase.lastname}`,

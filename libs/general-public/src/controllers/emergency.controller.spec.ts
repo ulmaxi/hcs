@@ -5,6 +5,7 @@ import { EmergencyController } from './emergency.controller';
 describe('EmergencyController', () => {
   const testModule = new EntityTestController({
     controller: EmergencyController,
-    provider: EmergencyService });
+    provider: EmergencyService,
+  });
   testModule.test();
 });

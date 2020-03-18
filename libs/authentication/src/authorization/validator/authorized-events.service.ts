@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { microServiceToken } from '@ulmax/server-shared';
 import { Authorization } from '../../data-layer/author/author.entity';
 
 @Injectable()
 export class AuthorizedEventService {
-  constructor(@Inject(microServiceToken) private client: ClientProxy) {}
+  // constructor(@Inject(microServiceToken) private client: ClientProxy) {}
+  constructor() {}
 
   public trigger(authorized: Authorization, registering = false) {}
 

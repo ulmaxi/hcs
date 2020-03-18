@@ -14,6 +14,8 @@
     "start:prod": "node dist/main.js",
     "webpack": "webpack --config ./webpack.config.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
+    "cli": "npx ts-node ./cli",
+    "commit": "npx git-cz",
     "frontend": "npm run frontend:build && npm run frontend:link",
     "frontend:build": "npx tsc -p ./libs/frontend/tsconfig.lib.json --OutDir ./libs/frontend/dist -d",
     "frontend:link": "cd ./libs/frontend && yarn link",

@@ -11,12 +11,15 @@ describe('HistorySnaphotService', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [HistorySnaphotService, {
-        provide: microServiceToken,
-        useValue: {
-          send: jest.fn(),
+      providers: [
+        HistorySnaphotService,
+        {
+          provide: microServiceToken,
+          useValue: {
+            send: jest.fn(),
+          },
         },
-      }],
+      ],
     }).compile();
 
     client = module.get<ClientProxy>(microServiceToken);
@@ -26,9 +29,8 @@ describe('HistorySnaphotService', () => {
   describe('graph', () => {
     it('should return call the transport', async () => {
       const spy = jest.spyOn(client, 'send').mockReturnValueOnce(of([]));
-      await svc.graph(consultationFactory.build(), { });
+      await svc.graph(consultationFactory.build(), {});
       expect(spy).toHaveBeenCalled();
     });
   });
-
 });

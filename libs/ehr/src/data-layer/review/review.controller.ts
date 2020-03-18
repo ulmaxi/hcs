@@ -8,7 +8,7 @@ import { Review } from './review.entity';
     type: Review,
   },
 })
-@Controller('review')
+@Controller('internal/data-layer/review')
 export class ReviewController {
   constructor(public service: ReviewService) {}
 }

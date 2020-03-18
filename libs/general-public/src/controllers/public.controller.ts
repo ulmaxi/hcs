@@ -5,22 +5,24 @@ import { PublicDataService } from '../services/data.service';
 
 @Controller('public')
 export class PublicAccessController {
-    constructor(private publicSvc: PublicDataService) { }
+  constructor(private publicSvc: PublicDataService) {}
 
-    /**
-     * returns various institutions by classification
-     */
-    @Get('/:category')
-    institutions(@Param('category') category: string,  @Query() filter: Partial<Institution> = {}) {
-        return this.publicSvc.institutions({...filter, classification: category});
-    }
+  /**
+   * returns various institutions by classification
+   */
+  @Get('/:category')
+  institutions(
+    @Param('category') category: string,
+    @Query() filter: Partial<Institution> = {},
+  ) {
+    return this.publicSvc.institutions({ ...filter, classification: category });
+  }
 
-    /**
-     * creates an emergeny alert
-     */
-    @Post('/emergencyalert')
-    emergencyAlert(@Body() emergency: Emergency) {
-        return this.publicSvc.alertEmergency(emergency);
-    }
-
+  /**
+   * creates an emergeny alert
+   */
+  @Post('/emergencyalert')
+  emergencyAlert(@Body() emergency: Emergency) {
+    return this.publicSvc.alertEmergency(emergency);
+  }
 }

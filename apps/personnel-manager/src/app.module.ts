@@ -6,7 +6,7 @@ import { configDatabase } from '@ulmax/server-shared';
 @Module({
   imports: [
     EHRpersonnelModule,
-    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV))
-  ]
+    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
+  ],
 })
 export class EHRPersonnelAppModule {}

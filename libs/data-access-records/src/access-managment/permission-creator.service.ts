@@ -1,14 +1,15 @@
 import { BadRequestException, HttpException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import  type { Authorization } from '@ulmax/authentication';
-import type { UlmaxCard } from '@ulmax/cardnode';
+import { Authorization, AuthorizationCQREvents } from '@ulmax/authentication';
+import { UlmaxCard, UlmaxCardCQREvents } from '@ulmax/cardnode';
 import  type { Institution } from '@ulmax/ehr';
-import { generateOtp, MessageEvents, microServiceToken, SendSMSEvent } from '@ulmax/server-shared';
+import { generateOtp, MessageEvents, SendSMSEvent } from '@ulmax/server-shared';
 import { addMonths } from 'date-fns';
 import { combineLatest, of } from 'rxjs';
 import { exhaustMap, map } from 'rxjs/operators';
 import { PermissionRecord } from '../data-layer/permission-records/permission-records.entity';
 import { PermissionRecordService } from '../data-layer/permission-records/permission-records.service';
+import { MicroService } from '@ulmax/microservice/shared';
 
 /**
  * Alert OTP address information interface
@@ -35,7 +36,10 @@ export interface AlertOtp extends OTPAddress {
 export class PermissionCreatorService {
   constructor(
     private permSvc: PermissionRecordService,
-    @Inject(microServiceToken) private readonly transport: ClientProxy,
+    @Inject(MicroService.EHR) private readonly ehr: ClientProxy,
+    @Inject(MicroService.Authorization) private readonly auth: ClientProxy,
+    @Inject(MicroService.CardNode) private readonly cardNode: ClientProxy,
+    @Inject(MicroService.MessageAlert) private readonly message: ClientProxy,
   ) {}
 
   /**
@@ -76,7 +80,7 @@ export class PermissionCreatorService {
    * retrieves the institution throw micro service
    */
   private retriveInstitution(query: Partial<Institution>) {
-    return this.transport
+    return this.ehr
       .send<Institution>('', query)
       .pipe(
         map(instituiton =>
@@ -141,16 +145,18 @@ export class PermissionCreatorService {
    * retrieves the auth with microservice
    */
   private retrieveAuth(query: Partial<Authorization>) {
-    return this.transport
-      .send<Authorization>('', query)
+    const authReq = new AuthorizationCQREvents.RetriveEventQuery({ where: query });
+    return this.auth
+      .send<Authorization>(authReq.action, authReq)
       .pipe(map(auth => this.nullThrowError(auth, authRequestError)));
   }
   /**
    * retrieves th client biodata throws an execption if it doesn't exist
    */
   private retrieveCardNode(query: Partial<UlmaxCard>) {
-    return this.transport
-      .send<UlmaxCard>('', query)
+    const cardReq = new UlmaxCardCQREvents.RetriveEventQuery({ where: query });
+    return this.cardNode
+      .send<UlmaxCard>(cardReq.action, cardReq)
       .pipe(map(card => this.nullThrowError(card, cardNodeRequestError)));
   }
 
@@ -191,7 +197,7 @@ export class PermissionCreatorService {
   private alertOtp({ cardNo, clientPhoneNo, code, institutionName }: AlertOtp) {
     const message = `${institutionName} is requesting access to your health card ${cardNo},
     confirm with ${code}. Thank you.`;
-    this.transport.emit(
+    this.message.emit(
       MessageEvents.SMS,
       new SendSMSEvent(clientPhoneNo, message),
     );

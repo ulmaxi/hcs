@@ -1,11 +1,16 @@
 import { BaseModel } from '@ulmax/server-shared';
 import { IsOptional, IsString } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UlmaxCardLevel } from './constants';
 
 @Entity()
 export class UlmaxCard implements BaseModel {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -35,5 +40,4 @@ export class UlmaxCard implements BaseModel {
 
   @UpdateDateColumn()
   updatedAt?: Date;
-
 }

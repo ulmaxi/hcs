@@ -8,7 +8,7 @@ import { Institution } from './institution.entity';
     type: Institution,
   },
 })
-@Controller('institution')
+@Controller('internal/data-layer/institution')
 export class InstitutionController {
   constructor(public service: InstitutionService) {}
 }

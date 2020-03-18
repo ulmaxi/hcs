@@ -9,7 +9,7 @@ export const defaultFilterOptions: FilterOptions = {
 
 @Controller('medicalhistory')
 export class HistoryController {
-  constructor(private snapshot: HistorySnaphotService) { }
+  constructor(private snapshot: HistorySnaphotService) {}
 
   /**
    * returns the consultation history for clients
@@ -38,5 +38,4 @@ export class HistoryController {
       { ...defaultFilterOptions, ...query },
     );
   }
-
 }

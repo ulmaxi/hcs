@@ -6,4 +6,3 @@ export * from '../../ehr/src/frontend';
 // export * from '../../general-public/src/frontend';
 export * from '../../server-shared/src/frontend';
 export * from '../../users-admininistration/src/frontend';
-

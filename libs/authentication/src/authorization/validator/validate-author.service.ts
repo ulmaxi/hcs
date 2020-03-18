@@ -18,7 +18,7 @@ export class ValidateAuthorizedService {
     private author: AuthorService,
     private jwt: JwtService,
     private event: AuthorizedEventService,
-  ) { }
+  ) {}
 
   /**
    * validates the otp and sends the entity details
@@ -55,7 +55,6 @@ export class ValidateAuthorizedService {
     if (keyFormat.toLowerCase() === 'apikey') {
       return await this.author.findOne({ apiKey: key });
     }
-    return await this.jwt.decode(key) as Authorization;
+    return (await this.jwt.decode(key)) as Authorization;
   }
-
 }

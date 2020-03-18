@@ -7,11 +7,11 @@ import { PrescriptionService } from '../../data-layer/prescription/prescription.
 @Injectable()
 export class FieldSnaphotService {
   constructor(
-      private institutionSvc: InstitutionService,
-      private admissionSvc: AdmissionService,
-      private prescriptionSvc: PrescriptionService,
-      private labTestSvc: LabTestService,
-  ) { }
+    private institutionSvc: InstitutionService,
+    private admissionSvc: AdmissionService,
+    private prescriptionSvc: PrescriptionService,
+    private labTestSvc: LabTestService,
+  ) {}
 
   async institutions(ids: string[]) {
     const res = await this.institutionSvc.repository.findByIds(ids);
@@ -36,7 +36,7 @@ export class FieldSnaphotService {
   private collectionsToMap<T extends { id: string }>(items: T[]) {
     const map = new Map<string, T>();
     for (const item of items) {
-      map.set((item).id, item);
+      map.set(item.id, item);
     }
     return map;
   }

@@ -10,4 +10,3 @@ export * from './history-snapshot/ehr-history-snapshot.module';
 export * from './history-snapshot/util';
 export * from './medical-services/medical-claim.module';
 export * from './personnel/personnel.module';
-

@@ -10,7 +10,7 @@ import { AuthorService } from './author.service';
   },
 })
 @ApiUseTags('auth')
-@Controller('author')
+@Controller('internal/data-layer/author')
 export class AuthorController {
   constructor(public service: AuthorService) {}
 }

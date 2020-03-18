@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UlmaxCardService } from '../data-layer/card/card.service';
 import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardCreatorService } from './card-creator.service';
@@ -12,6 +16,11 @@ export class CardMemberService {
     private creator: CardCreatorService,
     private retrival: CardFieldRetrivalService,
   ) {}
+
+  /**
+   * adds a member to the card and determines
+   * if the member is a principal one
+   */
   public addMember(cardNo: string, req: CardMemberRequest) {
     return req.identification
       ? this.creator.addPrincipal(cardNo, req)

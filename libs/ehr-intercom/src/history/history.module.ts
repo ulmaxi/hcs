@@ -9,11 +9,15 @@ import { HistorySnaphotService } from './snapshot.service';
  * the graph of consultations
  */
 @Module({
-  imports: [ClientsModule.register([{
-    name: microServiceToken,
-    transport: Transport.TCP,
-  }])],
+  imports: [
+    ClientsModule.register([
+      {
+        name: microServiceToken,
+        transport: Transport.TCP,
+      },
+    ]),
+  ],
   controllers: [HistoryController],
   providers: [HistorySnaphotService],
 })
-export class EHRHistoryModule { }
+export class EHRHistoryModule {}

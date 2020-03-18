@@ -9,8 +9,9 @@ import { UlmaxCard } from './card.entity';
  */
 @Injectable()
 export class UlmaxCardService extends TypeOrmCrudService<UlmaxCard> {
-  constructor(@InjectRepository(UlmaxCard) public repository: Repository<UlmaxCard>) {
+  constructor(
+    @InjectRepository(UlmaxCard) public repository: Repository<UlmaxCard>,
+  ) {
     super(repository);
   }
-
 }

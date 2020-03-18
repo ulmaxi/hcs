@@ -18,9 +18,11 @@ export function configDatabase(env: string): TypeOrmModuleOptions {
       entities: ['**/*.entity{.ts,.js}'],
     };
   }
-  const config = JSON.parse(readFileSync(join(process.cwd(), 'ormconfig.json'), 'utf8'));
+  const config = JSON.parse(
+    readFileSync(join(process.cwd(), 'ormconfig.json'), 'utf8'),
+  );
   if (env === 'docker') {
-    config.host = 'ulmax-database'
+    config.host = 'ulmax-database';
   }
   return config;
 }

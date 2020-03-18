@@ -1,11 +1,24 @@
-import { BadRequestException, Body, Controller, Get, Post, Query, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 import { AuthenticationMessage } from '@ulmax/server-shared';
 import { AccessLevel } from '../../data-layer/author/constants';
 import { ValidateAuthorizedService } from '../validator/validate-author.service';
 import { AuthorizeRequestService } from './authorize-req.service';
-import { AuthorizedEntity, AuthorizeRequest, KeyVerfication, ValidateAuthorizationReq } from './typecast';
+import {
+  AuthorizedEntity,
+  AuthorizeRequest,
+  KeyVerfication,
+  ValidateAuthorizationReq,
+} from './typecast';
 
 export const authenticateValidateError = new BadRequestException(
   `the parameters for otp validation is missing,

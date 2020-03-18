@@ -1,18 +1,49 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { microServiceToken } from '@ulmax/server-shared';
 import { PermissionCreatorService } from './access-managment/permission-creator.service';
 import { PermissionManagmentService } from './access-managment/permission-managment.service';
 import { AccessLogs } from './data-layer/access-logs/access-logs.entity';
 import { PermissionRecord } from './data-layer/permission-records/permission-records.entity';
 import { PermissionRecordService } from './data-layer/permission-records/permission-records.service';
+import { MicroService, Queues, AMQ_URL } from '@ulmax/microservice/shared';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AccessLogs, PermissionRecord]),
     ClientsModule.register([
-      { name: microServiceToken, transport: Transport.TCP },
+      {
+        name: MicroService.EHR,
+        transport: Transport.RMQ,
+        options: {
+          queue: Queues.EHR,
+          urls: [AMQ_URL],
+        },
+      },
+      {
+        name: MicroService.Authorization,
+        transport: Transport.RMQ,
+        options: {
+          queue: Queues.Authorization,
+          urls: [AMQ_URL],
+        },
+      },
+      {
+        name: MicroService.CardNode,
+        transport: Transport.RMQ,
+        options: {
+          queue: Queues.CardNode,
+          urls: [AMQ_URL],
+        },
+      },
+      {
+        name: MicroService.MessageAlert,
+        transport: Transport.RMQ,
+        options: {
+          queue: Queues.MessageAlert,
+          urls: [AMQ_URL],
+        },
+      },
     ]),
   ],
   providers: [

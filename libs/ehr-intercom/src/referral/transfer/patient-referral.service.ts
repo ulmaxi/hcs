@@ -11,5 +11,4 @@ export class PatientReferralService {
     private alert: ReferralAlertService,
     private referal: ReferralService,
   ) {}
-
 }

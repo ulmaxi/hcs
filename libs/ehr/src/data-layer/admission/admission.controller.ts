@@ -8,7 +8,7 @@ import { Admission } from './admission.entity';
     type: Admission,
   },
 })
-@Controller('admission')
+@Controller('internal/data-layer/admission')
 export class AdmissionController {
   constructor(public service: AdmissionService) {}
 }

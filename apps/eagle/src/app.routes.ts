@@ -1,11 +1,24 @@
-import { AuthenticationModule, SuperAdminAuthenticationModule } from '@ulmax/authentication';
+import {
+  AuthenticationModule,
+  SuperAdminAuthenticationModule,
+} from '@ulmax/authentication';
 import { CardnodeModule, UlmaxCardInternalModule } from '@ulmax/cardnode';
 import { DataAccessRecordsModule } from '@ulmax/data-access-records';
-import { EHRDataControllerModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@ulmax/ehr';
+import {
+  EHRDataControllerModule,
+  EHRMedicalClaimModule,
+  EHRpersonnelModule,
+} from '@ulmax/ehr';
 import { EHRHistoryModule, ReferralDataLayerModule } from '@ulmax/ehr-intercom';
-import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@ulmax/general-public';
+import {
+  GeneralPublicDataControllerModule,
+  GeneralPublicModule,
+} from '@ulmax/general-public';
 import { MessagingModule } from '@ulmax/messaging';
-import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@ulmax/users-admininistration';
+import {
+  SuperUsersAdmininistrationModule,
+  UsersAdmininistrationModule,
+} from '@ulmax/users-admininistration';
 import { Routes } from 'nest-router';
 
 export const internalRoutes: Routes = [

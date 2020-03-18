@@ -1,6 +1,12 @@
 import { BaseModel } from '@ulmax/server-shared';
 import { IsDefined, IsEmail, IsOptional } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class PersonalBiodata implements BaseModel {

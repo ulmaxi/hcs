@@ -1,11 +1,8 @@
 import { Logger, Module } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MicroserviceModule, ModelMicroService } from '@ulmax/microservice';
-import { microServiceToken } from '@ulmax/server-shared';
 import { AuthenticationController } from './authorization/authorizer/authentication.controller';
 import { AuthorizeAlertService } from './authorization/authorizer/authorize-alert.service';
 import { AuthorizeRequestService } from './authorization/authorizer/authorize-req.service';
@@ -15,6 +12,9 @@ import { Authorization } from './data-layer/author/author.entity';
 import { AuthorService } from './data-layer/author/author.service';
 import { Login } from './data-layer/login/login.entity';
 import { LoginService } from './data-layer/login/login.service';
+import { LoginCQRService } from './data-layer/login/login.cqr';
+import { AuthorizationCQRService } from './data-layer/author/author.cqr';
+import { AMQ_URL, Queues, MicroService } from '@ulmax/microservice/shared';
 
 // key settings for jwt token
 const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
@@ -32,9 +32,23 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
       signOptions: { expiresIn: JWT_EXPIRES || '60s' },
     }),
     ClientsModule.register([
-      { name: microServiceToken, transport: Transport.TCP },
+      {
+        name: MicroService.Authorization,
+        transport: Transport.RMQ,
+        options: {
+          urls: [AMQ_URL],
+          queue: Queues.Authorization,
+        },
+      },
+      {
+        name: MicroService.MessageAlert,
+        transport: Transport.RMQ,
+        options: {
+          urls: [AMQ_URL],
+          queue: Queues.MessageAlert,
+        },
+      },
     ]),
-    MicroserviceModule,
   ],
   providers: [
     AuthorService,
@@ -44,12 +58,11 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
     ValidateAuthorizedService,
     Logger,
     AuthorizedEventService,
+    LoginCQRService,
+    AuthorizationCQRService,
   ],
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {
-  constructor(private MRC: ModelMicroService, private moduleRf: ModuleRef) {
-    // console.log(moduleRf.get(AuthorService));
-    this.MRC.register(Authorization, this.moduleRf.get(AuthorService).repository);
-  }
+  constructor() {}
 }

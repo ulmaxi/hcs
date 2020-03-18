@@ -3,12 +3,11 @@ import { EventPattern } from '@nestjs/microservices';
 import { MessageEvents, SendSMSEvent } from '@ulmax/server-shared';
 
 /**
- * TODO: 
+ * TODO:
  * 1. Send
  * 2. List
  * 3. Retrieve
  */
-
 
 @Controller('sms')
 export class SMSTransportController {
@@ -18,5 +17,4 @@ export class SMSTransportController {
   send(sms: SendSMSEvent) {
     console.log(`${sms.contact}: ${sms.message}`);
   }
-  
 }

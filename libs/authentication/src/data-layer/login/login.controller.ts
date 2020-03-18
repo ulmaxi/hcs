@@ -10,7 +10,7 @@ import { LoginService } from './login.service';
   },
 })
 @ApiUseTags('auth')
-@Controller('login')
+@Controller('internal/data-layer/login')
 export class LoginController {
   constructor(public service: LoginService) {}
 }

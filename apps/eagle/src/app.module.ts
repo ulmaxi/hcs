@@ -1,14 +1,13 @@
-import { Inject, Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Inject, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EHRDataControllerModule, EHRHistorySnaphotModule, EHRMedicalClaimModule, EHRpersonnelModule } from '@ulmax/ehr';
-import { EHRHistoryModule } from '@ulmax/ehr-intercom';
-import { GeneralPublicDataControllerModule, GeneralPublicModule } from '@ulmax/general-public';
-import { MessagingModule } from '@ulmax/messaging';
 import { MicroserviceModule } from '@ulmax/microservice';
-import { MessageEvents, microServiceToken, SendSMSEvent } from '@ulmax/server-shared';
-import { SuperUsersAdmininistrationModule, UsersAdmininistrationModule } from '@ulmax/users-admininistration';
+import {
+  MessageEvents,
+  microServiceToken,
+  SendSMSEvent,
+} from '@ulmax/server-shared';
 import { RouterModule } from 'nest-router';
 // import { SipAdminModule, SipModule } from '@ulmax/sip';
 import { join } from 'path';

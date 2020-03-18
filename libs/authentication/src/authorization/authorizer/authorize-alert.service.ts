@@ -1,10 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { MessageEvents, microServiceToken, SendEmailEvent, SendSMSEvent } from '@ulmax/server-shared';
+import {
+  MessageEvents,
+  SendEmailEvent,
+  SendSMSEvent,
+} from '@ulmax/server-shared';
 import { differenceInMinutes } from 'date-fns';
 import { Authorization } from '../../data-layer/author/author.entity';
 import { AccessLevel } from '../../data-layer/author/constants';
 import { Login } from '../../data-layer/login/login.entity';
+import { MicroService } from '@ulmax/microservice/shared';
 
 /**
  * Authorize alert sends the otp code to the
@@ -13,7 +18,7 @@ import { Login } from '../../data-layer/login/login.entity';
 @Injectable()
 export class AuthorizeAlertService {
   constructor(
-    @Inject(microServiceToken) private readonly client: ClientProxy,
+    @Inject(MicroService.MessageAlert) private readonly client: ClientProxy,
   ) {}
 
   /**

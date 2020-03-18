@@ -29,18 +29,18 @@ export class ConsultationShapshotService {
     private fieldSnap: FieldSnaphotService,
     private personnalSnap: PersonalDataSnaphotService,
     private svc: ConsultationService,
-  ) { }
+  ) {}
 
   /**
    * retrieves a history graph with all the subfields
    * for the query
    */
-  async retrieve(
-    query: Partial<Consultation>,
-    config: FilterOptions,
-  ) {
+  async retrieve(query: Partial<Consultation>, config: FilterOptions) {
     const consultations = await this.svc.find(query);
-    const metadatas = filterOperator(config, this.sortModelToRecently(consultations));
+    const metadatas = filterOperator(
+      config,
+      this.sortModelToRecently(consultations),
+    );
     const subFieldMaps = await this.collateSubFieldDatas(metadatas);
     const historyShot = new HistoryGraphSnapshot(metadatas, subFieldMaps);
     return historyShot.graph;
@@ -51,7 +51,11 @@ export class ConsultationShapshotService {
    */
   private async collateSubFieldDatas(metadatas: FieldProcessorOperator) {
     const [
-      institutions, consultants, prescriptions, labtests, admissions,
+      institutions,
+      consultants,
+      prescriptions,
+      labtests,
+      admissions,
     ] = await this.parallelizeFieldSnapshot(metadatas);
     return { admissions, consultants, institutions, labtests, prescriptions };
   }
@@ -74,7 +78,9 @@ export class ConsultationShapshotService {
    * sorts the models from the most recent
    */
   private sortModelToRecently<T extends BaseModel>(items: T[]) {
-    return items.sort((a, b) => Number(format(b.createdAt, 'x')) - Number(format(a.createdAt, 'x')));
+    return items.sort(
+      (a, b) =>
+        Number(format(b.createdAt, 'x')) - Number(format(a.createdAt, 'x')),
+    );
   }
-
 }

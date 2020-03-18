@@ -17,7 +17,8 @@ describe('MedicalClaimService', () => {
       providers: [
         MedicalClaimService,
         {
-          provide: UploadMedicalCareService, useValue: {
+          provide: UploadMedicalCareService,
+          useValue: {
             createAdmission: jest.fn(),
             createLabtest: jest.fn(),
             createPrescriptions: jest.fn(),
@@ -25,17 +26,23 @@ describe('MedicalClaimService', () => {
             createConsultation: jest.fn(),
           },
         },
-        { provide: PersonnelService, useValue: { retriveStaffID: jest.fn(), retriveTrackIdWithPhoneNo: jest.fn() } },
         {
-          provide: RevokeMedicalCarePlanService, useValue: {
-            deleteAdmission: jest.fn(async () => { }),
-            deleteConsultation: jest.fn(async () => { }),
-            deleteLabtests: jest.fn(async () => { }),
-            deletePrescriptions: jest.fn(async () => { }),
-            deleteReview: jest.fn(async () => { }),
+          provide: PersonnelService,
+          useValue: {
+            retriveStaffID: jest.fn(),
+            retriveTrackIdWithPhoneNo: jest.fn(),
           },
         },
-
+        {
+          provide: RevokeMedicalCarePlanService,
+          useValue: {
+            deleteAdmission: jest.fn(async () => {}),
+            deleteConsultation: jest.fn(async () => {}),
+            deleteLabtests: jest.fn(async () => {}),
+            deletePrescriptions: jest.fn(async () => {}),
+            deleteReview: jest.fn(async () => {}),
+          },
+        },
       ],
     }).compile();
 
@@ -44,7 +51,9 @@ describe('MedicalClaimService', () => {
 
   describe('createMedicarePlan', () => {
     it('should call to continueMedicarePlan', async () => {
-      const spy = jest.spyOn(svc, 'continueMedicarePlan').mockResolvedValueOnce({} as any);
+      const spy = jest
+        .spyOn(svc, 'continueMedicarePlan')
+        .mockResolvedValueOnce({} as any);
       svc.createMedicarePlan('institution', {} as any);
       expect(spy).toHaveBeenCalled();
     });
@@ -54,13 +63,14 @@ describe('MedicalClaimService', () => {
     it('should rethrow the error and rolllack immediately', async () => {
       const mockError = new Error('mocking error');
       const rolllackSpy = jest.spyOn(svc, 'rollback').mockResolvedValueOnce();
-      jest.spyOn(module.get<PersonnelService>(PersonnelService), 'retriveStaffID')
+      jest
+        .spyOn(module.get<PersonnelService>(PersonnelService), 'retriveStaffID')
         .mockRejectedValueOnce(mockError);
       try {
         const _ = await svc.continueMedicarePlan(
           'insitution',
           'consultationTrackId',
-          { staffPhoneNo: '122234' } as Partial<MedicalCarePlan> as any,
+          ({ staffPhoneNo: '122234' } as Partial<MedicalCarePlan>) as any,
         );
       } catch (error) {
         expect(rolllackSpy).toHaveBeenCalled();
@@ -70,26 +80,33 @@ describe('MedicalClaimService', () => {
 
     it('should save the claim', async () => {
       const personnel = module.get<PersonnelService>(PersonnelService);
-      const uploader = module.get<UploadMedicalCareService>(UploadMedicalCareService);
+      const uploader = module.get<UploadMedicalCareService>(
+        UploadMedicalCareService,
+      );
       const consultation = testing.consultationFactory.build();
-      const admission = testing.admissionFactory.build({ consulationTrackId: consultation.trackId });
+      const admission = testing.admissionFactory.build({
+        consulationTrackId: consultation.trackId,
+      });
       const labTest = testing.labTestFactory.buildList(3);
       const prescriptions = testing.prescriptionFactory.buildList(3);
-      const review = testing.reviewFactory.build({ consulationTrackId: consultation.trackId });
+      const review = testing.reviewFactory.build({
+        consulationTrackId: consultation.trackId,
+      });
 
-      jest.spyOn(personnel, 'retriveStaffID')
+      jest
+        .spyOn(personnel, 'retriveStaffID')
         .mockResolvedValue(consultation.consultantId);
-      jest.spyOn(personnel, 'retriveTrackIdWithPhoneNo')
+      jest
+        .spyOn(personnel, 'retriveTrackIdWithPhoneNo')
         .mockResolvedValue(consultation.patientId);
-      jest.spyOn(uploader, 'createAdmission')
-        .mockResolvedValue(admission);
-      jest.spyOn(uploader, 'createLabtest')
-        .mockResolvedValue(labTest);
-      jest.spyOn(uploader, 'createPrescriptions')
+      jest.spyOn(uploader, 'createAdmission').mockResolvedValue(admission);
+      jest.spyOn(uploader, 'createLabtest').mockResolvedValue(labTest);
+      jest
+        .spyOn(uploader, 'createPrescriptions')
         .mockResolvedValue(prescriptions);
-      jest.spyOn(uploader, 'createReview')
-        .mockResolvedValue(review);
-      jest.spyOn(uploader, 'createConsultation')
+      jest.spyOn(uploader, 'createReview').mockResolvedValue(review);
+      jest
+        .spyOn(uploader, 'createConsultation')
         .mockResolvedValue(consultation);
       const expected = {
         consultation,
@@ -100,16 +117,19 @@ describe('MedicalClaimService', () => {
         review,
         labTests: labTest,
       } as TrackedMedicalCarePlan;
-      const res = await svc.continueMedicarePlan('instituiton', consultation.trackId,
-      {
-        consultation,
-        patientPhoneNo: '304892348',
-        staffPhoneNo: '24234234',
-        admission,
-        prescriptions,
-        review,
-        labTests: labTest,
-      });
+      const res = await svc.continueMedicarePlan(
+        'instituiton',
+        consultation.trackId,
+        {
+          consultation,
+          patientPhoneNo: '304892348',
+          staffPhoneNo: '24234234',
+          admission,
+          prescriptions,
+          review,
+          labTests: labTest,
+        },
+      );
       // complex assertion so doing a sub assertion
       expect(res.consultation).toStrictEqual(consultation);
       // console.log(res.admission, admission);
@@ -125,7 +145,9 @@ describe('MedicalClaimService', () => {
   describe('rollback', () => {
     it('should call deleteAdmission  with ', async () => {
       const store = new ClaimUploadStore(undefined);
-      const recaller = module.get<RevokeMedicalCarePlanService>(RevokeMedicalCarePlanService);
+      const recaller = module.get<RevokeMedicalCarePlanService>(
+        RevokeMedicalCarePlanService,
+      );
       store.update('admission', { trackerId: 'Admission', error: undefined });
       svc.rollback(store);
       expect(recaller.deleteAdmission).toHaveBeenCalled();
@@ -133,15 +155,22 @@ describe('MedicalClaimService', () => {
 
     it('should call deleteConsultation  with ', async () => {
       const store = new ClaimUploadStore(undefined);
-      const recaller = module.get<RevokeMedicalCarePlanService>(RevokeMedicalCarePlanService);
-      store.update('consultation', { trackerId: 'Consultation', error: undefined });
+      const recaller = module.get<RevokeMedicalCarePlanService>(
+        RevokeMedicalCarePlanService,
+      );
+      store.update('consultation', {
+        trackerId: 'Consultation',
+        error: undefined,
+      });
       svc.rollback(store);
       expect(recaller.deleteConsultation).toHaveBeenCalled();
     });
 
     it('should call deleteLabtests  with ', async () => {
       const store = new ClaimUploadStore(undefined);
-      const recaller = module.get<RevokeMedicalCarePlanService>(RevokeMedicalCarePlanService);
+      const recaller = module.get<RevokeMedicalCarePlanService>(
+        RevokeMedicalCarePlanService,
+      );
       store.update('labTests', { trackerId: 'Labtests', error: undefined });
       svc.rollback(store);
       expect(recaller.deleteLabtests).toHaveBeenCalled();
@@ -149,19 +178,25 @@ describe('MedicalClaimService', () => {
 
     it('should call deletePrescriptions  with ', async () => {
       const store = new ClaimUploadStore(undefined);
-      const recaller = module.get<RevokeMedicalCarePlanService>(RevokeMedicalCarePlanService);
-      store.update('prescriptions', { trackerId: 'Prescriptions', error: undefined });
+      const recaller = module.get<RevokeMedicalCarePlanService>(
+        RevokeMedicalCarePlanService,
+      );
+      store.update('prescriptions', {
+        trackerId: 'Prescriptions',
+        error: undefined,
+      });
       svc.rollback(store);
       expect(recaller.deletePrescriptions).toHaveBeenCalled();
     });
 
     it('should call deleteReview  with ', async () => {
       const store = new ClaimUploadStore(undefined);
-      const recaller = module.get<RevokeMedicalCarePlanService>(RevokeMedicalCarePlanService);
+      const recaller = module.get<RevokeMedicalCarePlanService>(
+        RevokeMedicalCarePlanService,
+      );
       store.update('review', { trackerId: 'Review', error: undefined });
       svc.rollback(store);
       expect(recaller.deleteReview).toHaveBeenCalled();
     });
   });
-
 });

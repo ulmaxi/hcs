@@ -3,11 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UlmaxCardController } from './card.controller';
 import { UlmaxCard } from './card.entity';
 import { UlmaxCardService } from './card.service';
+import { UlmaxCardCQRService } from './card.cqr';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UlmaxCard])],
   controllers: [UlmaxCardController],
-  providers: [UlmaxCardService],
+  providers: [UlmaxCardService, UlmaxCardCQRService],
   exports: [UlmaxCardService],
 })
 export class UlmaxCardProviderModule {}

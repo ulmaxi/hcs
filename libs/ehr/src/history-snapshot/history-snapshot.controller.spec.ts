@@ -10,12 +10,14 @@ describe('HistorySnapshotController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [HistorySnapshotController],
-      providers: [{
-        provide: ConsultationShapshotService,
-        useValue: {
-          retrieve: jest.fn().mockResolvedValue([]),
+      providers: [
+        {
+          provide: ConsultationShapshotService,
+          useValue: {
+            retrieve: jest.fn().mockResolvedValue([]),
+          },
         },
-      }],
+      ],
     }).compile();
 
     svc = module.get<ConsultationShapshotService>(ConsultationShapshotService);
@@ -27,8 +29,10 @@ describe('HistorySnapshotController', () => {
       const patientId = 'patientId';
       const options: Partial<FilterOptions> = { depth: 2 };
       await ctrl.query({ patientId }, options);
-      expect(svc.retrieve)
-        .toHaveBeenLastCalledWith({ patientId }, { depth: options.depth, skip: 0 });
+      expect(svc.retrieve).toHaveBeenLastCalledWith(
+        { patientId },
+        { depth: options.depth, skip: 0 },
+      );
     });
   });
 
@@ -37,8 +41,7 @@ describe('HistorySnapshotController', () => {
       const consultantId = 'consultantId';
       const options: Partial<FilterOptions> = { depth: 2, skip: 4 };
       await ctrl.microQuery({ query: { consultantId }, config: options });
-      expect(svc.retrieve)
-        .toHaveBeenLastCalledWith({ consultantId }, options);
+      expect(svc.retrieve).toHaveBeenLastCalledWith({ consultantId }, options);
     });
   });
 });

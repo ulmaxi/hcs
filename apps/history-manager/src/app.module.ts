@@ -9,7 +9,7 @@ import { configDatabase } from '@ulmax/server-shared';
     EHRMedicalClaimModule,
     EHRHistorySnaphotModule,
     EHRHistoryModule,
-    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV))
-  ]
+    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
+  ],
 })
 export class EHRMedicalHistoryAppModule {}

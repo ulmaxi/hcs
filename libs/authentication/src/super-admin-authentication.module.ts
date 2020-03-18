@@ -11,6 +11,7 @@ import { Login } from './data-layer/login/login.entity';
 import { LoginService } from './data-layer/login/login.service';
 import { SuperAdminAuthorizationController } from './superadmin/super-admin.controller';
 import { SuperAdminAuthorizeService } from './superadmin/super-admin.service';
+import { MicroService, AMQ_URL, Queues } from '@ulmax/microservice/shared';
 
 /**
  * This module contains authentication for various entities
@@ -21,8 +22,12 @@ import { SuperAdminAuthorizeService } from './superadmin/super-admin.service';
     TypeOrmModule.forFeature([Login, Authorization]),
     ClientsModule.register([
       {
-        name: microServiceToken,
-        transport: Transport.TCP,
+        name: MicroService.Authorization,
+        transport: Transport.RMQ,
+        options: {
+          urls: [AMQ_URL],
+          queue: Queues.Authorization,
+        },
       },
     ]),
   ],
@@ -43,7 +48,7 @@ export class SuperAdminAuthenticationModule implements OnModuleInit {
   constructor(
     private admin: SuperAdminAuthorizeService,
     private logger: Logger,
-  ) { }
+  ) {}
 
   async onModuleInit() {
     const newAdmin = await this.admin.createInitalAdmin();

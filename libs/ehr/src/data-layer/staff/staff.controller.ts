@@ -8,7 +8,7 @@ import { Staff } from './staff.entity';
     type: Staff,
   },
 })
-@Controller('staff')
+@Controller('internal/data-layer/staff')
 export class StaffController {
   constructor(public service: StaffService) {}
 }

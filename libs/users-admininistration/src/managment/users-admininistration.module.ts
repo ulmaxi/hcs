@@ -9,6 +9,7 @@ import { CommunalData } from './models/comunal-data.entity';
 import { PersonalBiodata } from './models/personal-biodata.entity';
 import { CommunalDataService } from './services/communal-data.service';
 import { PersonalBiodataService } from './services/person-biodata.service';
+import { PersonalBiodataCQRService, CommunalDataCQRService } from '..';
 
 const models = [CommunalData, PersonalBiodata];
 
@@ -21,19 +22,15 @@ const models = [CommunalData, PersonalBiodata];
         transport: Transport.TCP,
       },
     ]),
-    MicroserviceModule,
   ],
-  providers: [CommunalDataService, PersonalBiodataService, AuthorizedPipe],
+  providers: [
+    CommunalDataService,
+    PersonalBiodataService,
+    AuthorizedPipe,
+    PersonalBiodataCQRService,
+    CommunalDataCQRService,
+  ],
 })
 export class UsersAdmininistrationModule {
-  constructor(private MRPC: ModelMicroService, private moduleRf: ModuleRef) {
-    this.MRPC.register(
-      PersonalBiodata,
-      this.moduleRf.get(PersonalBiodataService).repository,
-    );
-    this.MRPC.register(
-      CommunalData,
-      this.moduleRf.get(CommunalDataService).repository,
-    );
-  }
+  constructor() {}
 }

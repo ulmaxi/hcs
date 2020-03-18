@@ -36,8 +36,12 @@ describe('ConsultationShapshotService', () => {
         {
           provide: FieldSnaphotService,
           useValue: {
-            institutions: jest.fn().mockResolvedValue(field2Map(db.institutions)),
-            prescriptions: jest.fn().mockResolvedValue(field2Map(db.prescriptions)),
+            institutions: jest
+              .fn()
+              .mockResolvedValue(field2Map(db.institutions)),
+            prescriptions: jest
+              .fn()
+              .mockResolvedValue(field2Map(db.prescriptions)),
             labtests: jest.fn().mockResolvedValue(field2Map(db.labtests)),
             admissions: jest.fn().mockResolvedValue(field2Map(db.admissions)),
           },

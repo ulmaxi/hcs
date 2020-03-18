@@ -8,7 +8,7 @@ import { CommunalDataService } from '../services/communal-data.service';
     type: CommunalData,
   },
 })
-@Controller('communal')
+@Controller('internal/data-layer/communal')
 export class CommunalDataController {
   constructor(private service: CommunalDataService) {}
 }

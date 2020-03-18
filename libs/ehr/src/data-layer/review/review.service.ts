@@ -12,5 +12,4 @@ export class ReviewService extends TypeOrmCrudService<Review> {
   constructor(@InjectRepository(Review) public repository: Repository<Review>) {
     super(repository);
   }
-
 }

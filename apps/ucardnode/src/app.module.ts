@@ -5,8 +5,8 @@ import { configDatabase } from '@ulmax/server-shared';
 
 @Module({
   imports: [
-    CardnodeModule,     
-    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV))
-  ]
+    CardnodeModule,
+    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
+  ],
 })
-export class UlmaxCardNodeAppModule {}
+export class AppModule {}

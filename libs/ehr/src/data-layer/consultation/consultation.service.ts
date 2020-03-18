@@ -9,8 +9,9 @@ import { Consultation } from './consultation.entity';
  */
 @Injectable()
 export class ConsultationService extends TypeOrmCrudService<Consultation> {
-  constructor(@InjectRepository(Consultation) public repository: Repository<Consultation>) {
+  constructor(
+    @InjectRepository(Consultation) public repository: Repository<Consultation>,
+  ) {
     super(repository);
   }
-
 }

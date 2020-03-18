@@ -6,7 +6,9 @@ import { Referral } from './referral.entity';
 
 @Injectable()
 export class ReferralService extends TypeOrmCrudService<Referral> {
-    constructor(@InjectRepository(Referral) public repository: Repository<Referral>) {
-        super(repository);
-    }
+  constructor(
+    @InjectRepository(Referral) public repository: Repository<Referral>,
+  ) {
+    super(repository);
+  }
 }

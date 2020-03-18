@@ -2,9 +2,17 @@ import { Test } from '@nestjs/testing';
 import { Authorization } from '../../data-layer/author/author.entity';
 import { AccessLevel } from '../../data-layer/author/constants';
 import { ValidateAuthorizedService } from '../validator/validate-author.service';
-import { AuthenticationController, keyVerificationError } from './authentication.controller';
+import {
+  AuthenticationController,
+  keyVerificationError,
+} from './authentication.controller';
 import { AuthorizeRequestService } from './authorize-req.service';
-import { AuthorizedEntity, AuthorizeRequest, SecurityKeys, ValidateAuthorizationReq } from './typecast';
+import {
+  AuthorizedEntity,
+  AuthorizeRequest,
+  SecurityKeys,
+  ValidateAuthorizationReq,
+} from './typecast';
 
 describe('AuthenticationController', () => {
   let authCtrl: AuthenticationController;

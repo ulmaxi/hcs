@@ -1,4 +1,9 @@
-import { registerDecorator, Validator, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import {
+  registerDecorator,
+  Validator,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+} from 'class-validator';
 
 /**
  * HcsIdentiferConstraint
