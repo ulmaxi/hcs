@@ -25,6 +25,11 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/eagle/test/jest-e2e.json"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "dependencies": {
     "@godaddy/terminus": "^4.3.1",
     "@nestjs/common": "^6.0.0",
