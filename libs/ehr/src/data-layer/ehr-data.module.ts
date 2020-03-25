@@ -1,7 +1,6 @@
 // tslint:disable: max-classes-per-file
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MicroserviceModule } from '@ulmax/microservice';
 import { AdmissionController } from './admission/admission.controller';
 import { Admission } from './admission/admission.entity';
 import { AdmissionService } from './admission/admission.service';
@@ -68,7 +67,7 @@ const models = [
  * The database service module for the application
  */
 @Module({
-  imports: [TypeOrmModule.forFeature(models), MicroserviceModule],
+  imports: [TypeOrmModule.forFeature(models)],
   providers: [
     ...configs.map(c => c.provider),
     StaffCQRService,

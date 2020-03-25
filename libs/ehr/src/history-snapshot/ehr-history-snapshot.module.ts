@@ -20,11 +20,11 @@ import { MicroService, AMQ_URL, Queues } from '@ulmax/microservice/shared';
         },
       },
       {
-        name: MicroService.Users,
+        name: MicroService.CardNode,
         transport: Transport.RMQ,
         options: {
           urls: [AMQ_URL],
-          queue: Queues.Users,
+          queue: Queues.CardNode,
         },
       },
     ]),

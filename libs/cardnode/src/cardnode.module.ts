@@ -22,18 +22,18 @@ import { MicroService, AMQ_URL, Queues } from '@ulmax/microservice/shared';
         },
       },
       {
-        name: MicroService.Users,
+        name: MicroService.CardNode,
         transport: Transport.RMQ,
         options: {
-          queue: Queues.Users,
+          queue: Queues.CardNode,
           urls: [AMQ_URL],
         },
       },
       {
-        name: MicroService.HistoryManager,
+        name: MicroService.Lota,
         transport: Transport.RMQ,
         options: {
-          queue: Queues.HistoryManager,
+          queue: Queues.Lota,
           urls: [AMQ_URL],
         },
       },

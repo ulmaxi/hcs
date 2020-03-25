@@ -24,8 +24,8 @@ interface PrescriptionQuery {
 @Injectable()
 export class CardPrescriptionService {
   constructor(
-    @Inject(MicroService.HistoryManager) private history: ClientProxy,
-    @Inject(MicroService.Users) private users: ClientProxy,
+    @Inject(MicroService.Lota) private lota: ClientProxy,
+    @Inject(MicroService.CardNode) private users: ClientProxy,
   ) {}
 
   public async find(cardId: string, query?: FindQueryParams) {
@@ -58,7 +58,7 @@ export class CardPrescriptionService {
       query: { patientId: cardId },
     };
     return (
-      this.history
+      this.lota
         .send<ConsulationGraphSnaphot[]>(HistorySnapshotEvent, req)
         // map graph to arrangment
         .pipe(map(g => this.sortGraphToTimeline(g, owner)))

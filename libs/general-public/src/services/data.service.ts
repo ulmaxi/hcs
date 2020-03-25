@@ -12,7 +12,7 @@ import { InstitutionCQREvents } from '@ulmax/ehr/data-layer/institution/institut
 @Injectable()
 export class PublicDataService {
   constructor(
-    @Inject(MicroService.EHR) private readonly ehr: ClientProxy,
+    @Inject(MicroService.Lota) private readonly ehr: ClientProxy,
     private emergency: EmergencyService,
   ) {}
 

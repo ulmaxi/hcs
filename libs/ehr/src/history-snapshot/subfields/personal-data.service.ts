@@ -13,7 +13,7 @@ import { MicroService } from '@ulmax/microservice/shared';
 export class PersonalDataSnaphotService {
   constructor(
     @Inject(MicroService.Authorization) private auth: ClientProxy,
-    @Inject(MicroService.Users) private users: ClientProxy,
+    @Inject(MicroService.CardNode) private cardnode: ClientProxy,
     private staffSvc: StaffService,
   ) {}
 
@@ -62,7 +62,7 @@ export class PersonalDataSnaphotService {
    */
   private async personalBiodata(cardNodes: string[]) {
     const personalReq = new PersonalBiodataCQREvents.FindEventQuery(cardNodes);
-    const res = await this.users
+    const res = await this.cardnode
       .send<Array<PersonalBiodata & { id: string }>>(
         personalReq.action,
         personalReq,

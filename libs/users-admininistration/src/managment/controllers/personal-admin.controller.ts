@@ -4,7 +4,7 @@ import { CommunalData } from '../models/comunal-data.entity';
 import { PersonalBiodata } from '../models/personal-biodata.entity';
 import { PersonalAdminstrationService } from '../services/personal-administration.service';
 
-@Controller('internal/data-layer/biodata')
+@Controller('biodata')
 export class PersonalAdminController {
   constructor(private pas: PersonalAdminstrationService) {}
 

@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
-import {
-  SuperAdminAuthenticationModule,
-  AuthenticationModule,
-} from '@ulmax/authentication';
+import { AuthenticationModule } from '@ulmax/authentication';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDatabase } from '@ulmax/server-shared';
+import { DataAccessRecordsModule } from '@ulmax/data-access-records';
 
 @Module({
   imports: [
     AuthenticationModule,
-    SuperAdminAuthenticationModule,
+    DataAccessRecordsModule,
     TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
   ],
   controllers: [],

@@ -36,10 +36,10 @@ export interface AlertOtp extends OTPAddress {
 export class PermissionCreatorService {
   constructor(
     private permSvc: PermissionRecordService,
-    @Inject(MicroService.EHR) private readonly ehr: ClientProxy,
+    @Inject(MicroService.Lota) private readonly ehr: ClientProxy,
     @Inject(MicroService.Authorization) private readonly auth: ClientProxy,
     @Inject(MicroService.CardNode) private readonly cardNode: ClientProxy,
-    @Inject(MicroService.MessageAlert) private readonly message: ClientProxy,
+    @Inject(MicroService.Admin) private readonly admin: ClientProxy,
   ) {}
 
   /**
@@ -197,7 +197,7 @@ export class PermissionCreatorService {
   private alertOtp({ cardNo, clientPhoneNo, code, institutionName }: AlertOtp) {
     const message = `${institutionName} is requesting access to your health card ${cardNo},
     confirm with ${code}. Thank you.`;
-    this.message.emit(
+    this.admin.emit(
       MessageEvents.SMS,
       new SendSMSEvent(clientPhoneNo, message),
     );

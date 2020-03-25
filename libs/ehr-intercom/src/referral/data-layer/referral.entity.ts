@@ -1,6 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { BaseModel } from '@ulmax/server-shared';
-import { 
+import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,

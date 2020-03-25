@@ -13,7 +13,7 @@ import { MicroService } from '@ulmax/microservice/shared';
 
 @Injectable()
 export class CardFieldRetrivalService {
-  constructor(@Inject(MicroService.Users) private users: ClientProxy) {}
+  constructor(@Inject(MicroService.CardNode) private users: ClientProxy) {}
 
   /**
    * retrieves the full details of the card

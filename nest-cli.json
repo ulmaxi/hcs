@@ -47,10 +47,6 @@
       "root": "libs/frontend",
       "sourceRoot": "libs/frontend/src"
     },
-    "lota": {
-      "root": "libs/lota",
-      "sourceRoot": "libs/lota/src"
-    },
     "cardnode": {
       "root": "libs/cardnode",
       "sourceRoot": "libs/cardnode/src"
@@ -58,15 +54,6 @@
     "microservice": {
       "root": "libs/microservice",
       "sourceRoot": "libs/microservice/src"
-    },
-    "eagle": {
-      "type": "application",
-      "root": "apps/eagle",
-      "entryFile": "main",
-      "sourceRoot": "apps/eagle/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/eagle/tsconfig.app.json"
-      }
     },
     "authorization": {
       "type": "application",
@@ -86,15 +73,6 @@
         "tsConfigPath": "apps/ucardnode/tsconfig.app.json"
       }
     },
-    "access-wall": {
-      "type": "application",
-      "root": "apps/access-wall",
-      "entryFile": "main",
-      "sourceRoot": "apps/access-wall/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/access-wall/tsconfig.app.json"
-      }
-    },
     "public": {
       "type": "application",
       "root": "apps/public",
@@ -104,40 +82,22 @@
         "tsConfigPath": "apps/public/tsconfig.app.json"
       }
     },
-    "users": {
+    "lota": {
       "type": "application",
-      "root": "apps/users",
+      "root": "apps/lota",
       "entryFile": "main",
-      "sourceRoot": "apps/users/src",
+      "sourceRoot": "apps/lota/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/lota/tsconfig.app.json"
       }
     },
-    "personnel-manager": {
+    "admin": {
       "type": "application",
-      "root": "apps/personnel-manager",
+      "root": "apps/admin",
       "entryFile": "main",
-      "sourceRoot": "apps/personnel-manager/src",
+      "sourceRoot": "apps/admin/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/personnel-manager/tsconfig.app.json"
-      }
-    },
-    "history-manager": {
-      "type": "application",
-      "root": "apps/history-manager",
-      "entryFile": "main",
-      "sourceRoot": "apps/history-manager/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/history-manager/tsconfig.app.json"
-      }
-    },
-    "message-bird": {
-      "type": "application",
-      "root": "apps/message-bird",
-      "entryFile": "main",
-      "sourceRoot": "apps/message-bird/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/message-bird/tsconfig.app.json"
+        "tsConfigPath": "apps/admin/tsconfig.app.json"
       }
     }
   },

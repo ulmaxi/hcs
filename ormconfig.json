@@ -6,6 +6,5 @@
   "password": "root",
   "database": "ulmax",
   "synchronize": true,
-  "entities": ["**/*.entity{.ts,.js}"],
   "logging": false
 }

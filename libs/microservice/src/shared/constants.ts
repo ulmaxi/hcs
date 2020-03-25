@@ -8,10 +8,9 @@ export const AMQ_URL = 'amqp://ulmax-mq:5672';
  */
 export enum Queues {
   Authorization = 'authorization_queue',
-  MessageAlert = 'messaging_queue',
-  Users = 'users_queue',
-  EHR = 'ehr_queue',
-  HistoryManager = 'history_queue',
+  Admin = 'admin_queue',
+  Public = 'public_queue',
+  Lota = 'lota_queue',
   CardNode = 'cardnode_queue',
 }
 
@@ -20,9 +19,8 @@ export enum Queues {
  */
 export enum MicroService {
   Authorization = 'AUTHORIZATION_SERVICE',
-  MessageAlert = 'MESSAGING_SERVICE',
-  Users = 'USERS_SERVICE',
-  EHR = 'EHR_SERVICE',
-  HistoryManager = 'HISTORY_SERVICE',
+  Admin = 'ADMIN_SERVICE',
+  Public = 'PUBLIC_SERVICE',
+  Lota = 'LOTA_SERVICE',
   CardNode = 'CARDNODE_SERVICE',
 }

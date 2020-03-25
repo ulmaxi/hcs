@@ -13,10 +13,10 @@ import { MicroService, Queues, AMQ_URL } from '@ulmax/microservice/shared';
     TypeOrmModule.forFeature([AccessLogs, PermissionRecord]),
     ClientsModule.register([
       {
-        name: MicroService.EHR,
+        name: MicroService.Lota,
         transport: Transport.RMQ,
         options: {
-          queue: Queues.EHR,
+          queue: Queues.Lota,
           urls: [AMQ_URL],
         },
       },
@@ -37,10 +37,10 @@ import { MicroService, Queues, AMQ_URL } from '@ulmax/microservice/shared';
         },
       },
       {
-        name: MicroService.MessageAlert,
+        name: MicroService.Admin,
         transport: Transport.RMQ,
         options: {
-          queue: Queues.MessageAlert,
+          queue: Queues.Admin,
           urls: [AMQ_URL],
         },
       },

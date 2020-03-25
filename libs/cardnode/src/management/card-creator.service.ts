@@ -32,7 +32,7 @@ export class CardCreatorService {
   constructor(
     private cardSvc: UlmaxCardService,
     @Inject(MicroService.Authorization) private auth: ClientProxy,
-    @Inject(MicroService.Users) private users: ClientProxy,
+    @Inject(MicroService.CardNode) private users: ClientProxy,
   ) {}
 
   /**

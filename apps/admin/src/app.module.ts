@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DataAccessRecordsModule } from '@ulmax/data-access-records';
+import { MessagingModule } from '@ulmax/messaging';
+import { SuperAdminAuthenticationModule } from '@ulmax/authentication';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDatabase } from '@ulmax/server-shared';
 
 @Module({
   imports: [
-    DataAccessRecordsModule,
+    MessagingModule,
+    SuperAdminAuthenticationModule,
     TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
   ],
 })
-export class DataAccessRecordAppModule {}
+export class AppModule {}

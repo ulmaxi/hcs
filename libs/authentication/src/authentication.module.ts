@@ -41,11 +41,11 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
         },
       },
       {
-        name: MicroService.MessageAlert,
+        name: MicroService.Admin,
         transport: Transport.RMQ,
         options: {
           urls: [AMQ_URL],
-          queue: Queues.MessageAlert,
+          queue: Queues.Admin,
         },
       },
     ]),

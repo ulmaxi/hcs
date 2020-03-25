@@ -5,14 +5,13 @@ import { AMQ_URL, Queues } from '@ulmax/microservice/shared';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
-
     transport: Transport.RMQ,
     options: {
       urls: [AMQ_URL],
-      queue: Queues.MessageAlert
-    }
+      queue: Queues.Admin,
+    },
   });
-  
+
   await app.listen(() => console.log(`messaging service is listening`));
 }
 bootstrap();

@@ -16,12 +16,12 @@ import { UploadMedicalCareService } from './upload-medicare.service';
   imports: [
     EHRpersonnelModule,
     EHRDataServiceModule,
-    ClientsModule.register([
-      {
-        name: microServiceToken,
-        transport: Transport.TCP,
-      },
-    ]),
+    // ClientsModule.register([
+    //   {
+    //     name: microServiceToken,
+    //     transport: Transport.TCP,
+    //   },
+    // ]),
   ],
   controllers: [MedicalClaimController],
   providers: [

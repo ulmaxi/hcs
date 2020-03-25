@@ -27,12 +27,12 @@ export class GeneralPublicDataControllerModule {}
     GeneralPublicDataServiceModule,
     ClientsModule.register([
       {
-        name: MicroService.EHR,
+        name: MicroService.Lota,
         transport: Transport.RMQ,
         options: {
-          queue: Queues.EHR,
-          urls: [AMQ_URL]
-        }
+          queue: Queues.Lota,
+          urls: [AMQ_URL],
+        },
       },
     ]),
   ],

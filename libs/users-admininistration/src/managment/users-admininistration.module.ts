@@ -1,27 +1,30 @@
 import { Module } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorizedPipe } from '@ulmax/authentication';
-import { MicroserviceModule, ModelMicroService } from '@ulmax/microservice';
-import { microServiceToken } from '@ulmax/server-shared';
 import { CommunalData } from './models/comunal-data.entity';
 import { PersonalBiodata } from './models/personal-biodata.entity';
 import { CommunalDataService } from './services/communal-data.service';
 import { PersonalBiodataService } from './services/person-biodata.service';
-import { PersonalBiodataCQRService, CommunalDataCQRService } from '..';
-
-const models = [CommunalData, PersonalBiodata];
+import { CommunalDataController } from './controllers/communal-data.controller';
+import { PersonalBiodataController } from './controllers/personal-biodata.controller';
+import { MicroService, Queues, AMQ_URL } from '@ulmax/microservice/shared';
+import { PersonalBiodataCQRService } from './models/personal-biodata.cqr';
+import { CommunalDataCQRService } from './models/communal-data.cqr';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature(models),
     ClientsModule.register([
       {
-        name: microServiceToken,
-        transport: Transport.TCP,
+        name: MicroService.Authorization,
+        transport: Transport.RMQ,
+        options: {
+          queue: Queues.Authorization,
+          urls: [AMQ_URL],
+        },
       },
     ]),
+    TypeOrmModule.forFeature([CommunalData, PersonalBiodata]),
   ],
   providers: [
     CommunalDataService,
@@ -30,6 +33,7 @@ const models = [CommunalData, PersonalBiodata];
     PersonalBiodataCQRService,
     CommunalDataCQRService,
   ],
+  controllers: [CommunalDataController, PersonalBiodataController],
 })
 export class UsersAdmininistrationModule {
   constructor() {}

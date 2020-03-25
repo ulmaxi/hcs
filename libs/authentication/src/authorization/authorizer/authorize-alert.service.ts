@@ -18,7 +18,7 @@ import { MicroService } from '@ulmax/microservice/shared';
 @Injectable()
 export class AuthorizeAlertService {
   constructor(
-    @Inject(MicroService.MessageAlert) private readonly client: ClientProxy,
+    @Inject(MicroService.Admin) private readonly client: ClientProxy,
   ) {}
 
   /**

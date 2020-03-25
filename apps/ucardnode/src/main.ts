@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
 import { AMQ_URL, Queues } from '@ulmax/microservice/shared';
 import { ValidationPipe } from '@nestjs/common';
+import { setupSwagger } from '@ulmax/server-shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ async function bootstrap() {
   });
   microservice.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  setupSwagger(app);
   await app.startAllMicroservicesAsync();
   await app.listen(process.env.PORT ?? 3000);
 }
