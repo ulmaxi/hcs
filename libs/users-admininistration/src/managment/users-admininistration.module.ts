@@ -9,8 +9,8 @@ import { PersonalBiodataService } from './services/person-biodata.service';
 import { CommunalDataController } from './controllers/communal-data.controller';
 import { PersonalBiodataController } from './controllers/personal-biodata.controller';
 import { MicroService, Queues, AMQ_URL } from '@ulmax/microservice/shared';
-import { PersonalBiodataCQRService } from './models/personal-biodata.cqr';
-import { CommunalDataCQRService } from './models/communal-data.cqr';
+import { PersonalBiodataCQRController } from './models/personal-biodata.cqr';
+import { CommunalDataCQRController } from './models/communal-data.cqr';
 
 @Module({
   imports: [
@@ -30,10 +30,11 @@ import { CommunalDataCQRService } from './models/communal-data.cqr';
     CommunalDataService,
     PersonalBiodataService,
     AuthorizedPipe,
-    PersonalBiodataCQRService,
-    CommunalDataCQRService,
   ],
-  controllers: [CommunalDataController, PersonalBiodataController],
+  controllers: [
+    PersonalBiodataCQRController,
+    CommunalDataCQRController,
+    CommunalDataController, PersonalBiodataController],
 })
 export class UsersAdmininistrationModule {
   constructor() {}

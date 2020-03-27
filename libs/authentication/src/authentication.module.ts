@@ -12,8 +12,8 @@ import { Authorization } from './data-layer/author/author.entity';
 import { AuthorService } from './data-layer/author/author.service';
 import { Login } from './data-layer/login/login.entity';
 import { LoginService } from './data-layer/login/login.service';
-import { LoginCQRService } from './data-layer/login/login.cqr';
-import { AuthorizationCQRService } from './data-layer/author/author.cqr';
+import { LoginCQRController } from './data-layer/login/login.cqr';
+import {  AuthorizationCQRController } from './data-layer/author/author.cqr';
 import { AMQ_URL, Queues, MicroService } from '@ulmax/microservice/shared';
 
 // key settings for jwt token
@@ -58,10 +58,12 @@ const { JWT_SECRET_KEY, JWT_EXPIRES } = process.env;
     ValidateAuthorizedService,
     Logger,
     AuthorizedEventService,
-    LoginCQRService,
-    AuthorizationCQRService,
   ],
-  controllers: [AuthenticationController],
+  controllers: [
+    LoginCQRController,
+    AuthorizationCQRController,
+    AuthenticationController
+  ],
 })
 export class AuthenticationModule {
   constructor() {}

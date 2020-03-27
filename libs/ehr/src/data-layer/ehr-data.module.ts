@@ -22,10 +22,10 @@ import { ReviewService } from './review/review.service';
 import { StaffController } from './staff/staff.controller';
 import { Staff } from './staff/staff.entity';
 import { StaffService } from './staff/staff.service';
-import { StaffCQRService } from './staff/staff.cqr';
-import { InstitutionCQRService } from './institution/institution.cqr';
-import { PrescriptionCQRService } from './prescription/prescription.cqr';
-import { ConsultationCQRService } from './consultation/consultation.cqr';
+import { StaffCQRController } from './staff/staff.cqr';
+import { InstitutionCQRController } from './institution/institution.cqr';
+import { PrescriptionCQRController } from './prescription/prescription.cqr';
+import { ConsultationCQRController } from './consultation/consultation.cqr';
 
 const configs = [
   {
@@ -70,10 +70,6 @@ export const ehrModels = [
   imports: [TypeOrmModule.forFeature(ehrModels)],
   providers: [
     ...configs.map(c => c.provider),
-    StaffCQRService,
-    InstitutionCQRService,
-    PrescriptionCQRService,
-    ConsultationCQRService,
   ],
   exports: [...configs.map(c => c.provider)],
 })
@@ -86,7 +82,12 @@ export class EHRDataServiceModule {
  */
 @Module({
   imports: [EHRDataServiceModule],
-  controllers: [...configs.map(c => c.controller)],
+  controllers: [
+    StaffCQRController,
+    InstitutionCQRController,
+    PrescriptionCQRController,
+    ConsultationCQRController,
+    ...configs.map(c => c.controller)],
   providers: [],
 })
 export class EHRDataControllerModule {}

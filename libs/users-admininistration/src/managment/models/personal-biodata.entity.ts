@@ -23,7 +23,7 @@ export class PersonalBiodata implements BaseModel {
 
   @IsEmail()
   @IsOptional()
-  @Column({ length: 244 })
+  @Column({ length: 244, nullable: true })
   email: string;
 
   @IsDefined()

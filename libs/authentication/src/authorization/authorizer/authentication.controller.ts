@@ -109,13 +109,18 @@ export class AuthenticationController {
   @ApiOkResponse({
     description: `Successfull verifies the key and format sent for authorization`,
   })
-  @MessagePattern(AuthenticationMessage.validate)
   @Get('verify')
-  async verify(@Query() { format, key }: KeyVerfication) {
+  async verify(@Query() key: KeyVerfication) {
+    return this.microVerify(key);
+  }
+  
+  @MessagePattern(AuthenticationMessage.validate)
+  private async microVerify({ format, key }: KeyVerfication) {
     const verifed = await this.validator.verifyKeys(format, key);
     if (!verifed) {
       throw keyVerificationError;
     }
     return verifed;
   }
+
 }

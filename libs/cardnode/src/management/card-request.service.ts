@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Authorization } from '@ulmax/authentication';
+import * as Chance from 'chance';
 import { UlmaxCardService } from '../data-layer/card/card.service';
 import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardCreatorService } from './card-creator.service';
 import { CardMemberRequest } from './typecast';
-import * as Chance from 'chance';
 
 /**
  * Responds to requests apart from management of card members
@@ -34,8 +34,11 @@ export class CardRequestService {
   /**
    * checks if the ulmax card had already being created for the user
    */
-  private async alreadyRegistered(trackId: string) {
-    return Boolean(await this.card.findOne({ trackId }));
+  private async alreadyRegistered(trackId?: string) {
+    if (trackId) {
+      return Boolean(await this.card.findOne({ trackId }));
+    }
+    return false;
   }
 
   /**

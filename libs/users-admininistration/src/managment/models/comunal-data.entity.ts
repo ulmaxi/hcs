@@ -42,11 +42,11 @@ export class CommunalData implements BaseModel {
   state: string;
 
   @IsOptional()
-  @Column({ length: 244 })
+  @Column({ length: 244, nullable: true })
   employerphoneNo: string;
 
   @IsOptional()
-  @Column({ length: 244 })
+  @Column({ length: 244, nullable: true})
   employer: string;
 
   @CreateDateColumn()

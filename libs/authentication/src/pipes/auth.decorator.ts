@@ -1,7 +1,5 @@
 import { createParamDecorator, UnauthorizedException } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
 import { Request } from 'express';
-import { KeyVerification } from '../authorization/authorizer/typecast';
 
 /* istanbul ignore next */
 /**
@@ -10,12 +8,11 @@ import { KeyVerification } from '../authorization/authorizer/typecast';
  * (and would be added back during integration or E2E tests)
  */
 export const Authorized = createParamDecorator((data, { headers }: Request) => {
-  const securedKey = ([format, key]: string[]) =>
-    plainToClass(KeyVerification, {
-      format,
-      key,
-    });
-  const auth = headers.authorization.split(':');
+  const securedKey = ([format, key]: string[]) => ({
+    format,
+    key,
+  });
+  const auth = headers?.authorization?.split(':') ?? [];
   if (auth.length > 1) {
     return securedKey(auth);
   }
