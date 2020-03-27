@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MessagingModule } from '@ulmax/messaging';
-import { SuperAdminAuthenticationModule } from '@ulmax/authentication';
+import { SuperAdminAuthenticationModule, Login, Authorization } from '@ulmax/authentication';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDatabase } from '@ulmax/server-shared';
 
@@ -8,7 +8,9 @@ import { configDatabase } from '@ulmax/server-shared';
   imports: [
     MessagingModule,
     SuperAdminAuthenticationModule,
-    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
+    TypeOrmModule.forRoot({...configDatabase(process.env.NODE_ENV), 
+      entities: [Login, Authorization]}
+      ),
   ],
 })
 export class AppModule {}

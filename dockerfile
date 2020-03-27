@@ -16,4 +16,6 @@ EXPOSE 3000
 
 ENV NODE_ENV=docker
 
-ENTRYPOINT ["ts-node", "-r", "tsconfig-paths/register" ]
+VOLUME dist ulmax/dist
+
+ENTRYPOINT ["node" ]

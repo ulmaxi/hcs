@@ -6,7 +6,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from '@ulmax/server-shared';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  let app = await NestFactory.create(AppModule, { cors: true });
+  const basePath = '/api/cardnode';
+  app = app.setGlobalPrefix(basePath)
+  .useGlobalPipes(new ValidationPipe({ transform: true }));
+  setupSwagger(app, basePath);
   const microservice = app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
@@ -15,8 +19,6 @@ async function bootstrap() {
     }
   });
   microservice.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  setupSwagger(app);
   await app.startAllMicroservicesAsync();
   await app.listen(process.env.PORT ?? 3000);
 }

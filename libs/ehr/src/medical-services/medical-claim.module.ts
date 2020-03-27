@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { microServiceToken } from '@ulmax/server-shared';
 import { EHRDataServiceModule } from '../data-layer/ehr-data.module';
 import { EHRpersonnelModule } from '../personnel/personnel.module';
 import { MedicalClaimController } from './medical-claim.controller';

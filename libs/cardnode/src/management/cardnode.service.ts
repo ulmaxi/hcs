@@ -8,6 +8,7 @@ import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardCreatorService } from './card-creator.service';
 import { CardFieldRetrivalService } from './card-field-retrival.service';
 import { CardMemberRequest } from './typecast';
+import { Authorization } from '@ulmax/frontend';
 
 @Injectable()
 export class CardMemberService {
@@ -31,6 +32,13 @@ export class CardMemberService {
   }
 
   /**
+   * updates the member details with the info
+   */
+  public updateMember(cardId: string, req: CardMemberRequest) {
+    return this.creator.updateMemberDetails(cardId, req);
+  }
+
+  /**
    * retrieves a list of people who belong to the same card
    */
   public members(cardNo: string) {
@@ -51,7 +59,8 @@ export class CardMemberService {
         card.cardNo === cardToDelete.cardNo &&
         card.trackId !== cardToDelete.trackId
       ) {
-        return this.cardSvc.repository.remove(cardToDelete).then(() => true);
+        const status = await this.cardSvc.repository.remove(cardToDelete);
+        return { status: Boolean(status), card: cardToDelete };
       }
       throw cardOperationUnAuthorized;
     }

@@ -67,6 +67,7 @@ export class CardCreatorService {
   public async saveMember(req: MemberRequest) {
     const card = await this.cardSvc.repository.save({
       cardNo: req.cardNo,
+      trackId: req.trackId,
       level: req.level || UlmaxCardLevel.Minor,
     });
     req.biodata.cardnode = card.id;
@@ -78,9 +79,22 @@ export class CardCreatorService {
   }
 
   /**
+   * updates the members details
+   */
+  public async updateMemberDetails(cardId: string, req: CardMemberRequest) {
+    req.biodata.cardnode = cardId;
+    req.communaldata.cardnode = cardId;
+    const card = await this.cardSvc.findOne(cardId);
+    const [biodata, communal] = await this.saveBiodataInParallel(
+      req,
+    ).toPromise();
+    return { biodata, communaldata: communal, card } as UlmaxFullCard;
+  }
+
+  /**
    * saves both the communal and personal
    */
-  private saveBiodataInParallel(req: MemberRequest) {
+  private saveBiodataInParallel(req: CardMemberRequest) {
     const personal = new PersonalBiodataCQREvents.CreateEventCommand(
       req.biodata,
     );

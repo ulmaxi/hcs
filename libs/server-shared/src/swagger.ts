@@ -10,7 +10,7 @@ import { INestApplication } from '@nestjs/common';
  * setups the the swagger doc, by adding it to the current
  * express instance
  */
-export function setupSwagger(app: INestApplication) {
+export function setupSwagger(app: INestApplication, basePath: string) {
   let options = new DocumentBuilder()
     .setTitle('ULMAX documentation')
     .setDescription('api documentation for various services gateways')
@@ -20,9 +20,9 @@ export function setupSwagger(app: INestApplication) {
     options = options.setHost('api.ulmax.tech');
   }
   const internalApiDoc = _internalDocs(app, options);
-  SwaggerModule.setup('docs/swagger-internal-api', app, internalApiDoc);
+  SwaggerModule.setup(`${basePath}/docs/swagger-internal-api`, app, internalApiDoc);
   const externalApiDoc = _externalDocs(app, options);
-  SwaggerModule.setup('docs/swagger-api', app, externalApiDoc);
+  SwaggerModule.setup(`${basePath}/docs/swagger-api`, app, externalApiDoc);
 }
 
 /**
@@ -32,7 +32,7 @@ export function _internalDocs(
   app: INestApplication,
   baseOptions: DocumentBuilder,
 ) {
-  const options = baseOptions.setBasePath('/').build();
+  const options = baseOptions.build();
   return SwaggerModule.createDocument(app, options);
 }
 
@@ -43,7 +43,7 @@ export function _externalDocs(
   app: INestApplication,
   baseOptions: DocumentBuilder,
 ) {
-  const options = baseOptions.setBasePath('api/external').build();
+  const options = baseOptions.build();
   const document = SwaggerModule.createDocument(app, options);
   document.paths = removeInternalApiDefinitions(document.paths);
   return document;
@@ -56,7 +56,7 @@ export function _externalDocs(
 export function removeInternalApiDefinitions(paths: object) {
   const reformatedPaths = {};
   const publicApis = Object.getOwnPropertyNames(paths).filter(
-    v => !/api\/internal\//.test(v),
+    v => !/internal/.test(v),
   );
   for (const publicApi of publicApis) {
     reformatedPaths[publicApi.replace('/api/external', '')] = paths[publicApi];

@@ -1,2 +1,2 @@
-export * from './models/emergency.entity';
-export * from './services/typecast';
+export type { Emergency } from './models/emergency.entity';
+export type { EmergencyResponse } from './services/typecast';

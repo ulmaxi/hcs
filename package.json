@@ -19,6 +19,7 @@
     "frontend": "npm run frontend:build && npm run frontend:link",
     "frontend:build": "npx tsc -p ./libs/frontend/tsconfig.lib.json --OutDir ./libs/frontend/dist -d",
     "frontend:link": "cd ./libs/frontend && yarn link",
+    "frontend:unlink": "cd ./libs/frontend && yarn unlink",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

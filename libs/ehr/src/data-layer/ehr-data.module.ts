@@ -53,7 +53,7 @@ const configs = [
   { controller: StaffController, provider: StaffService, model: Staff },
 ];
 
-const models = [
+export const ehrModels = [
   Admission,
   Consultation,
   Institution,
@@ -67,7 +67,7 @@ const models = [
  * The database service module for the application
  */
 @Module({
-  imports: [TypeOrmModule.forFeature(models)],
+  imports: [TypeOrmModule.forFeature(ehrModels)],
   providers: [
     ...configs.map(c => c.provider),
     StaffCQRService,

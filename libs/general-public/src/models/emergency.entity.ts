@@ -53,7 +53,9 @@ export class Emergency implements BaseModel {
   /**
    * the hospital to respond to the emergency
    */
-  @Column()
+  @Column('varchar', {
+    nullable: true,
+})
   @IsDefined()
   @ApiModelProperty()
   hospital: string;

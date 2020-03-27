@@ -71,27 +71,24 @@ export function createModelCQRHandler<T>(
   model: string,
   actions: ModelCQRActions,
 ) {
+  // tslint:disable-next-line: max-classes-per-file
   const ModelClass = class extends BaseModelCQRHandler<T> {
     public actions = actions;
     constructor(public repo: Repository<T>) {
       super(repo);
-      this.register();
-    }
-
-    /**
-     * registers the decorator on the methods has it's loading
-     */
-    register() {
-      Object.entries(this.actions).forEach(baseMap => {
-        const [method, action] = baseMap;
-        Reflect.defineMetadata(
-          PATTERN_METADATA,
-          `${model}:${action}`,
-          this,
-          method,
-        );
-      });
     }
   };
+  /**
+   * registers the decorator on the methods has it's loading
+   */
+  Object.entries(actions).forEach(baseMap => {
+    const [method, action] = baseMap;
+    Reflect.defineMetadata(
+      PATTERN_METADATA,
+      `${model}:${action}`,
+      ModelClass.prototype,
+      method,
+    );
+  });
   return ModelClass;
 }

@@ -3,14 +3,14 @@ import { Institution } from '@ulmax/ehr';
 import { Emergency } from '../models/emergency.entity';
 import { PublicDataService } from '../services/data.service';
 
-@Controller('public')
+@Controller('')
 export class PublicAccessController {
   constructor(private publicSvc: PublicDataService) {}
 
   /**
    * returns various institutions by classification
    */
-  @Get('/:category')
+  @Get('institutions/:category')
   institutions(
     @Param('category') category: string,
     @Query() filter: Partial<Institution> = {},

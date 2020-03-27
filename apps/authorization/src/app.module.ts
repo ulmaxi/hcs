@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationModule } from '@ulmax/authentication';
+import { AuthenticationModule, Login, Authorization } from '@ulmax/authentication';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDatabase } from '@ulmax/server-shared';
-import { DataAccessRecordsModule } from '@ulmax/data-access-records';
+import { DataAccessRecordsModule, AccessLogs, PermissionRecord } from '@ulmax/data-access-records';
 
 @Module({
   imports: [
     AuthenticationModule,
     DataAccessRecordsModule,
-    TypeOrmModule.forRoot(configDatabase(process.env.NODE_ENV)),
+    TypeOrmModule.forRoot({...configDatabase(process.env.NODE_ENV),
+    entities: [AccessLogs, PermissionRecord, Login, Authorization]
+  }),
   ],
   controllers: [],
   providers: [],

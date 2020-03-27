@@ -1,4 +1,4 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { Authorization, Authorized } from '@ulmax/authentication';
 import { RegisterStaffDetails } from './register-staff';
 import { StaffManagmentService } from './staff-management.service';
@@ -10,6 +10,7 @@ export class PersonelController {
   /**
    * registers the staff to the health institution
    */
+  @Post('register')
   register(
     @Authorized() { trackId }: Authorization,
     @Body() staffDetails: RegisterStaffDetails,
@@ -20,6 +21,7 @@ export class PersonelController {
   /**
    * revokes the staff from the institution
    */
+  @Post('revoke')
   revoke(
     @Authorized() { trackId }: Authorization,
     @Body() staffDetails: Pick<RegisterStaffDetails, 'staffPhoneNo'>,

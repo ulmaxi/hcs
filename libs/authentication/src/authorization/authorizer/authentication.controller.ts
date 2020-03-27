@@ -30,7 +30,7 @@ The key and format is unauthorize request a new key or revalidate
 `);
 
 @ApiUseTags('auth')
-@Controller('auth')
+@Controller('')
 export class AuthenticationController {
   constructor(
     private authorizer: AuthorizeRequestService,
