@@ -7,15 +7,14 @@ import { UlmaxCardService } from '../data-layer/card/card.service';
 import { UlmaxCardLevel } from '../data-layer/card/constants';
 import { CardCreatorService } from './card-creator.service';
 import { CardFieldRetrivalService } from './card-field-retrival.service';
-import { CardMemberRequest } from './typecast';
-import { Authorization } from '@ulmax/frontend';
+import { CardMemberRequest, UlmaxFullCard } from './typecast';
 
 @Injectable()
 export class CardMemberService {
   constructor(
     private cardSvc: UlmaxCardService,
-    private creator: CardCreatorService,
     private retrival: CardFieldRetrivalService,
+    private creator: CardCreatorService,
   ) {}
 
   /**
@@ -41,8 +40,9 @@ export class CardMemberService {
   /**
    * retrieves a list of people who belong to the same card
    */
-  public members(cardNo: string) {
-    return this.cardSvc.find({ cardNo });
+  public async members(cardNo: string) {
+    const cards = await this.cardSvc.find({ cardNo });
+    return this.retrival.batchDetailed(cards);
   }
 
   /**

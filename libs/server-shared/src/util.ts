@@ -1,6 +1,8 @@
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as chance from 'chance';
 import { validate } from 'class-validator';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 /**
  * the property is nullable
@@ -11,6 +13,11 @@ export type Nullable<T> = null | T;
  * an array of the item type T
  */
 export type List<T> = T[];
+
+/**
+ * type for maping value to value and error
+ */
+export type AwaitMap<T> = [T, Error]; 
 
 export const microServiceToken = 'Micro_Service_Token';
 
@@ -69,3 +76,12 @@ export const awaitTo = async <T>(future: Promise<T>): Promise<[T, Error]> => {
     return [undefined, error];
   }
 };
+
+
+ /**
+   * turns the observable to array pipe
+   */
+  export const $ToArray = <T>($: Observable<T>): Observable<AwaitMap<T>> => {
+    return $.pipe(map(v => [v, null]))
+    .pipe(catchError(v => [null, v]));
+  }

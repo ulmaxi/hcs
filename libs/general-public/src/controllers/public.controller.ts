@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { Institution } from '@ulmax/ehr';
+import { FindQueryParams } from '@ulmax/server-shared';
 import { Emergency } from '../models/emergency.entity';
 import { PublicDataService } from '../services/data.service';
 
@@ -12,10 +12,10 @@ export class PublicAccessController {
    */
   @Get('institutions/:category')
   institutions(
-    @Param('category') category: string,
-    @Query() filter: Partial<Institution> = {},
+    @Param('category') classification: string,
+    @Query() filter: FindQueryParams,
   ) {
-    return this.publicSvc.institutions({ ...filter, classification: category });
+    return this.publicSvc.institutions({ classification }, filter);
   }
 
   /**

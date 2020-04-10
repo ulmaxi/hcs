@@ -20,6 +20,7 @@ export type ModelCQRActions = {
   remove: string;
   retrieve: string;
   find: string;
+  batch: string;
 };
 
 /**
@@ -32,4 +33,5 @@ export const modelCQRActions = (namespace: string, model: string) =>
     retrieve: `${namespace}.${model}-retrive-CQRAction`,
     find: `${namespace}.${model}-find-CQRAction`,
     remove: `${namespace}.${model}-remove-CQRAction`,
+    batch: `${namespace}.${model}-batch-CQRAction`,
   } as ModelCQRActions);

@@ -28,6 +28,14 @@ export class CardAdminController {
   }
 
   /**
+   * returns the ulmax card for the authorized user
+   */
+  @Get('mycard')
+  retrieveAuthorizedCard(@Authorized(AuthorizedPipe) auth: Authorization) {
+    return this.memberSvc.cardFromTrackId(auth.trackId);
+  }
+
+  /**
    * returns details of a particular card
    */
   @Get('internal/fromTrackId/:trackId')

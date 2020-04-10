@@ -1,8 +1,8 @@
-import { createModelCQR, CreateModelItem, UpdateModelItem, RetriveEventQuery, FindEventQuery, DeleteEventQuery } from '@ulmax/microservice/modelCQR';
-import { PersonalBiodata } from './personal-biodata.entity';
-import { Injectable, Controller } from '@nestjs/common';
-import { PersonalBiodataService } from '../services/person-biodata.service';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
+import { BatchEventQuery, createModelCQR, CreateModelItem, DeleteEventQuery, FindEventQuery, RetriveEventQuery, UpdateModelItem } from '@ulmax/microservice/modelCQR';
+import { PersonalBiodataService } from '../services/person-biodata.service';
+import { PersonalBiodata } from './personal-biodata.entity';
 
 /**
  * creating the CQR Objects from the factories
@@ -15,7 +15,14 @@ const CQR = createModelCQR<PersonalBiodata>(
 export const PersonalBiodataCQRActions = CQR.Actions;
 export const PersonalBiodataCQREvents = CQR.Events;
 
-const { create, update, remove, retrieve, find } = PersonalBiodataCQRActions;
+const {
+  create,
+  update,
+  remove,
+  retrieve,
+  find,
+  batch,
+} = PersonalBiodataCQRActions;
 
 /**
  * injectable service for PersonalBiodatCQR
@@ -26,7 +33,7 @@ export class PersonalBiodataCQRController extends CQR.ModelClass {
     super(svc.repository);
   }
 
-   /**
+  /**
    * saves the item
    */
   @MessagePattern(create)
@@ -55,7 +62,7 @@ export class PersonalBiodataCQRController extends CQR.ModelClass {
    */
   @MessagePattern(find)
   find(item: FindEventQuery<PersonalBiodata>) {
-    return super.find(item)
+    return super.find(item);
   }
 
   /**
@@ -63,7 +70,14 @@ export class PersonalBiodataCQRController extends CQR.ModelClass {
    */
   @MessagePattern(remove)
   async remove(item: DeleteEventQuery<PersonalBiodata>) {
-    return super.remove(item)
+    return super.remove(item);
   }
 
+  /**
+   * batch event for items
+   */
+  @MessagePattern(batch)
+  async batch(item: BatchEventQuery<PersonalBiodata>) {
+    return super.batch(item);
+  }
 }

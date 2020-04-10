@@ -1,4 +1,6 @@
 import { Repository } from 'typeorm';
+import { map } from 'rxjs/operators';
+import { BatchEventQuery, BatchEventResult, CRQCrudEvent } from './modelCQR';
 
 /**
  * actions for microservices module

@@ -8,6 +8,7 @@ import { EmergencyService } from './emergency.service';
 import { EmergencyResponse } from './typecast';
 import { MicroService } from '@ulmax/microservice/shared';
 import { InstitutionCQREvents } from '@ulmax/ehr/data-layer/institution/institution.cqr';
+import { FindQueryParams } from '@ulmax/server-shared';
 
 @Injectable()
 export class PublicDataService {
@@ -19,11 +20,14 @@ export class PublicDataService {
   /**
    * retrives institution of any category
    */
-  institutions(query: Partial<Institution>) {
+  institutions(query: Partial<Institution>, { skip, limit }: FindQueryParams = {}) {
     if (!query.classification) {
       throw InstitutionClassificationError;
     }
-    const req = new InstitutionCQREvents.RetriveEventQuery({ where: query });
+    const req = new InstitutionCQREvents.FindEventQuery(query, {
+      skip,
+      take: limit,
+     });
     return this.ehr.send<Institution[]>(req.action, req);
   }
 

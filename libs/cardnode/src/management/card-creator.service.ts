@@ -1,21 +1,24 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+  BadRequestException,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import {
   AccessLevel,
   Authorization,
   AuthorizationCQREvents,
 } from '@ulmax/authentication';
-import {
-  CommunalData,
-  PersonalBiodata,
-  PersonalBiodataCQREvents,
-  CommunalDataCQREvents,
-} from '@ulmax/users-admininistration';
-import { combineLatest } from 'rxjs';
+import { MicroService } from '@ulmax/microservice/shared';
+import { UlmaxCard } from '../data-layer/card/card.entity';
 import { UlmaxCardService } from '../data-layer/card/card.service';
 import { UlmaxCardLevel } from '../data-layer/card/constants';
-import { CardMemberRequest, UlmaxFullCard } from './typecast';
-import { MicroService } from '@ulmax/microservice/shared';
+import { BiodataManagerService } from './biodata-manager.service';
+import {
+  CardMemberRequest,
+  UlmaxFullCard,
+} from './typecast';
 
 /**
  * inteface map for datas required for
@@ -31,8 +34,8 @@ interface MemberRequest extends CardMemberRequest {
 export class CardCreatorService {
   constructor(
     private cardSvc: UlmaxCardService,
+    private bioSvc: BiodataManagerService,
     @Inject(MicroService.Authorization) private auth: ClientProxy,
-    @Inject(MicroService.CardNode) private users: ClientProxy,
   ) {}
 
   /**
@@ -65,47 +68,71 @@ export class CardCreatorService {
    * saves a new member's card
    */
   public async saveMember(req: MemberRequest) {
+    this.validateCardRequest(req);
     const card = await this.cardSvc.repository.save({
       cardNo: req.cardNo,
       trackId: req.trackId,
-      level: req.level || UlmaxCardLevel.Minor,
+      level: (req.identification) ? req.level : UlmaxCardLevel.Minor,
     });
     req.biodata.cardnode = card.id;
     req.communaldata.cardnode = card.id;
-    const [biodata, communal] = await this.saveBiodataInParallel(
-      req,
-    ).toPromise();
-    return { biodata, communaldata: communal, card } as UlmaxFullCard;
+    return this.saveReqorError(card, req);
   }
 
   /**
    * updates the members details
    */
   public async updateMemberDetails(cardId: string, req: CardMemberRequest) {
+    this.validateCardRequest(req);
     req.biodata.cardnode = cardId;
     req.communaldata.cardnode = cardId;
     const card = await this.cardSvc.findOne(cardId);
-    const [biodata, communal] = await this.saveBiodataInParallel(
-      req,
-    ).toPromise();
-    return { biodata, communaldata: communal, card } as UlmaxFullCard;
+    return this.saveReqorError(card, req);
   }
 
   /**
-   * saves both the communal and personal
+   * saves the biodatas or remove the created
+   * card due to errors
    */
-  private saveBiodataInParallel(req: CardMemberRequest) {
-    const personal = new PersonalBiodataCQREvents.CreateEventCommand(
-      req.biodata,
-    );
-    const communal = new CommunalDataCQREvents.CreateEventCommand(
-      req.communaldata,
-    );
-    const personal$ = this.users.send<PersonalBiodata>(
-      personal.action,
-      personal,
-    );
-    const communal$ = this.users.send<CommunalData>(communal.action, communal);
-    return combineLatest(personal$, communal$);
+  private async saveReqorError(
+    card: UlmaxCard,
+    req: CardMemberRequest,
+  ): Promise<UlmaxFullCard> {
+    const {
+      communaldata,
+      communalError,
+      biodata,
+      biodataError,
+    } = await this.bioSvc.save(req);
+    if (communalError || biodataError) {
+      await this.deleteCard(card.id);
+      throw new BadRequestException({ biodataError, communalError });
+    }
+    return { biodata, communaldata, card };
+  }
+
+  /**
+   * deletes the saved card already
+   */
+  private async deleteCard(cardId: string) {
+    const card = await this.cardSvc.findOne(cardId);
+    return this.cardSvc.repository.remove(card);
+  }
+
+  /**
+   * throws error is req is not well structured
+   */
+  private validateCardRequest({ biodata, communaldata }: CardMemberRequest) {
+    if (!biodata && !communaldata) {
+      throw BadCardRequestError;
+    }
   }
 }
+
+/**
+ * error thrown when the card requset information
+ * isn't complete
+ */
+export const BadCardRequestError = new UnprocessableEntityException(
+  `biodata and communal details are missing in the request`,
+);

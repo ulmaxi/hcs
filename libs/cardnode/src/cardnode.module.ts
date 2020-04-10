@@ -10,6 +10,7 @@ import { CardNodeController } from './management/cardnode.controller';
 import { CardMemberService } from './management/cardnode.service';
 import { MemberPrescriptionController } from './services/prescription.controller';
 import { CardPrescriptionService } from './services/prescription.service';
+import { BiodataManagerService } from './management/biodata-manager.service';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { CardPrescriptionService } from './services/prescription.service';
     CardFieldRetrivalService,
     CardPrescriptionService,
     CardRequestService,
+    BiodataManagerService
   ],
   controllers: [
     CardNodeController,

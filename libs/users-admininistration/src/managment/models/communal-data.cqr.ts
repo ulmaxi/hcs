@@ -1,8 +1,8 @@
-import { createModelCQR, CreateModelItem, UpdateModelItem, RetriveEventQuery, FindEventQuery, DeleteEventQuery } from '@ulmax/microservice/modelCQR';
-import { Injectable, Controller } from '@nestjs/common';
-import { CommunalData } from './comunal-data.entity';
-import { CommunalDataService } from '../services/communal-data.service';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
+import { BatchEventQuery, createModelCQR, CreateModelItem, DeleteEventQuery, FindEventQuery, RetriveEventQuery, UpdateModelItem } from '@ulmax/microservice/modelCQR';
+import { CommunalDataService } from '../services/communal-data.service';
+import { CommunalData } from './comunal-data.entity';
 
 /**
  * creating the CQR Objects from the factories
@@ -13,11 +13,17 @@ export const CommunalDataCQRActions = CQR.Actions;
 export const CommunalDataCQREvents = CQR.Events;
 
 console.log({
-  CommunalDataCQRActions
-})
+  CommunalDataCQRActions,
+});
 
-const { create, update, remove, retrieve, find } = CommunalDataCQRActions;
-
+const {
+  create,
+  update,
+  remove,
+  retrieve,
+  find,
+  batch,
+} = CommunalDataCQRActions;
 
 /**
  * injectable service for PersonalBiodatCQR
@@ -28,7 +34,7 @@ export class CommunalDataCQRController extends CQR.ModelClass {
     super(svc.repository);
   }
 
-   /**
+  /**
    * saves the item
    */
   @MessagePattern(create)
@@ -57,7 +63,7 @@ export class CommunalDataCQRController extends CQR.ModelClass {
    */
   @MessagePattern(find)
   find(item: FindEventQuery<CommunalData>) {
-    return super.find(item)
+    return super.find(item);
   }
 
   /**
@@ -65,7 +71,14 @@ export class CommunalDataCQRController extends CQR.ModelClass {
    */
   @MessagePattern(remove)
   async remove(item: DeleteEventQuery<CommunalData>) {
-    return super.remove(item)
+    return super.remove(item);
   }
 
+  /**
+   * batch event for items
+   */
+  @MessagePattern(batch)
+  async batch(item: BatchEventQuery<CommunalData>) {
+    return super.batch(item);
+  }
 }
