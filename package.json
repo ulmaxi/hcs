@@ -52,7 +52,7 @@
     "aws-sdk": "^2.597.0",
     "chance": "^1.1.4",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "date-fns": "^1.30.1",
     "dotenv": "^8.0.0",
     "factory.ts": "^0.5.1",
